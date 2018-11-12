@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="title">NFQ Akademija VEIKIA</div>
+
+    <h1>Items</h1>
+
+    <form action="/positiondata" method="post">
+        <input name="title" type="text"/>
+        {% for position in positionItems %}
+            <div>
+                <input name='active[{{ position.id }}]' type="checkbox"/>
+                {{ position.name }}
+                <input name='count[{{ position.id }}]' type="text"/>
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

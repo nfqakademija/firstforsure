@@ -19,6 +19,7 @@
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "squizlabs/php_codesniffer": "^3.3",
         "symfony/maker-bundle": "^1.9"
     },

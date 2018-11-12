@@ -23,4 +23,10 @@
 
 {% block body %}
     <div class="title">NFQ Akademija VEIKIA</div>
+    <h1>Members</h1>
+    <ul>
+        {% for position in positionItems %}
+            <li>{{ position.name }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
