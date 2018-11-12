@@ -17,14 +17,35 @@
     "doctrine/common": {
         "version": "v2.9.0"
     },
+    "doctrine/dbal": {
+        "version": "v2.8.0"
+    },
+    "doctrine/doctrine-bundle": {
+        "version": "1.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.6",
+            "ref": "ae205d5114e719deb64d2110f56ef910787d1e04"
+        }
+    },
+    "doctrine/doctrine-cache-bundle": {
+        "version": "1.3.5"
+    },
     "doctrine/event-manager": {
         "version": "v1.0.0"
     },
     "doctrine/inflector": {
         "version": "v1.3.0"
     },
+    "doctrine/instantiator": {
+        "version": "1.1.0"
+    },
     "doctrine/lexer": {
         "version": "v1.0.1"
+    },
+    "doctrine/orm": {
+        "version": "v2.6.2"
     },
     "doctrine/persistence": {
         "version": "v1.0.1"
@@ -32,8 +53,23 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "1.17",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.17",
+            "ref": "66070ea553247b0cd5275e21d0fe5399a25f40be"
+        }
+    },
+    "jdorn/sql-formatter": {
+        "version": "v1.2.17"
+    },
     "nikic/php-parser": {
         "version": "v4.0.4"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v2.0.1"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -89,6 +125,9 @@
     "symfony/dependency-injection": {
         "version": "v4.1.6"
     },
+    "symfony/doctrine-bridge": {
+        "version": "v4.1.7"
+    },
     "symfony/dotenv": {
         "version": "v4.1.6"
     },
@@ -110,6 +149,9 @@
             "ref": "e921bdbfe20cdefa3b82f379d1cd36df1bc8d115"
         }
     },
+    "symfony/form": {
+        "version": "v4.1.7"
+    },
     "symfony/framework-bundle": {
         "version": "3.3",
         "recipe": {
@@ -125,6 +167,12 @@
     "symfony/http-kernel": {
         "version": "v4.1.6"
     },
+    "symfony/inflector": {
+        "version": "v4.1.7"
+    },
+    "symfony/intl": {
+        "version": "v4.1.7"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -134,8 +182,17 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/options-resolver": {
+        "version": "v4.1.7"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.10.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.9.0"
+    },
+    "symfony/property-access": {
+        "version": "v4.1.7"
     },
     "symfony/routing": {
         "version": "4.0",
@@ -144,6 +201,27 @@
             "branch": "master",
             "version": "4.0",
             "ref": "5f514d9d3b8a8aac3d62ae6a86b18b90ed0c7826"
+        }
+    },
+    "symfony/security": {
+        "version": "v4.1.7"
+    },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
+        }
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "1fb02a6e1c8f3d4232cce485c9afa868d63b115a"
         }
     },
     "symfony/twig-bridge": {
@@ -158,6 +236,15 @@
             "ref": "369b5b29dc52b2c190002825ae7ec24ab6f962dd"
         }
     },
+    "symfony/validator": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0cdc982334f45d554957a6167e030482795bf9d7"
+        }
+    },
     "symfony/webpack-encore-pack": {
         "version": "1.0",
         "recipe": {
@@ -169,6 +256,15 @@
     },
     "symfony/yaml": {
         "version": "v4.1.6"
+    },
+    "twig/extensions": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "ddb2e0a77773b7fd75d8d649545f174e664500ab"
+        }
     },
     "twig/twig": {
         "version": "v2.5.0"
