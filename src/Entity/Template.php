@@ -30,6 +30,30 @@ class Template
      */
     private $title;
 
+    /**
+     * @var PositionTemplate[]
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\PositionTemplate", mappedBy="template", orphanRemoval=true)
+     */
+    private $positionTemplates;
+
+    /**
+     * Template constructor.
+     */
+    public function __construct()
+    {
+        $this->positionTemplates = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|PositionTemplate[]
+     */
+    public function getPositionTemplates(): Collection
+    {
+        dump($this->positionTemplates);
+        return $this->positionTemplates;
+    }
+
 
     public function getId(): ?int
     {
@@ -46,6 +70,33 @@ class Template
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * @param PositionTemplate $positionTemplate
+     *
+     * @return Template
+     */
+    public function addPositionTemplate(PositionTemplate $positionTemplate): self
+    {
+        if (!$this->positionTemplates->contains($positionTemplate)) {
+            $this->positionTemplates[] = $positionTemplate;
+            $positionTemplate->setTemplate($this);
+        }        return $this;
+    }    /**
+ * @param PositionTemplate $positionTemplate
+ *
+ * @return Template
+ */
+    public function removePositionTemplate(PositionTemplate $positionTemplate): self
+    {
+        if ($this->positionTemplates->contains($positionTemplate)) {
+            $this->positionTemplates->removeElement($positionTemplate);
+            // set the owning side to null (unless already changed)
+            if ($positionTemplate->getTemplate() === $this) {
+                $positionTemplate->setTemplate(null);
+            }
+        }        return $this;
     }
 
 }

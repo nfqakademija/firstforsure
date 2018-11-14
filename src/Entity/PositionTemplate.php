@@ -37,7 +37,7 @@ class PositionTemplate
 
     /**
      * @var Template
-     * @ORM\ManyToOne(targetEntity="App\Entity\Template")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Template", inversedBy="positionTemplates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $template;

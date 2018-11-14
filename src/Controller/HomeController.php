@@ -49,23 +49,24 @@ class HomeController extends Controller
      */
     public function addSuvalgo(Request $request)
     {
-        $templateRepo = $this->getDoctrine()->getRepository(Template::class);
-        $positionRepo = $this->getDoctrine()->getRepository(Position::class);
-
         $active = $request->get('active');
-        $count = $request->get('count');
 
         $template = new Template();
         $template->setTitle($request->get('title'));
 
         $this->getDoctrine()->getManager()->persist($template);
+        $this->getDoctrine()->getManager()->flush();
+
 
         foreach ($active as $key => $value) {
-            $position = $this->getDoctrine()->getRepository(Position::class)->find(1);
+            $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
             $templatePosition = new PositionTemplate();
             $templatePosition->setTemplate($template)
                 ->setPosition($position)
                 ->setCount((int)$request->get('count'));
+            $template->addPositionTemplate($templatePosition);
+
+            $this->getDoctrine()->getManager()->persist($template);
             $this->getDoctrine()->getManager()->persist($templatePosition);
         }
         $this->getDoctrine()->getManager()->flush();
