@@ -32,6 +32,26 @@ class Position
      * @ORM\Column(type="integer")
      */
     private $reach;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $timeleft;
+
+    /**
+     * @return mixed
+     */
+    public function getTimeleft()
+    {
+        return $this->timeleft;
+    }
+
+    /**
+     * @param mixed $timeleft
+     */
+    public function setTimeleft($timeleft): void
+    {
+        $this->timeleft = $timeleft;
+    }
 
 
     private $count;
