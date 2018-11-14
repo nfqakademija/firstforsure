@@ -41,11 +41,62 @@ class HomeController extends Controller
     /**
      * @Route("/positiondata", name="positionData")
      */
-    public function addSuvalgo(Request $request)
+    public function addTemplate(Request $request)
+    {
+        $templateRepo = $this->getDoctrine()->getRepository(Template::class);
+        $active = $request->get('active');
+
+        $templateId = $request->get('id');
+
+        if($templateId == 0) {
+            $template = new Template();
+        }
+        else
+        {
+            $template = $templateRepo->find($templateId);
+        }
+        $template->setTitle($request->get('title'));
+
+        $this->getDoctrine()->getManager()->persist($template);
+        $this->getDoctrine()->getManager()->flush();
+
+        foreach ($active as $key => $value) {
+            $exists = false;
+            $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
+            $posTemplates = $template->getPositionTemplates();
+            $templatePosition = new PositionTemplate();
+            $templatePosition->setTemplate($template)
+                ->setPosition($position)
+                ->setCount((int)$request->get('count')[$key]);
+            foreach($posTemplates as $key2 => $value2)
+            {
+                if($value2->getPosition() === $position)
+                {
+                    $exists = true;
+                    break;
+                }
+            }
+
+            if($exists)
+            {}
+            else {
+                $template->addPositionTemplate($templatePosition);
+
+                $this->getDoctrine()->getManager()->persist($templatePosition);
+                $this->getDoctrine()->getManager()->persist($template);
+            }
+        }
+        $this->getDoctrine()->getManager()->flush();
+        return new Response('success');
+    }
+
+    /**
+     * @Route("/positiondata2", name="positionData2")
+     */
+    public function editTemplate(Request $request)
     {
         $active = $request->get('active');
 
-        $template = new Template();
         $template->setTitle($request->get('title'));
 
         $this->getDoctrine()->getManager()->persist($template);
