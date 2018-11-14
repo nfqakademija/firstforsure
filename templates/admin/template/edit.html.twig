@@ -6,18 +6,28 @@
     <h1 class="title">{{ _content_title }}</h1>
 {% endblock %}
 {% block main %}
+    <script>
+        $(document).ready(function () {
+            $('.positionCount').on('change', function () {
+                var sumInput = $(this).closest('.positionRow').find('.sum');
+                var newInput = $(this).val() * $(sumInput).data('price');
+                $(sumInput).val(newInput);
+            })})
+    </script>
     <h1>Items</h1>
 
     <form action="/positiondata" method="post">
+        <input name="id" hidden value="{{ id }}" />
         <input name="title" type="text" value="{{ title }}"/>
         {% for position in positionItems %}
-            <div>
-
+            <div class="positionRow">
                 <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
                 checked
-                {% endif %}/>
+                        {% endif %}/>
                 {{ position.name }}
-                <input name='count[{{ position.id }}]' type="text" value="{{position.count}}"/>
+                <input class="positionCount" name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/>
+                <input class="positionPrice" disabled value="{{ position.price }}"/>
+                <input class="sum" disabled data-price={{ position.price }} value={{ position.price*position.count }}>
             </div>
         {% endfor %}
         <input type="submit" value="Submit">
