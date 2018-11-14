@@ -96,4 +96,12 @@ class PositionTemplate
         $this->position = $position;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getPosition()->getName() . ' - ' . $this->getId();
+    }
 }

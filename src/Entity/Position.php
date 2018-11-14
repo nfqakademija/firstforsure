@@ -34,6 +34,35 @@ class Position
     private $reach;
 
 
+    private $count;
+
+    /**
+     * Position constructor.
+     * @param $count
+     */
+    public function __construct()
+    {
+        $this->count = 0;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * @param mixed $count
+     */
+    public function setCount($count): void
+    {
+        $this->count = $count;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

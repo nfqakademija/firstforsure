@@ -1,6 +1,26 @@
 easy_admin:
+    site_name: 'FirstForSure'
+    translation_domain: 'messages'
+    design:
+        menu:
+        - { entity: Position }
+        - { entity: Template }
     entities:
+        Position:
+            class: App\Entity\Position
+            list:
+                fields:
+                    - { label: 'Pavadinimas', property: 'name' }
+                    - { label: 'Kaina', property: 'price' }
+                    - { label: 'Pasiekiamumas', property: 'reach' }
+        Template:
+            class: App\Entity\Template
+            controller: App\Controller\Admin\TemplateAdminController
+            list:
+                fields:
+                - { label: 'Pavadinimas', property: 'title' }
+                - { label: 'Pozicijos', property: 'positionTemplates' }
         # List the entity class name you want to manage
-        - App\Entity\Position
-        - App\Entity\PositionTemplate
-        - App\Entity\Template
+#        - App\Entity\Position
+#        - App\Entity\PositionTemplate
+#        - App\Entity\Template

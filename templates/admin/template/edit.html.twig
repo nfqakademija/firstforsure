@@ -1,0 +1,25 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{#{% form_theme form with easyadmin_config('design.form_theme') %}#}
+{% set _content_title = 'Edit user data' %}{% block page_title -%}
+    {{ _content_title }}
+{%- endblock %}{% block content_header %}
+    <h1 class="title">{{ _content_title }}</h1>
+{% endblock %}
+{% block main %}
+    <h1>Items</h1>
+
+    <form action="/positiondata" method="post">
+        <input name="title" type="text" value="{{ title }}"/>
+        {% for position in positionItems %}
+            <div>
+
+                <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
+                checked
+                {% endif %}/>
+                {{ position.name }}
+                <input name='count[{{ position.id }}]' type="text" value="{{position.count}}"/>
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

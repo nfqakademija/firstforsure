@@ -1,3 +1,9 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+basicform:
+    path: /basicform
+    controller: App\Controller\HomeController::new
+
+

@@ -9,7 +9,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\Collection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -50,7 +50,8 @@ class Template
      */
     public function getPositionTemplates(): Collection
     {
-        dump($this->positionTemplates);
+//        dump($this->positionTemplates);
+//        die();
         return $this->positionTemplates;
     }
 
@@ -97,6 +98,14 @@ class Template
                 $positionTemplate->setTemplate(null);
             }
         }        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getTitle() . ' - ' . $this->getId();
     }
 
 }

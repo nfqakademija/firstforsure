@@ -23,7 +23,7 @@
 
 {% block body %}
     <div class="title">NFQ Akademija VEIKIA</div>
-    <h1>Members</h1>
+    <h1>{{ 'admin.position.name'|trans }} </h1>
     <ul>
         {% for position in positionItems %}
             <li>{{ position.name }}</li>
