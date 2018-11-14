@@ -11,8 +11,9 @@ easy_admin:
             list:
                 fields:
                     - { label: 'Pavadinimas', property: 'name' }
-                    - { label: 'Kaina', property: 'price' }
-                    - { label: 'Pasiekiamumas', property: 'reach' }
+                    - { label: 'Minutes kaina', property: 'price' }
+                    - { label: 'Minutes pasiekiamumas', property: 'reach' }
+                    - { label: 'Minuciu likutis', property: 'timeleft' }
         Template:
             class: App\Entity\Template
             controller: App\Controller\Admin\TemplateAdminController
