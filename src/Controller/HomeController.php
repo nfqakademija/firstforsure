@@ -100,13 +100,17 @@ class HomeController extends Controller
                 }
             }
         }
+        $posTemplates = $template->getPositionTemplates();
+        dump($template);
         foreach ($posTemplates as $pos => $val) {
             if ($val->getEdited() === null) {
                 $template->removePositionTemplate($val);
             }
         }
 
+        $entityManager->persist($template);
         $entityManager->flush();
+
         return $this->redirectToRoute('admin');
     }
 
