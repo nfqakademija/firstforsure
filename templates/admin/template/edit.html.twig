@@ -36,8 +36,8 @@
 
         {% for position in positionItems %}
 
-            <tr>
-                <th class="positionRow">
+            <tr class="positionRow">
+                <th>
 
                     <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
                     checked

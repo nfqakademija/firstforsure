@@ -56,7 +56,7 @@ class PositionTemplate
     /**
      * @return mixed
      */
-    public function getEdited(): bool
+    public function getEdited(): ?bool
     {
         return $this->edited;
     }

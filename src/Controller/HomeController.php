@@ -63,39 +63,51 @@ class HomeController extends Controller
 
         $posTemplates = $template->getPositionTemplates();
 
-        foreach ($active as $key => $value) {
-            $exists = false;
-            $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
-            $templatePosition = new PositionTemplate();
-            $templatePosition->setTemplate($template)
-                ->setPosition($position)
-                ->setCount((int)$request->get('count')[$key]);
-            foreach ($posTemplates as $key2 => $value2) {
-                if ($value2->getPosition() === $position) {
-                    $value2->setEdited(true);
-                    break;
+        if($active !== null) {
+            foreach ($active as $key => $value) {
+                $exists = false;
+                $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
+                $templatePosition = new PositionTemplate();
+                $templatePosition->setEdited(true);
+                $templatePosition->setTemplate($template)
+                    ->setPosition($position)
+                    ->setCount((int)$request->get('count')[$key]);
+                $entityManager->persist($templatePosition);
+                foreach ($posTemplates as $key2 => $value2) {
+                    if ($value2->getPosition() === $position) {
+                        $value2->setEdited(true);
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                if ($exists) {
+                } else {
+                    $template->addPositionTemplate($templatePosition);
+
+                    $entityManager->persist($templatePosition);
+                    $entityManager->persist($template);
                 }
             }
-
-            if ($exists) {
-            } else {
-                $template->addPositionTemplate($templatePosition);
-
-                $entityManager->persist($templatePosition);
-                $entityManager->persist($template);
+        }
+        else
+        {
+            if($posTemplates !== null)
+            {
+                foreach($posTemplates as $templ)
+                {
+                    $template->removePositionTemplate($templ);
+                }
             }
         }
-
         foreach ($posTemplates as $pos => $val) {
-            if ($val->getEdited()) {
-                $val->setEdited(false);
-            } else {
-                $entityManager->remove($val);
+            if ($val->getEdited() === null) {
+                $template->removePositionTemplate($val);
             }
-
         }
+
         $entityManager->flush();
-        return new Response('success');
+        return $this->redirectToRoute('admin');
     }
 
     /**
