@@ -1,6 +1,8 @@
 admin:
-    position:
-        title: Pozicija
-        name: Pavadinimas
-        reach: Pasiekiamumas
-        price: Kaina
+  position:
+    title: Pozicija
+    name: Pavadinimas
+    reach: Pasiekiamumas
+    price: Vieneto kaina
+  template:
+    title: Šablonas

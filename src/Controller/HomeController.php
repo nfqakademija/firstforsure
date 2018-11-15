@@ -43,77 +43,83 @@ class HomeController extends Controller
      */
     public function addTemplate(Request $request)
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
         $templateRepo = $this->getDoctrine()->getRepository(Template::class);
+        $posTemplateRepo = $this->getDoctrine()->getRepository(PositionTemplate::class);
         $active = $request->get('active');
 
         $templateId = $request->get('id');
 
-        if($templateId == 0) {
+        if ($templateId == 0) {
             $template = new Template();
-        }
-        else
-        {
+        } else {
             $template = $templateRepo->find($templateId);
         }
         $template->setTitle($request->get('title'));
 
-        $this->getDoctrine()->getManager()->persist($template);
-        $this->getDoctrine()->getManager()->flush();
+        $entityManager->persist($template);
+        $entityManager->flush();
+
+        $posTemplates = $template->getPositionTemplates();
 
         foreach ($active as $key => $value) {
             $exists = false;
             $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
-            $posTemplates = $template->getPositionTemplates();
             $templatePosition = new PositionTemplate();
             $templatePosition->setTemplate($template)
                 ->setPosition($position)
                 ->setCount((int)$request->get('count')[$key]);
-            foreach($posTemplates as $key2 => $value2)
-            {
-                if($value2->getPosition() === $position)
-                {
-                    $exists = true;
+            foreach ($posTemplates as $key2 => $value2) {
+                if ($value2->getPosition() === $position) {
+                    $value2->setEdited(true);
                     break;
                 }
             }
 
-            if($exists)
-            {}
-            else {
+            if ($exists) {
+            } else {
                 $template->addPositionTemplate($templatePosition);
 
-                $this->getDoctrine()->getManager()->persist($templatePosition);
-                $this->getDoctrine()->getManager()->persist($template);
+                $entityManager->persist($templatePosition);
+                $entityManager->persist($template);
             }
         }
-        $this->getDoctrine()->getManager()->flush();
+
+        foreach ($posTemplates as $pos => $val) {
+            if ($val->getEdited()) {
+                $val->setEdited(false);
+            } else {
+                $entityManager->remove($val);
+            }
+
+        }
+        $entityManager->flush();
         return new Response('success');
     }
 
     /**
-     * @Route("/positiondata2", name="positionData2")
+     * @Route("/resetdatabase", name="resetdb")
      */
-    public function editTemplate(Request $request)
+    public function resetDatabase()
     {
-        $active = $request->get('active');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository(PositionTemplate::class);
+        $entities = $repository->findAll();
 
-        $template->setTitle($request->get('title'));
-
-        $this->getDoctrine()->getManager()->persist($template);
-        $this->getDoctrine()->getManager()->flush();
-
-        foreach ($active as $key => $value) {
-            $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
-            $templatePosition = new PositionTemplate();
-            $templatePosition->setTemplate($template)
-                ->setPosition($position)
-                ->setCount((int)$request->get('count')[$key]);
-            $template->addPositionTemplate($templatePosition);
-
-            $this->getDoctrine()->getManager()->persist($templatePosition);
-            $this->getDoctrine()->getManager()->persist($template);
+        foreach ($entities as $entity) {
+            $em->remove($entity);
         }
-        $this->getDoctrine()->getManager()->flush();
-        return new Response('success');
+        $em->flush();
+
+        $repository = $em->getRepository(Template::class);
+        $entities = $repository->findAll();
+
+        foreach ($entities as $entity) {
+            $em->remove($entity);
+        }
+        $em->flush();
+
+        return new Response('', Response::HTTP_OK);
     }
 }
