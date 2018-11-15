@@ -14,7 +14,10 @@
                 $(sumInput).val(newInput);
             })})
     </script>
-    <center><h1>Sablonas</h1></center>
+    <style>
+
+    </style>
+    <center><h2 class="module-title">Sablonas</h2></center>
 
     <form action="/positiondata" method="post">
         <input name="id" hidden value="{{ id }}" />
@@ -22,11 +25,11 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">✔</th>
-                <th scope="col">Pozicija</th>
-                <th scope="col">Minuciu Kiekis</th>
-                <th scope="col">Minutes kaina</th>
-                <th scope="col">Suma</th>
+                <th scope="col"><p class="lead">✔</p></th>
+                <th scope="col"><p class="lead">Pozicija</p></th>
+                <th scope="col"><p class="lead">Minuciu Kiekis</p></th>
+                <th scope="col"><p class="lead">Minutes kaina</p></th>
+                <th scope="col"><p class="lead">Suma</p></th>
             </tr>
             </thead>
             <tbody>
@@ -35,10 +38,11 @@
 
             <tr>
                 <th class="positionRow">
+
                     <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
                     checked
                             {% endif %}/></th>
-                <td>{{ position.name }}</td>
+                <td><p class="lead">{{ position.name }}</p></td>
                 <td><input class="positionCount" name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td>
                 <td><input class="positionPrice" disabled value="{{ position.price }}"/></td>
                 <td><input class="sum" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td>

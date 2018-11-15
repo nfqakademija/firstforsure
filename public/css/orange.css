@@ -1,0 +1,4 @@
+/********** Colorset Red*************/
+a, .colored{color:#f88356;}
+.main_nav ul.navigation li.parent:hover ul.nav-child, .navbar-brand h1:hover, .btn-primary, .footer_area .sourrounding_wrapper, blockquote, .sourrounding_wrapper#top_center  {background-color:#f88356;}
+.main_nav .navigation li:hover a, .main_nav .navigation li.active a{border-bottom:3px solid #f88356;}
