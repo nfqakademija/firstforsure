@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {#{% form_theme form with easyadmin_config('design.form_theme') %}#}
-{% set _content_title = 'Edit user data' %}{% block page_title -%}
+{% set _content_title = ''%}{% block page_title -%}
     {{ _content_title }}
 {%- endblock %}{% block content_header %}
     <h1 class="title">{{ _content_title }}</h1>
@@ -14,22 +14,44 @@
                 $(sumInput).val(newInput);
             })})
     </script>
-    <h1>Items</h1>
+    <center><h1>Sablonas</h1></center>
 
     <form action="/positiondata" method="post">
         <input name="id" hidden value="{{ id }}" />
-        <input name="title" type="text" value="{{ title }}"/>
+        <center><input name="title" type="text" value="{{ title }}"/></center>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">✔</th>
+                <th scope="col">Pozicija</th>
+                <th scope="col">Minuciu Kiekis</th>
+                <th scope="col">Minutes kaina</th>
+                <th scope="col">Suma</th>
+            </tr>
+            </thead>
+            <tbody>
+
         {% for position in positionItems %}
-            <div class="positionRow">
-                <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
-                checked
-                        {% endif %}/>
-                {{ position.name }}
-                <input class="positionCount" name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/>
-                <input class="positionPrice" disabled value="{{ position.price }}"/>
-                <input class="sum" disabled data-price={{ position.price }} value={{ position.price*position.count }}>
-            </div>
+
+            <tr>
+                <th class="positionRow">
+                    <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
+                    checked
+                            {% endif %}/></th>
+                <td>{{ position.name }}</td>
+                <td><input class="positionCount" name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td>
+                <td><input class="positionPrice" disabled value="{{ position.price }}"/></td>
+                <td><input class="sum" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td>
+            </tr>
+
+
         {% endfor %}
-        <input type="submit" value="Submit">
+            </tbody>
+        </table>
+
+        <center>
+            <button class="button button1">Green</button>
+
+
     </form>
 {% endblock %}
