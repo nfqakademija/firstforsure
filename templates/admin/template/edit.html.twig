@@ -33,6 +33,30 @@
             border: 2px solid green;
             border-radius: 2px;
         }
+
+        .myButton {
+            background-color:#44c767;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid green;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:19px;
+            padding:3px 9px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #2f6627;
+        }
+        .myButton:hover {
+            background-color:#5cbf2a;
+        }
+        .myButton:active {
+            position:relative;
+            top:1px;
+        }
+
     </style>
 
     <center><h2 class="module-title">{{ 'admin.template.title' |trans }}</h2></center>
@@ -46,7 +70,11 @@
 
     <form action="/positiondata" method="post">
         <input name="id" hidden value="{{ id }}" />
-        <center><input name="title" type="text" value="{{ title }}"/></center>
+        <center>
+            <input name="title" type="text" value="{{ title }}"/>
+            <button class="myButton">Saugoti</button>
+
+        </center>
         <table class="table">
 
             <tr>
@@ -85,8 +113,9 @@
             </tbody>
         </table>
 
-        <center>
-            <button class="button button1">Green</button>
+    <center>
+            <button class="myButton">Saugoti</button>
+    </center>
 
 
     </form>
