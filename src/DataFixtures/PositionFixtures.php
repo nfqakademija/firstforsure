@@ -16,6 +16,8 @@ class PositionFixtures extends Fixture
             $product->setName('position '.$i);
             $product->setPrice(mt_rand(10, 100));
             $product->setReach(mt_rand(1000, 10000)*$i);
+            $product->setRemaining(1000);
+            $product->setMaxQuantity(1000);
             $manager->persist($product);
         }
         $manager->flush();

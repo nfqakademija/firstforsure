@@ -32,27 +32,16 @@ class Position
      * @ORM\Column(type="integer")
      */
     private $reach;
+
     /**
      * @ORM\Column(type="integer")
      */
-    private $timeleft;
+    private $remaining;
 
     /**
-     * @return mixed
+     * @ORM\Column(type="integer")
      */
-    public function getTimeleft()
-    {
-        return $this->timeleft;
-    }
-
-    /**
-     * @param mixed $timeleft
-     */
-    public function setTimeleft($timeleft): void
-    {
-        $this->timeleft = $timeleft;
-    }
-
+    private $maxQuantity;
 
     private $count;
 
@@ -65,6 +54,37 @@ class Position
         $this->count = 0;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMaxQuantity()
+    {
+        return $this->maxQuantity;
+    }
+
+    /**
+     * @param mixed $maxQuantity
+     */
+    public function setMaxQuantity($maxQuantity): void
+    {
+        $this->maxQuantity = $maxQuantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemaining()
+    {
+        return $this->remaining;
+    }
+
+    /**
+     * @param mixed $remaining
+     */
+    public function setRemaining($remaining): void
+    {
+        $this->remaining = $remaining;
+    }
 
     /**
      * @return mixed

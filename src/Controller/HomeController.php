@@ -136,6 +136,15 @@ class HomeController extends Controller
         }
         $em->flush();
 
+
+        $repository = $em->getRepository(Position::class);
+        $entities = $repository->findAll();
+
+        foreach ($entities as $entity) {
+            $em->remove($entity);
+        }
+        $em->flush();
+
         return new Response('', Response::HTTP_OK);
     }
 }
