@@ -13,39 +13,99 @@
                 var newInput = $(this).val() * $(sumInput).data('price');
                 $(sumInput).val(newInput);
             })})
+
+        ///////////////////////////////////////
+
+
     </script>
     <style>
+        .btn span.glyphicon {
+            opacity: 1;
+        }
+        .btn.active span.glyphicon {
+            opacity: 0;
+        }
+        input[type=text] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid green;
+            border-radius: 2px;
+        }
+
+        .myButton {
+            background-color:#44c767;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid green;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:19px;
+            padding:3px 9px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #2f6627;
+        }
+        .myButton:hover {
+            background-color:#5cbf2a;
+        }
+        .myButton:active {
+            position:relative;
+            top:1px;
+        }
 
     </style>
+
     <center><h2 class="module-title">{{ 'admin.template.title' |trans }}</h2></center>
+
+
+
+
+
+
+
 
     <form action="/positiondata" method="post">
         <input name="id" hidden value="{{ id }}" />
-        <center><input name="title" type="text" value="{{ title }}"/></center>
+        <center>
+            <input name="title" type="text" value="{{ title }}"/>
+            <button class="myButton">Saugoti</button>
+
+        </center>
         <table class="table">
-            <thead>
+
             <tr>
-                <th scope="col"><p class="lead">✔</p></th>
-                <th scope="col"><p class="lead">Pozicija</p></th>
-                <th scope="col"><p class="lead">Minuciu Kiekis</p></th>
-                <th scope="col"><p class="lead">Minutes kaina</p></th>
-                <th scope="col"><p class="lead">Suma</p></th>
+                <th scope="col"><p class="lead" align="center">✔</p></th>
+                <th scope="col"><p class="lead" align="center">Pozicija</p></th>
+                <th scope="col"><p class="lead" align="center">Kiekis</p></th>
+                <th scope="col"><p class="lead" align="center">Vieneto kaina</p></th>
+                <th scope="col"><p class="lead" align="center">Suma</p></th>
             </tr>
-            </thead>
+
             <tbody>
 
         {% for position in positionItems %}
 
             <tr class="positionRow">
-                <th>
+                <td>
+                    <div class="btn-group" data-toggle="buttons">
 
-                    <input name='active[{{ position.id }}]' type="checkbox" {% if position.count > 0 %}
-                    checked
-                            {% endif %}/></th>
-                <td><p class="lead">{{ position.name }}</p></td>
-                <td><input class="positionCount" name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td>
-                <td><input class="positionPrice" disabled value="{{ position.price }}"/></td>
-                <td><input class="sum" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td>
+                        <label class="btn btn-success active">
+                            <input name='active[{{ position.id }}]' type="checkbox" autocomplete="off"
+                                    {% if position.count > 0 %}
+                            checked
+                                    {% endif %}/>
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+                    </div>
+                </td>
+                <td><p class="lead" align="center">{{ position.name }}</p></td>
+                <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
+                <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
+                <td><p align="center"><input  class="sum" type="text" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
             </tr>
 
 
@@ -53,8 +113,9 @@
             </tbody>
         </table>
 
-        <center>
-            <button class="button button1">Green</button>
+    <center>
+            <button class="myButton">Saugoti</button>
+    </center>
 
 
     </form>
