@@ -63,6 +63,9 @@ class HomeController extends Controller
         $posTemplates = $template->getPositionTemplates();
         if($active !== null) {
             foreach ($active as $key => $value) {
+                if (!$value) {
+                    continue;
+                }
                 $exists = false;
                 $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
                 $templatePosition = new PositionTemplate();

@@ -31,6 +31,8 @@ class TemplateAdminController extends BaseAdminController
 
     public function editAction()
     {
+
+
         $templRepo = $this->getDoctrine()->getRepository(Template::class);
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
         $id = $this->request->query->get('id');

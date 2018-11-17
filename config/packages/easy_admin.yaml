@@ -2,9 +2,10 @@ easy_admin:
   site_name: 'FirstForSure'
   translation_domain: 'messages'
   design:
+    brand_color: 'green'
     assets:
       js: ['js/jquery-ui.min.js', 'js/admin.js']
-      css: ['css/bootstrap.css','css/bootstrap-theme.css','css/styles.css']
+
 
     menu:
     - { entity: Position }
