@@ -59,9 +59,16 @@ class Offer
         $this->offerTemplates = new ArrayCollection();
     }
 
-    public function sendButton()
+
+    public function templateList()
     {
-        return "<a href='http://google.lt'>Send</a>";
+        $templateList = '';
+        foreach($this->offerTemplates as $key => $value)
+        {
+            $templateList .=  '"'.$value->getTemplate()->getTitle().'" ';
+        }
+
+        return $templateList;
     }
 
     /**

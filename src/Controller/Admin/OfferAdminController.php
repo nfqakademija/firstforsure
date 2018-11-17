@@ -22,6 +22,8 @@ class OfferAdminController extends BaseAdminController
         $templateItems = $repo->findAll();
 
         return $this->render('admin/offer/edit.html.twig', [
+            'offer' => new Offer(),
+            'id' => 0,
             'templateItems' => $templateItems
         ]);
     }
@@ -45,6 +47,7 @@ class OfferAdminController extends BaseAdminController
             }
         }
         return $this->render('admin/offer/edit.html.twig', [
+            'id' => $id,
             'offer' => $activeOffer,
             'templateItems' => $templateItems
         ]);

@@ -87,6 +87,7 @@
 
     </style>
     <form action="/makeoffer" method="post">
+        <input name="id" hidden value="{{ id }}" />
         <label>Client name</label>
         <input type="text" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}/>
         <br>
@@ -97,7 +98,7 @@
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-success {% if template.active is null %} active {% endif %} checkbox-js">
                         <input type="checkbox" />
-                        <input type="hidden" class="check" value="0" name='active[{{ template.id }}]'/>
+                        <input type="hidden" class="check" value="{% if template.active %}1{% endif %}{% if template.active is null %}0{% endif %}" name='active[{{ template.id }}]'/>
                         <span class="glyphicon glyphicon-ok"></span>
                     </label>
                 </div>

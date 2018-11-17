@@ -132,6 +132,7 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
+        $templRepo = $this->getDoctrine()->getRepository(Template::class);
 
         $active = $request->get('active');
 
@@ -141,38 +142,55 @@ class HomeController extends Controller
             }
         }
 
-        if ($active !== null) {
-            $offerId = $request->get('id');
+        $offerId = $request->get('id');
 
-            if ($offerId == 0) {
-                $offer = new Offer();
-            } else {
-                $offer = $offerRepo->find($offerId);
+        if ($offerId == 0) {
+            $offer = new Offer();
+        } else {
+            $offer = $offerRepo->find($offerId);
+        }
+
+        $offer->setClientEmail($request->get('clientEmail'));
+        $offer->setClientName($request->get('clientName'));
+        $offer->setMessage($request->get('message'));
+
+        $time = new \DateTime();
+
+        $hash = md5($request->get('clientEmail').$time->format('Y-m-d H:i:s'));
+
+        $offer->setMd5($hash);
+        $em->flush();
+        $offerTemplates = $offer->getOfferTemplates();
+
+        if ($active !== null) {
+            foreach ($offerTemplates as $key => $value) {
+                $index = $value->getTemplate()->getId();
+                if (!in_array($index, $active)) {
+                    $em->remove($value);
+                    $em->flush();
+                }
             }
 
-            $offer->setClientEmail($request->get('clientEmail'));
-            $offer->setClientName($request->get('clientName'));
-            $offer->setMessage($request->get('message'));
-
-            $time = new \DateTime();
-
-            $hash = md5($request->get('clientEmail').$time->format('Y-m-d H:i:s'));
-
-            $offer->setMd5($hash);
-            $em->flush();
-            $offerTemplates = $offer->getOfferTemplates();
-            dump($offerTemplates);
-            exit;
-
             foreach ($active as $key => $value) {
-                $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
-                $templateOffer = new OfferTemplate();
-                $templateOffer->setOffer($offer)
-                    ->setTemplate($template);
-                $offer->addOfferTemplate($templateOffer);
-
-                $em->persist($templateOffer);
-                $em->persist($offer);
+                $exists = false;
+                $template = $templRepo->find($key);
+                foreach ($offerTemplates as $key2 => $value2) {
+                    if ($value2->getTemplate() === $template) {
+                        $exists = true;
+                        dump($value2);
+                        break;
+                    }
+                }
+                if(!$exists) {
+                    $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
+                    $templateOffer = new OfferTemplate();
+                    $templateOffer->setOffer($offer)
+                        ->setTemplate($template);
+                    $offer->addOfferTemplate($templateOffer);
+                    
+                    $em->persist($templateOffer);
+                    $em->persist($offer);
+                }
             }
             $em->flush();
             return $this->redirectToRoute('admin');
