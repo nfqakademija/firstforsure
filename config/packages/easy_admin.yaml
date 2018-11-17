@@ -26,7 +26,9 @@ easy_admin:
       list:
         fields:
         - { label: 'Pavadinimas', property: 'title' }
-        - { label: 'Pozicijos', property: 'positionTemplates' }
+        - { label: 'Pozicijos', property: 'positionTitle' }
+        - { label: 'Kaina', property: 'price' }
+
     # List the entity class name you want to manage
 #        - App\Entity\Position
 #        - App\Entity\PositionTemplate

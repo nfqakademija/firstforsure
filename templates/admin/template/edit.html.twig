@@ -20,16 +20,15 @@
 
             $('.checkbox-js').on('click', function() {
                 console.log('atejo');
-
-                if($(this).find('input').val()>0) {
+                console.log($(this).find('.check').val());
+                if($(this).find('.check').val()>0) {
                     console.log('ATEJO i g');
-                    $(this).find('input').val(0);
+                    $(this).find('.check').val(0);
                 }
                 else {
 
                     console.log('ATEJO i bloga');
-                    $(this).find('input').val(1);
-                   console.log($(this).find('input').is(':checked'));
+                    $(this).find('.check').val(1);
 
 
                 }
@@ -1222,7 +1221,7 @@
 
 
 
-    <form action="/positiondata" method="post">
+    <form action="/maketemplate" method="post">
         <input name="id" hidden value="{{ id }}" />
         <center>
             <input name="title" type="text" value="{{ title }}"/>
@@ -1248,14 +1247,14 @@
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
                             <input type="checkbox" />
-                            <input type="hidden" value="0" name='active[{{ position.id }}]'/>
+                            <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
                             <span class="glyphicon glyphicon-ok"></span>
                         </label>
                     </div></td>
                 <td><p class="lead" align="center">{{ position.name }}</p></td>
                 <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
                 <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
-                <td><p align="center"><input  class="sum" type="text" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
+                <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
             </tr>
 
 
