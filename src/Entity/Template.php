@@ -39,11 +39,17 @@ class Template
     private $positionTemplates;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
+    /**
      * Template constructor.
      */
     public function __construct()
     {
         $this->positionTemplates = new ArrayCollection();
+        $this->price = 0;
     }
 
     /**
@@ -52,6 +58,32 @@ class Template
     public function getPositionTemplates(): Collection
     {
         return $this->positionTemplates;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
+    public function addPrice($price): void
+    {
+        $this->price += $price;
+    }
+
+    public function minusPrice($price): void
+    {
+        $this->price -= $price;
     }
 
 
@@ -107,4 +139,24 @@ class Template
         return $this->getTitle() . ' - ' . $this->getId();
     }
 
+    public function editPrice()
+    {
+
+    }
+
+    public function positionTitle()
+    {
+        $positions = '';
+        $posTemplates = $this->getPositionTemplates();
+        foreach($posTemplates as $key => $val)
+        {
+            $name = (string)$val->getPosition()->getName();
+//            if(!strpos($positions, $name)) {
+                $positions .= '"';
+                $positions .= $name;
+                $positions .= '" ';
+//            }
+        }
+        return $positions;
+    }
 }

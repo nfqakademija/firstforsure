@@ -39,7 +39,86 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/positiondata", name="positionData")
+     * @Route("/maketemplate", name="maketemplate")
+     */
+    public function makeTemplate(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $templateRepo = $this->getDoctrine()->getRepository(Template::class);
+        $active = $request->get('active');
+
+        $templateId = $request->get('id');
+
+        if ($templateId == 0) {
+            $template = new Template();
+        } else {
+            $template = $templateRepo->find($templateId);
+        }
+        $template->setTitle($request->get('title'));
+
+        $em->persist($template);
+        $em->flush();
+
+        $posTemplates = $template->getPositionTemplates();
+
+        if ($active != null) {
+            foreach($posTemplates as $key => $value)
+            {
+                $index = $value->getPosition()->getId();
+                if(!in_array($index, $active))
+                {
+                    $price = $value->getCount() * $value->getPosition()->getPrice();
+                    $template->minusPrice($price);
+                    $em->remove($value);
+                    $em->flush();
+                }
+            }
+            foreach ($active as $key => $value) {
+                $exists = false;
+                $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
+                $templatePosition = new PositionTemplate();
+                $templatePosition->setTemplate($template)
+                    ->setPosition($position)
+                    ->setCount((int)$request->get('count')[$key]);
+                $position->setCount((int)$request->get('count')[$key]);
+
+                foreach ($posTemplates as $key2 => $value2) {
+                    if ($value2->getPosition() === $position) {
+                        $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $value2->setPosition($position);
+                        $value2->setCount((int)$request->get('count')[$key]);
+                        $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $template->minusPrice($oldPrice);
+                        $template->addPrice($newPrice);
+                        $exists = true;
+                        break;
+                    }
+                }
+                if (!$exists) {
+                    $template->addPositionTemplate($templatePosition);
+
+                    $template->addPrice((float)$request->get('sum')[$key]);
+                    $em->persist($templatePosition);
+                    $em->persist($template);
+                }
+            }
+        } else {
+            if ($posTemplates !== null) {
+                foreach ($posTemplates as $templ) {
+                    $template->removePositionTemplate($templ);
+                }
+                $template->setPrice(0);
+            }
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('admin');
+    }
+
+    /**
+     * @Route("/positiondata2", name="positionData2")
      */
     public function addTemplate(Request $request)
     {
@@ -61,7 +140,7 @@ class HomeController extends Controller
         $entityManager->flush();
 
         $posTemplates = $template->getPositionTemplates();
-        if($active !== null) {
+        if ($active !== null) {
             foreach ($active as $key => $value) {
                 $exists = false;
                 $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
@@ -74,8 +153,13 @@ class HomeController extends Controller
                 $entityManager->persist($templatePosition);
                 foreach ($posTemplates as $key2 => $value2) {
                     if ($value2->getPosition() === $position) {
+                        $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
                         $value2->setPosition($position);
                         $value2->setEdited(true);
+                        $value2->setCount((int)$request->get('count')[$key]);
+                        $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $template->minusPrice($oldPrice);
+                        $template->addPrice($newPrice);
                         $exists = true;
                         break;
                     }
@@ -83,28 +167,27 @@ class HomeController extends Controller
                 if (!$exists) {
                     $template->addPositionTemplate($templatePosition);
 
+                    $template->addPrice((float)$request->get('sum')[$key]);
                     $entityManager->persist($templatePosition);
                     $entityManager->persist($template);
                 }
             }
-        }
-        else
-        {
-            if($posTemplates !== null)
-            {
-                foreach($posTemplates as $templ)
-                {
+        } else {
+            if ($posTemplates !== null) {
+                foreach ($posTemplates as $templ) {
                     $template->removePositionTemplate($templ);
                 }
+                $template->setPrice(0);
             }
         }
         $posTemplates = $template->getPositionTemplates();
         foreach ($posTemplates as $pos => $val) {
             if ($val->getEdited() === null) {
+                $price = $val->getCount() * $val->getPosition()->getPrice();
+                $template->minusPrice($price);
                 $template->removePositionTemplate($val);
             }
         }
-
         $entityManager->persist($template);
         $entityManager->flush();
 
@@ -134,13 +217,13 @@ class HomeController extends Controller
         $em->flush();
 
 
-        $repository = $em->getRepository(Position::class);
-        $entities = $repository->findAll();
-
-        foreach ($entities as $entity) {
-            $em->remove($entity);
-        }
-        $em->flush();
+//        $repository = $em->getRepository(Position::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
 
         return new Response('', Response::HTTP_OK);
     }

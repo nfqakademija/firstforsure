@@ -68,7 +68,7 @@
 
 
 
-    <form action="/positiondata" method="post">
+    <form action="/maketemplate" method="post">
         <input name="id" hidden value="{{ id }}" />
         <center>
             <input name="title" type="text" value="{{ title }}"/>
@@ -105,7 +105,7 @@
                 <td><p class="lead" align="center">{{ position.name }}</p></td>
                 <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
                 <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
-                <td><p align="center"><input  class="sum" type="text" disabled data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
+                <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
             </tr>
 
 
