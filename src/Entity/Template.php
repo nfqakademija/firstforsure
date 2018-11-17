@@ -11,6 +11,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TemplateRepository")
@@ -50,8 +51,6 @@ class Template
      */
     public function getPositionTemplates(): Collection
     {
-//        dump($this->positionTemplates);
-//        die();
         return $this->positionTemplates;
     }
 

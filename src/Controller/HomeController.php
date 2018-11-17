@@ -46,7 +46,6 @@ class HomeController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
 
         $templateRepo = $this->getDoctrine()->getRepository(Template::class);
-        $posTemplateRepo = $this->getDoctrine()->getRepository(PositionTemplate::class);
         $active = $request->get('active');
 
         $templateId = $request->get('id');
@@ -62,7 +61,6 @@ class HomeController extends Controller
         $entityManager->flush();
 
         $posTemplates = $template->getPositionTemplates();
-
         if($active !== null) {
             foreach ($active as $key => $value) {
                 $exists = false;
@@ -72,17 +70,17 @@ class HomeController extends Controller
                 $templatePosition->setTemplate($template)
                     ->setPosition($position)
                     ->setCount((int)$request->get('count')[$key]);
+                $position->setCount((int)$request->get('count')[$key]);
                 $entityManager->persist($templatePosition);
                 foreach ($posTemplates as $key2 => $value2) {
                     if ($value2->getPosition() === $position) {
+                        $value2->setPosition($position);
                         $value2->setEdited(true);
                         $exists = true;
                         break;
                     }
                 }
-
-                if ($exists) {
-                } else {
+                if (!$exists) {
                     $template->addPositionTemplate($templatePosition);
 
                     $entityManager->persist($templatePosition);
@@ -101,7 +99,6 @@ class HomeController extends Controller
             }
         }
         $posTemplates = $template->getPositionTemplates();
-        dump($template);
         foreach ($posTemplates as $pos => $val) {
             if ($val->getEdited() === null) {
                 $template->removePositionTemplate($val);
