@@ -6,4 +6,6 @@ basicform:
     path: /basicform
     controller: App\Controller\HomeController::new
 
-
+readoffer:
+    path: /readoffer/{md5}
+    controller: App\Controller\HomeController::reademail

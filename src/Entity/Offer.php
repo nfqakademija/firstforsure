@@ -40,6 +40,11 @@ class Offer
     private $clientName;
 
     /**
+     * @ORM\Column(type="string", length=1000)
+     */
+    private $message;
+
+    /**
      * @var OfferTemplate[]
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OfferTemplate", mappedBy="offer", orphanRemoval=true)
@@ -53,6 +58,29 @@ class Offer
     {
         $this->offerTemplates = new ArrayCollection();
     }
+
+    public function sendButton()
+    {
+        return "<a href='http://google.lt'>Send</a>";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param mixed $message
+     */
+    public function setMessage($message): void
+    {
+        $this->message = $message;
+    }
+
+
 
     /**
      * @return mixed

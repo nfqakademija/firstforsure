@@ -152,13 +152,18 @@ class HomeController extends Controller
 
             $offer->setClientEmail($request->get('clientEmail'));
             $offer->setClientName($request->get('clientName'));
+            $offer->setMessage($request->get('message'));
 
             $time = new \DateTime();
 
-            $hash = md5($request->get('clientEmail').$time->format('Y-m-d'));
+            $hash = md5($request->get('clientEmail').$time->format('Y-m-d H:i:s'));
 
             $offer->setMd5($hash);
             $em->flush();
+            $offerTemplates = $offer->getOfferTemplates();
+            dump($offerTemplates);
+            exit;
+
             foreach ($active as $key => $value) {
                 $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
                 $templateOffer = new OfferTemplate();
@@ -170,24 +175,29 @@ class HomeController extends Controller
                 $em->persist($offer);
             }
             $em->flush();
-            return $this->redirectToRoute('readoffer', ['md5' => $offer->getMd5()]);
+            return $this->redirectToRoute('admin');
+            //return $this->redirectToRoute('sendmail', ['md5' => $offer->getMd5()]);
         }
     }
 
 
     /**
-     * @Route("/sendmail", name="sendmail")
+     * @Route("/sendmail/{md5}", name="sendmail")
      */
-    public function mail(\Swift_Mailer $mailer)
+    public function mail(\Swift_Mailer $mailer, $md5)
     {
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+
+        $offer = $repo->findByMd5($md5);
+
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('zrvtzrvt@gmail.com')
             ->setTo('gudauskas.osvaldas@gmail.com')
             ->setBody(
                 $this->renderView(
                 // templates/emails/registration.html.twig
-                    'emails/registration.html.twig',
-                    array('name' => $name)
+                    'admin/offer/mail.html.twig',
+                    array('link' => '127.0.0.1:8000/readoffer/'.$md5, 'offer' => $offer[0])
                 ),
                 'text/html'
             )/*
@@ -202,18 +212,19 @@ class HomeController extends Controller
             */
         ;
 
-        //$mailer->send($message);
+        $mailer->send($message);
         return $this->redirectToRoute('admin');
     }
 
-    /**
-     * @Route("/readoffer/{md5}", name="readoffer")
-     */
+
     public function reademail($md5){
         $repo = $this->getDoctrine()->getRepository(Offer::class);
 
         $offer = $repo->findByMd5($md5);
-        dump($offer);exit;
+
+        return $this->render('admin/offer/useroffer.html.twig', [
+            'offer' => $offer[0]
+        ]);
     }
 
     /**

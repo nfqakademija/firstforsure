@@ -42,6 +42,8 @@ class Template
      */
     private $price;
 
+    private $active;
+
     /**
      * Template constructor.
      */
@@ -50,6 +52,24 @@ class Template
         $this->positionTemplates = new ArrayCollection();
         $this->price = 0;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active): void
+    {
+        $this->active = $active;
+    }
+
+
 
     /**
      * @return Collection|PositionTemplate[]

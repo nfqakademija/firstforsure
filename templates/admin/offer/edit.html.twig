@@ -87,12 +87,15 @@
 
     </style>
     <form action="/makeoffer" method="post">
-        <input type="text" name="clientName"/>
-        <input type="text" name="clientEmail"/>
+        <label>Client name</label>
+        <input type="text" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}/>
+        <br>
+        <label>Client Email</label>
+        <input type="text" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}/>
         {% for template in templateItems %}
             <div>
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-success active checkbox-js">
+                    <label class="btn btn-success {% if template.active is null %} active {% endif %} checkbox-js">
                         <input type="checkbox" />
                         <input type="hidden" class="check" value="0" name='active[{{ template.id }}]'/>
                         <span class="glyphicon glyphicon-ok"></span>
@@ -101,6 +104,7 @@
                 {{ template.title }} {{ template.price }}
             </div>
         {% endfor %}
+        <input type="text" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}/>
         <input type="submit"/>
     </form>
 {% endblock %}
