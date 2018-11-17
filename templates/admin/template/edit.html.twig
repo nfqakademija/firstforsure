@@ -8,6 +8,16 @@
 {% block main %}
     <script>
         $(document).ready(function () {
+
+
+                var i, total=0;
+                for (i = 0; i < $('.sum').length; i++) {
+                    total += parseInt($($('.sum')[i]).val());
+                }
+                $('#moneycount').text(total);
+
+
+
             $('.checkbox-js').on('click', function() {
                 console.log('atejo');
                 console.log($(this).find('.check').val());
@@ -28,7 +38,26 @@
                 var sumInput = $(this).closest('.positionRow').find('.sum');
                 var newInput = $(this).val() * $(sumInput).data('price');
                 $(sumInput).val(newInput);
-            })})
+            })
+
+
+
+            $('.positionCount').on('change', function () {
+
+                var i, total=0;
+                for (i = 0; i < $('.sum').length; i++) {
+                    total += parseInt($($('.sum')[i]).val());
+                }
+                $('#moneycount').text(total);
+
+            })
+
+
+
+
+        })
+
+
 
         ///////////////////////////////////////
 
@@ -1139,6 +1168,48 @@
             content: "\e260"
         }
 
+        @media only screen and (max-width: 600px) {
+            input[type=text] {
+                width: 50%;
+                padding: 1px 2px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid green;
+                border-radius: 2px;
+            }
+
+            position-checkbox {
+               padding: 3px 4px;
+            }
+
+
+        }
+
+        body {
+            margin:0; /*gets rid of white space around body*/
+            margin-top:16px;
+            position:relative; /*REQUIRED Sets up positioning for your footer*/
+        }
+
+        #sticky {
+            width:36%;
+            border: 2px solid green;
+            background-color: whitesmoke!important;
+            padding-top:10px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            background:white;
+            color:black;
+            font-weight:bold;
+            font-size:24px;
+            text-align:center;
+            position:fixed;    /*Here's what sticks it*/
+            bottom:0;          /*to the bottom of the window*/
+            right:0;            /*and to the left of the window.*/
+        }
+
+
+
     </style>
 
     <center><h2 class="module-title">Šablonas</h2></center>
@@ -1157,7 +1228,7 @@
             <button class="myButton">Saugoti</button>
 
         </center>
-        <table class="table">
+        <table class="table table-responsive">
 
             <tr>
                 <th scope="col"><p class="lead" align="center">✔</p></th>
@@ -1174,7 +1245,7 @@
             <tr class="positionRow">
                 <td>
                     <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js">
+                        <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
                             <input type="checkbox" />
                             <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
                             <span class="glyphicon glyphicon-ok"></span>
@@ -1189,7 +1260,16 @@
 
         {% endfor %}
             </tbody>
+            <footer id="sticky">
+
+               <div class="row">
+                  <p>Bendra kaina:<span id='moneycount'>000</span></p>
+                   <p>SUMA2</p>
+
+               </div>
+            </footer>
         </table>
+
 
     <center>
             <button class="myButton">Saugoti</button>
