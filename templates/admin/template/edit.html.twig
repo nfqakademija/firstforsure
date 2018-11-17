@@ -10,16 +10,15 @@
         $(document).ready(function () {
             $('.checkbox-js').on('click', function() {
                 console.log('atejo');
-
-                if($(this).find('input').val()>0) {
+                console.log($(this).find('.check').val());
+                if($(this).find('.check').val()>0) {
                     console.log('ATEJO i g');
-                    $(this).find('input').val(0);
+                    $(this).find('.check').val(0);
                 }
                 else {
 
                     console.log('ATEJO i bloga');
-                    $(this).find('input').val(1);
-                   console.log($(this).find('input').is(':checked'));
+                    $(this).find('.check').val(1);
 
 
                 }
@@ -1177,7 +1176,7 @@
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js">
                             <input type="checkbox" />
-                            <input type="hidden" value="0" name='active[{{ position.id }}]'/>
+                            <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
                             <span class="glyphicon glyphicon-ok"></span>
                         </label>
                     </div></td>

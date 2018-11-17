@@ -6,10 +6,12 @@ use App\Entity\Position;
 use App\Entity\PositionTemplate;
 use App\Entity\Template;
 use App\Repository\PositionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Validator\Constraints\Collection;
 
 class HomeController extends Controller
 {
@@ -47,6 +49,14 @@ class HomeController extends Controller
 
         $templateRepo = $this->getDoctrine()->getRepository(Template::class);
         $active = $request->get('active');
+
+        foreach($active as $key => $value)
+        {
+            if($value === "0")
+            {
+                unset($active[$key]);
+            }
+        }
 
         $templateId = $request->get('id');
 
