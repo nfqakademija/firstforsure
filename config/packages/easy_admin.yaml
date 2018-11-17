@@ -10,6 +10,7 @@ easy_admin:
     menu:
     - { entity: Position }
     - { entity: Template }
+    - { entity: Offer }
   entities:
     Position:
       class: App\Entity\Position
@@ -28,6 +29,13 @@ easy_admin:
         - { label: 'Pavadinimas', property: 'title' }
         - { label: 'Pozicijos', property: 'positionTitle' }
         - { label: 'Kaina', property: 'price' }
+    Offer:
+      class: App\Entity\Offer
+      controller: App\Controller\Admin\OfferAdminController
+      list:
+        fields:
+        - { label: 'Gavėjo email', property: 'clientEmail' }
+        - { label: 'Gavėjas', property: 'clientName' }
 
     # List the entity class name you want to manage
 #        - App\Entity\Position

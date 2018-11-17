@@ -42,33 +42,6 @@ class PositionTemplate
      */
     private $template;
 
-    private $edited;
-
-    /**
-     * PositionTemplate constructor.
-     * @param $edited
-     */
-    public function __construct()
-    {
-        $this->edited = false;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEdited(): ?bool
-    {
-        return $this->edited;
-    }
-
-    /**
-     * @param mixed $edited
-     */
-    public function setEdited($edited): void
-    {
-        $this->edited = $edited;
-    }
-
     public function getId(): ?int
     {
         return $this->id;

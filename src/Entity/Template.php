@@ -11,7 +11,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TemplateRepository")
@@ -137,11 +136,6 @@ class Template
     public function __toString(): string
     {
         return $this->getTitle() . ' - ' . $this->getId();
-    }
-
-    public function editPrice()
-    {
-
     }
 
     public function positionTitle()

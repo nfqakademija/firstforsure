@@ -1,0 +1,106 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{#{% form_theme form with easyadmin_config('design.form_theme') %}#}
+{% set _content_title = '' %}{% block page_title -%}
+    {{ _content_title }}
+{%- endblock %}{% block content_header %}
+    <h1 class="title">{{ _content_title }}</h1>
+{% endblock %}
+{% block main %}
+    <script>
+        $(document).ready(function () {
+            $('.checkbox-js').on('click', function() {
+                console.log('atejo');
+                console.log($(this).find('.check').val());
+                if($(this).find('.check').val()>0) {
+                    console.log('ATEJO i g');
+                    $(this).find('.check').val(0);
+                }
+                else {
+
+                    console.log('ATEJO i bloga');
+                    $(this).find('.check').val(1);
+
+
+                }
+
+            })})
+        ///////////////////////////////////////
+
+
+    </script>
+    <style>
+        .btn span.glyphicon {
+            opacity: 1;
+        }
+        .btn.active span.glyphicon {
+            opacity: 0;
+        }
+        input[type=text] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid green;
+            border-radius: 2px;
+        }
+
+        .myButton {
+            background-color:green;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid green;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:19px;
+            padding:3px 9px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #2f6627;
+        }
+        .myButton:hover {
+            background-color:green;
+        }
+        .myButton:active {
+            position:relative;
+            top:1px;
+        }
+
+        @font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url(../fonts/glyphicons-halflings-regular.eot);
+            src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(../fonts/glyphicons-halflings-regular.woff) format('woff'), url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+    </style>
+    <form action="/makeoffer" method="post">
+        <input type="text" name="clientName"/>
+        <input type="text" name="clientEmail"/>
+        {% for template in templateItems %}
+            <div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-success active checkbox-js">
+                        <input type="checkbox" />
+                        <input type="hidden" class="check" value="0" name='active[{{ template.id }}]'/>
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </label>
+                </div>
+                {{ template.title }} {{ template.price }}
+            </div>
+        {% endfor %}
+        <input type="submit"/>
+    </form>
+{% endblock %}

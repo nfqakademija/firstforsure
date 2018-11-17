@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Offer;
+use App\Entity\OfferTemplate;
 use App\Entity\Position;
 use App\Entity\PositionTemplate;
 use App\Entity\Template;
@@ -128,82 +130,47 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/positiondata2", name="positionData2")
+     * @Route("/makeoffer", name="makeoffer")
      */
-    public function addTemplate(Request $request)
+    public function makeOffer(Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+        $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
 
-        $templateRepo = $this->getDoctrine()->getRepository(Template::class);
         $active = $request->get('active');
 
-        $templateId = $request->get('id');
-
-        if ($templateId == 0) {
-            $template = new Template();
-        } else {
-            $template = $templateRepo->find($templateId);
+        foreach($active as $key => $value)
+        {
+            if($value === "0")
+            {
+                unset($active[$key]);
+            }
         }
-        $template->setTitle($request->get('title'));
 
-        $entityManager->persist($template);
-        $entityManager->flush();
+        if($active !== null) {
+            $offerId = $request->get('id');
 
-        $posTemplates = $template->getPositionTemplates();
-        if ($active !== null) {
+            if ($offerId == 0) {
+                $offer = new Offer();
+            } else {
+                $offer = $offerRepo->find($offerId);
+            }
+
+            $offer->setClientEmail($request->get('clientEmail'));
+            $offer->setClientName($request->get('clientName'));
+            $em->flush();
             foreach ($active as $key => $value) {
-                if (!$value) {
-                    continue;
-                }
-                $exists = false;
-                $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
-                $templatePosition = new PositionTemplate();
-                $templatePosition->setEdited(true);
-                $templatePosition->setTemplate($template)
-                    ->setPosition($position)
-                    ->setCount((int)$request->get('count')[$key]);
-                $position->setCount((int)$request->get('count')[$key]);
-                $entityManager->persist($templatePosition);
-                foreach ($posTemplates as $key2 => $value2) {
-                    if ($value2->getPosition() === $position) {
-                        $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
-                        $value2->setPosition($position);
-                        $value2->setEdited(true);
-                        $value2->setCount((int)$request->get('count')[$key]);
-                        $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
-                        $template->minusPrice($oldPrice);
-                        $template->addPrice($newPrice);
-                        $exists = true;
-                        break;
-                    }
-                }
-                if (!$exists) {
-                    $template->addPositionTemplate($templatePosition);
+                $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
+                $templateOffer = new OfferTemplate();
+                $templateOffer->setOffer($offer)
+                    ->setTemplate($template);
+                $offer->addOfferTemplate($templateOffer);
 
-                    $template->addPrice((float)$request->get('sum')[$key]);
-                    $entityManager->persist($templatePosition);
-                    $entityManager->persist($template);
-                }
+                $em->persist($templateOffer);
+                $em->persist($offer);
             }
-        } else {
-            if ($posTemplates !== null) {
-                foreach ($posTemplates as $templ) {
-                    $template->removePositionTemplate($templ);
-                }
-                $template->setPrice(0);
-            }
+            $em->flush();
         }
-        $posTemplates = $template->getPositionTemplates();
-        foreach ($posTemplates as $pos => $val) {
-            if ($val->getEdited() === null) {
-                $price = $val->getCount() * $val->getPosition()->getPrice();
-                $template->minusPrice($price);
-                $template->removePositionTemplate($val);
-            }
-        }
-        $entityManager->persist($template);
-        $entityManager->flush();
-
         return $this->redirectToRoute('admin');
     }
 
