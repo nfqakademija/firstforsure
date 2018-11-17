@@ -52,10 +52,8 @@ class HomeController extends Controller
         $templateRepo = $this->getDoctrine()->getRepository(Template::class);
         $active = $request->get('active');
 
-        foreach($active as $key => $value)
-        {
-            if($value === "0")
-            {
+        foreach ($active as $key => $value) {
+            if ($value === "0") {
                 unset($active[$key]);
             }
         }
@@ -75,11 +73,9 @@ class HomeController extends Controller
         $posTemplates = $template->getPositionTemplates();
 
         if ($active != null) {
-            foreach($posTemplates as $key => $value)
-            {
+            foreach ($posTemplates as $key => $value) {
                 $index = $value->getPosition()->getId();
-                if(!in_array($index, $active))
-                {
+                if (!in_array($index, $active)) {
                     $price = $value->getCount() * $value->getPosition()->getPrice();
                     $template->minusPrice($price);
                     $em->remove($value);
@@ -139,15 +135,13 @@ class HomeController extends Controller
 
         $active = $request->get('active');
 
-        foreach($active as $key => $value)
-        {
-            if($value === "0")
-            {
+        foreach ($active as $key => $value) {
+            if ($value === "0") {
                 unset($active[$key]);
             }
         }
 
-        if($active !== null) {
+        if ($active !== null) {
             $offerId = $request->get('id');
 
             if ($offerId == 0) {
@@ -158,6 +152,12 @@ class HomeController extends Controller
 
             $offer->setClientEmail($request->get('clientEmail'));
             $offer->setClientName($request->get('clientName'));
+
+            $time = new \DateTime();
+
+            $hash = md5($request->get('clientEmail').$time->format('Y-m-d'));
+
+            $offer->setMd5($hash);
             $em->flush();
             foreach ($active as $key => $value) {
                 $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
@@ -170,8 +170,50 @@ class HomeController extends Controller
                 $em->persist($offer);
             }
             $em->flush();
+            return $this->redirectToRoute('readoffer', ['md5' => $offer->getMd5()]);
         }
+    }
+
+
+    /**
+     * @Route("/sendmail", name="sendmail")
+     */
+    public function mail(\Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('zrvtzrvt@gmail.com')
+            ->setTo('gudauskas.osvaldas@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/registration.html.twig',
+                    array('name' => $name)
+                ),
+                'text/html'
+            )/*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        //$mailer->send($message);
         return $this->redirectToRoute('admin');
+    }
+
+    /**
+     * @Route("/readoffer/{md5}", name="readoffer")
+     */
+    public function reademail($md5){
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+
+        $offer = $repo->findByMd5($md5);
+        dump($offer);exit;
     }
 
     /**

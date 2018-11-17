@@ -25,6 +25,11 @@ class Offer
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $md5;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     private $clientEmail;
@@ -48,6 +53,24 @@ class Offer
     {
         $this->offerTemplates = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMd5()
+    {
+        return $this->md5;
+    }
+
+    /**
+     * @param mixed $md5
+     */
+    public function setMd5($md5): void
+    {
+        $this->md5 = $md5;
+    }
+
+
 
     /**
      * @return mixed
