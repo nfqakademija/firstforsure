@@ -102,19 +102,15 @@
                     <input name="id" hidden value="{{ id }}" />
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="exampleInputName2">Client Name</label>
+                        <label for="clientName">Client Name</label>
                         <input type="text" class="form-control" placeholder="Petras Petraitis" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail2">Email</label>
+                        <label for="clientEmail">Email</label>
                         <input type="text" class="form-control" placeholder="petras@petras.com" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail2">Templates</label>
-                        <input type="text" class="form-control" id="exampleInputEmail2" placeholder="petras@petras.com">
-                    </div>
                     <div class="form-group ">
-                        <label for="exampleInputText">Your Message</label>
+                        <label for="clientMessage">Your Message</label>
                         <textarea type="text"  class="form-control" placeholder="Description" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
                     </div>
 
