@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {#{% form_theme form with easyadmin_config('design.form_theme') %}#}
-{% set _content_title = '' %}{% block page_title -%}
+{% set _content_title = 'Offer' %}{% block page_title -%}
     {{ _content_title }}
 {%- endblock %}{% block content_header %}
     <h1 class="title">{{ _content_title }}</h1>
@@ -36,6 +36,15 @@
             opacity: 0;
         }
         input[type=text] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid green;
+            border-radius: 2px;
+        }
+
+        textarea[type=text] {
             width: 50%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -86,15 +95,33 @@
         }
 
     </style>
-    <form action="/makeoffer" method="post">
-        <input name="id" hidden value="{{ id }}" />
-        <label>Client name</label>
-        <input type="text" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}/>
-        <br>
-        <label>Client Email</label>
-        <input type="text" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form action="/makeoffer" method="post">
+                    <input name="id" hidden value="{{ id }}" />
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="exampleInputName2">Client Name</label>
+                        <input type="text" class="form-control" placeholder="Petras Petraitis" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">Email</label>
+                        <input type="text" class="form-control" placeholder="petras@petras.com" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">Templates</label>
+                        <input type="text" class="form-control" id="exampleInputEmail2" placeholder="petras@petras.com">
+                    </div>
+                    <div class="form-group ">
+                        <label for="exampleInputText">Your Message</label>
+                        <textarea type="text"  class="form-control" placeholder="Description" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
+                    </div>
+
+
+        <div class="row">
         {% for template in templateItems %}
-            <div>
+            <div class="col-sm-4">
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-success {% if template.active is null %} active {% endif %} checkbox-js">
                         <input type="checkbox" />
@@ -103,9 +130,17 @@
                     </label>
                 </div>
                 {{ template.title }} {{ template.price }}
+                <p></p>
             </div>
+
         {% endfor %}
-        <input type="text" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}/>
-        <input type="submit"/>
-    </form>
+
+
+</div>
+            <p>
+                <button type="submit" class="myButton">Send Offer</button>
+            </p>
+
+                </form>
+
 {% endblock %}
