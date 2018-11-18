@@ -33,9 +33,13 @@ easy_admin:
       class: App\Entity\Offer
       controller: App\Controller\Admin\OfferAdminController
       list:
+        actions:
+        - { name: 'send', icon: 'search' }
+        - { name: 'edit', icon: 'pencil' }
         fields:
         - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
+        - { label: 'Šablonai', property: 'templateList'}
 
     # List the entity class name you want to manage
 #        - App\Entity\Position

@@ -1,0 +1,7 @@
+{% block main %}
+    <h1>There is {{ offer.clientName }} Offer</h1>
+    <h2>Offer Templates and total price</h2>
+    {% for template in offer.offerTemplates %}
+        <div>{{ template.template.title }} --- {{ template.template.price }}</div>
+    {% endfor %}
+{% endblock %}

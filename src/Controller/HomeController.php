@@ -52,10 +52,8 @@ class HomeController extends Controller
         $templateRepo = $this->getDoctrine()->getRepository(Template::class);
         $active = $request->get('active');
 
-        foreach($active as $key => $value)
-        {
-            if($value === "0")
-            {
+        foreach ($active as $key => $value) {
+            if ($value === "0") {
                 unset($active[$key]);
             }
         }
@@ -75,11 +73,9 @@ class HomeController extends Controller
         $posTemplates = $template->getPositionTemplates();
 
         if ($active != null) {
-            foreach($posTemplates as $key => $value)
-            {
+            foreach ($posTemplates as $key => $value) {
                 $index = $value->getPosition()->getId();
-                if(!in_array($index, $active))
-                {
+                if (!in_array($index, $active)) {
                     $price = $value->getCount() * $value->getPosition()->getPrice();
                     $template->minusPrice($price);
                     $em->remove($value);
@@ -136,42 +132,117 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
+        $templRepo = $this->getDoctrine()->getRepository(Template::class);
 
         $active = $request->get('active');
 
-        foreach($active as $key => $value)
-        {
-            if($value === "0")
-            {
+        foreach ($active as $key => $value) {
+            if ($value === "0") {
                 unset($active[$key]);
             }
         }
 
-        if($active !== null) {
-            $offerId = $request->get('id');
+        $offerId = $request->get('id');
 
-            if ($offerId == 0) {
-                $offer = new Offer();
-            } else {
-                $offer = $offerRepo->find($offerId);
-            }
-
-            $offer->setClientEmail($request->get('clientEmail'));
-            $offer->setClientName($request->get('clientName'));
-            $em->flush();
-            foreach ($active as $key => $value) {
-                $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
-                $templateOffer = new OfferTemplate();
-                $templateOffer->setOffer($offer)
-                    ->setTemplate($template);
-                $offer->addOfferTemplate($templateOffer);
-
-                $em->persist($templateOffer);
-                $em->persist($offer);
-            }
-            $em->flush();
+        if ($offerId == 0) {
+            $offer = new Offer();
+        } else {
+            $offer = $offerRepo->find($offerId);
         }
+
+        $offer->setClientEmail($request->get('clientEmail'));
+        $offer->setClientName($request->get('clientName'));
+        $offer->setMessage($request->get('message'));
+
+        $time = new \DateTime();
+
+        $hash = md5($request->get('clientEmail').$time->format('Y-m-d H:i:s'));
+
+        $offer->setMd5($hash);
+        $em->flush();
+        $offerTemplates = $offer->getOfferTemplates();
+
+        if ($active !== null) {
+            foreach ($offerTemplates as $key => $value) {
+                $index = $value->getTemplate()->getId();
+                if (!in_array($index, $active)) {
+                    $em->remove($value);
+                    $em->flush();
+                }
+            }
+
+            foreach ($active as $key => $value) {
+                $exists = false;
+                $template = $templRepo->find($key);
+                foreach ($offerTemplates as $key2 => $value2) {
+                    if ($value2->getTemplate() === $template) {
+                        $exists = true;
+                        dump($value2);
+                        break;
+                    }
+                }
+                if(!$exists) {
+                    $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
+                    $templateOffer = new OfferTemplate();
+                    $templateOffer->setOffer($offer)
+                        ->setTemplate($template);
+                    $offer->addOfferTemplate($templateOffer);
+                    
+                    $em->persist($templateOffer);
+                    $em->persist($offer);
+                }
+            }
+            $em->flush();
+            return $this->redirectToRoute('admin');
+            //return $this->redirectToRoute('sendmail', ['md5' => $offer->getMd5()]);
+        }
+    }
+
+
+    /**
+     * @Route("/sendmail/{md5}", name="sendmail")
+     */
+    public function mail(\Swift_Mailer $mailer, $md5)
+    {
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+
+        $offer = $repo->findByMd5($md5);
+
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('zrvtzrvt@gmail.com')
+            ->setTo('gudauskas.osvaldas@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'admin/offer/mail.html.twig',
+                    array('link' => '127.0.0.1:8000/readoffer/'.$md5, 'offer' => $offer[0])
+                ),
+                'text/html'
+            )/*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        $mailer->send($message);
         return $this->redirectToRoute('admin');
+    }
+
+
+    public function reademail($md5){
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+
+        $offer = $repo->findByMd5($md5);
+
+        return $this->render('admin/offer/useroffer.html.twig', [
+            'offer' => $offer[0]
+        ]);
     }
 
     /**

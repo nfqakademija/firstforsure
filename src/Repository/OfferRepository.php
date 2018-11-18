@@ -19,6 +19,16 @@ class OfferRepository extends ServiceEntityRepository
         parent::__construct($registry, Offer::class);
     }
 
+    public function findByMd5($md5)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.md5 = :val')
+            ->setParameter('val', $md5)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Position[] Returns an array of Position objects
     //  */
