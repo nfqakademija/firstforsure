@@ -107,6 +107,7 @@ class HomeController extends Controller
                     $template->addPositionTemplate($templatePosition);
 
                     $template->addPrice((float)$request->get('sum')[$key]);
+
                     $em->persist($templatePosition);
                     $em->persist($template);
                 }
@@ -153,6 +154,7 @@ class HomeController extends Controller
         $offer->setClientEmail($request->get('clientEmail'));
         $offer->setClientName($request->get('clientName'));
         $offer->setMessage($request->get('message'));
+        $offer->setStatus('Sukurtas');
 
         $time = new \DateTime();
 
@@ -186,6 +188,7 @@ class HomeController extends Controller
                     $templateOffer = new OfferTemplate();
                     $templateOffer->setOffer($offer)
                         ->setTemplate($template);
+                    $templateOffer->setStatus("AddedToOffer");
                     $offer->addOfferTemplate($templateOffer);
                     
                     $em->persist($templateOffer);

@@ -1292,8 +1292,8 @@
                     <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
                     <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
                     <td><p align="center"><input class="positionViews" type="text" disabled value="{{ position.reach }}"/></td></p>
-                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} disabled value={{ position.price*position.count }}></td></p>
-                    <td><p align="center"><input  class="sum2" name="sum[{{ position.id }}]" type="text" data-reach={{ position.reach}} disabled value={{ position.reach*position.count }}></td></p>
+                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
+                    <td><p align="center"><input  class="sum2" name="sum[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach*position.count }}></td></p>
 
                 </tr>
 

@@ -40,6 +40,7 @@ easy_admin:
         - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
+        - { label: 'Statusas', property: 'status' }
 
     # List the entity class name you want to manage
 #        - App\Entity\Position

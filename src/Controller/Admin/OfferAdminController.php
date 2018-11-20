@@ -55,6 +55,8 @@ class OfferAdminController extends BaseAdminController
 
     public function sendAction()
     {
+        $em = $this->getDoctrine()->getManager();
+
         $mailer = $this->get('mailer');
         //$transport = new \Swift_SmtpTransport('smtp.gmail.com',,'ssl')
 
@@ -63,6 +65,16 @@ class OfferAdminController extends BaseAdminController
         $repo = $this->getDoctrine()->getRepository(Offer::class);
 
         $offer = $repo->find($id);
+
+        foreach($offer->getOfferTemplates() as $key => $value)
+        {
+            $value->setStatus('Sent');
+        }
+
+        $offer->setStatus('Išsiųstas');
+
+        $em->persist($offer);
+        $em->flush();
 
         $message = (new \Swift_Message('Žalgirio reklamos pasiūlymas'))
             ->setFrom('zrvtzrvt@gmail.com')

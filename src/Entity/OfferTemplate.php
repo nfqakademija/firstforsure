@@ -23,6 +23,11 @@ class OfferTemplate
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $status;
+
+    /**
      * @var Template
      * @ORM\ManyToOne(targetEntity="App\Entity\Template")
      * @ORM\JoinColumn(nullable=false)
@@ -50,6 +55,22 @@ class OfferTemplate
     public function setId($id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
     }
 
     /**
