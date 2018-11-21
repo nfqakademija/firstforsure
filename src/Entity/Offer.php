@@ -67,6 +67,7 @@ class Offer
     public function __construct()
     {
         $this->offerTemplates = new ArrayCollection();
+        $this->viewed = New \DateTime();
     }
 
     /**
