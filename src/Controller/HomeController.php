@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BoughtTemplate;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
 use App\Entity\Position;
@@ -66,6 +67,7 @@ class HomeController extends Controller
             $template = $templateRepo->find($templateId);
         }
         $template->setTitle($request->get('title'));
+        $template->setStatus('Parduodama');
 
         $em->persist($template);
         $em->flush();
@@ -158,7 +160,7 @@ class HomeController extends Controller
 
         $time = new \DateTime();
 
-        $hash = md5($request->get('clientEmail').$time->format('Y-m-d H:i:s'));
+        $hash = md5($request->get('clientEmail') . $time->format('Y-m-d H:i:s'));
 
         $offer->setMd5($hash);
         $em->flush();
@@ -183,14 +185,14 @@ class HomeController extends Controller
                         break;
                     }
                 }
-                if(!$exists) {
+                if (!$exists) {
                     $template = $this->getDoctrine()->getRepository(Template::class)->find($key);
                     $templateOffer = new OfferTemplate();
                     $templateOffer->setOffer($offer)
                         ->setTemplate($template);
                     $templateOffer->setStatus("AddedToOffer");
                     $offer->addOfferTemplate($templateOffer);
-                    
+
                     $em->persist($templateOffer);
                     $em->persist($offer);
                 }
@@ -218,7 +220,7 @@ class HomeController extends Controller
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
-                    array('link' => '127.0.0.1:8000/readoffer/'.$md5, 'offer' => $offer[0])
+                    array('link' => '127.0.0.1:8000/readoffer/' . $md5, 'offer' => $offer[0])
                 ),
                 'text/html'
             )/*
@@ -238,14 +240,56 @@ class HomeController extends Controller
     }
 
 
-    public function reademail($md5){
+    public function reademail($md5)
+    {
+        $em = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository(Offer::class);
 
         $offer = $repo->findByMd5($md5);
 
+        $offer[0]->setStatus('Peržiūrėtas');
+        $em->persist($offer[0]);
+        $em->flush();
+
         return $this->render('admin/offer/useroffer.html.twig', [
             'offer' => $offer[0]
         ]);
+    }
+
+    /**
+     * @Route("/acceptoffer", name="acceptoffer")
+     */
+    public function acceptOffer(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $boughtTempl = new BoughtTemplate();
+        $em->persist($boughtTempl);
+        $offerTemplRepo = $em->getRepository(OfferTemplate::class);
+        $acceptedId = $request->get('accept');
+
+        $acceptedOT = $offerTemplRepo->find($acceptedId);
+
+        $boughtOffer = $acceptedOT->getOffer();
+        $boughtOffer->setStatus('Parduota');
+        $boughtTemplate = new Template();
+        $boughtTemplate->setPrice($acceptedOT->getTemplate()->getPrice());
+        $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
+        $boughtTemplate->setStatus('Nupirkta');
+
+        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $key => $value) {
+            $boughtTemplate->addPositionTemplate($value);
+        }
+
+        $em->persist($boughtOffer);
+        $em->persist($boughtTemplate);
+
+        $boughtTempl->setOffer($boughtOffer);
+        $boughtTempl->setTemplate($boughtTemplate);
+
+        $em->persist($boughtTempl);
+        $em->flush();
+
+        return $this->redirectToRoute('admin');
     }
 
     /**

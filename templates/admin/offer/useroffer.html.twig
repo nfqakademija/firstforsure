@@ -727,9 +727,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left" type="button"
-                                id="btn-check-offers">
-                            <i class="fa fa-calculator"></i>Accept Offer</button>
+                        <form action="/acceptoffer" method="post">
+                            <input hidden name="offerid" value="{{ offer.id }}"/>
+                        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left" type="submit"
+                                id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
+                            <i class="fa fa-calculator"></i>Accept Offer {{ offerTemplate.id }}</button>
+                        </form>
 
                         <div class="col-md-12" style="text-align: center;">
                             <div class="alert alert-danger error-label" style="display: none; text-align: center;"

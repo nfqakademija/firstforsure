@@ -11,6 +11,8 @@ easy_admin:
     - { entity: Position }
     - { entity: Template }
     - { entity: Offer }
+    - { entity: SoldOffer }
+    - { entity: BoughtTemplate }
   entities:
     Position:
       class: App\Entity\Position
@@ -25,6 +27,7 @@ easy_admin:
       class: App\Entity\Template
       controller: App\Controller\Admin\TemplateAdminController
       list:
+        dql_filter: "entity.status != 'Nupirkta'"
         fields:
         - { label: 'Pavadinimas', property: 'title' }
         - { label: 'Pozicijos', property: 'positionTitle' }
@@ -33,6 +36,7 @@ easy_admin:
       class: App\Entity\Offer
       controller: App\Controller\Admin\OfferAdminController
       list:
+        dql_filter: "entity.status != 'Parduota'"
         actions:
         - { name: 'send', icon: 'search' }
         - { name: 'edit', icon: 'pencil' }
@@ -41,6 +45,25 @@ easy_admin:
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
         - { label: 'Statusas', property: 'status' }
+    SoldOffer:
+      class: App\Entity\Offer
+      controller: App\Controller\Admin\OfferAdminController
+      actions:
+      - { name: 'show', icon: 'search' }
+      disabled_actions: ['edit', 'delete']
+      list:
+        dql_filter: "entity.status = 'Parduota'"
+        fields:
+        - { label: 'Gavėjo email', property: 'clientEmail' }
+        - { label: 'Gavėjas', property: 'clientName' }
+        - { label: 'Šablonai', property: 'templateList'}
+        - { label: 'Statusas', property: 'status' }
+    BoughtTemplate:
+      class: App\Entity\BoughtTemplate
+      list:
+        fields:
+        - { label: 'Pasiūlymas', property: 'offer' }
+        - { label: 'Šablonas', property: 'template' }
 
     # List the entity class name you want to manage
 #        - App\Entity\Position

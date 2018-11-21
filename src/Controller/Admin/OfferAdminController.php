@@ -19,7 +19,7 @@ class OfferAdminController extends BaseAdminController
         // creates a task and gives it some dummy data for this example
         $repo = $this->getDoctrine()->getRepository(Template::class);
 
-        $templateItems = $repo->findAll();
+        $templateItems = $repo->findForSale('Nupirkta');
 
         return $this->render('admin/offer/edit.html.twig', [
             'offer' => new Offer(),
@@ -37,7 +37,7 @@ class OfferAdminController extends BaseAdminController
         $activeOffer = $offerRepo->find($id);
 
         $activeOfferItems = $activeOffer->getOfferTemplates();
-        $templateItems = $templRepo->findAll();
+        $templateItems = $templRepo->findForSale('Nupirkta');
 
         foreach($templateItems as $key => $value) {
             foreach ($activeOfferItems as $key2 => $value2) {

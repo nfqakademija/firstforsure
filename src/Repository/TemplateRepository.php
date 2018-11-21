@@ -19,6 +19,19 @@ class TemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, Template::class);
     }
 
+    public function findForSale($status)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.status != :val')
+            ->setParameter('val', $status)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
     // /**
     //  * @return Position[] Returns an array of Position objects
     //  */
