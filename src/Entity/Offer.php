@@ -45,6 +45,16 @@ class Offer
     private $message;
 
     /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $viewed;
+
+    /**
      * @var OfferTemplate[]
      *
      * @ORM\OneToMany(targetEntity="App\Entity\OfferTemplate", mappedBy="offer", orphanRemoval=true)
@@ -57,6 +67,38 @@ class Offer
     public function __construct()
     {
         $this->offerTemplates = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
+
+    /**
+     * @param mixed $viewed
+     */
+    public function setViewed($viewed): void
+    {
+        $this->viewed = $viewed;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
     }
 
 

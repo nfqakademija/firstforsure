@@ -42,6 +42,11 @@ class Template
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $status;
+
     private $active;
 
     /**
@@ -51,6 +56,22 @@ class Template
     {
         $this->positionTemplates = new ArrayCollection();
         $this->price = 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
     }
 
     /**

@@ -19,7 +19,7 @@ class OfferAdminController extends BaseAdminController
         // creates a task and gives it some dummy data for this example
         $repo = $this->getDoctrine()->getRepository(Template::class);
 
-        $templateItems = $repo->findAll();
+        $templateItems = $repo->findForSale('Nupirkta');
 
         return $this->render('admin/offer/edit.html.twig', [
             'offer' => new Offer(),
@@ -37,7 +37,7 @@ class OfferAdminController extends BaseAdminController
         $activeOffer = $offerRepo->find($id);
 
         $activeOfferItems = $activeOffer->getOfferTemplates();
-        $templateItems = $templRepo->findAll();
+        $templateItems = $templRepo->findForSale('Nupirkta');
 
         foreach($templateItems as $key => $value) {
             foreach ($activeOfferItems as $key2 => $value2) {
@@ -55,6 +55,8 @@ class OfferAdminController extends BaseAdminController
 
     public function sendAction()
     {
+        $em = $this->getDoctrine()->getManager();
+
         $mailer = $this->get('mailer');
         //$transport = new \Swift_SmtpTransport('smtp.gmail.com',,'ssl')
 
@@ -63,6 +65,16 @@ class OfferAdminController extends BaseAdminController
         $repo = $this->getDoctrine()->getRepository(Offer::class);
 
         $offer = $repo->find($id);
+
+        foreach($offer->getOfferTemplates() as $key => $value)
+        {
+            $value->setStatus('Sent');
+        }
+
+        $offer->setStatus('Išsiųstas');
+
+        $em->persist($offer);
+        $em->flush();
 
         $message = (new \Swift_Message('Žalgirio reklamos pasiūlymas'))
             ->setFrom('zrvtzrvt@gmail.com')
