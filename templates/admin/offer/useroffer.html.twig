@@ -1,7 +1,230 @@
 {% block main %}
-    <h1>There is {{ offer.clientName }} Offer</h1>
-    <h2>Offer Templates and total price</h2>
-    {% for template in offer.offerTemplates %}
-        <div>{{ template.template.title }} --- {{ template.template.price }} --- {{ template.status }}</div>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+
+        body
+        {
+            background-color: #D3D3D3;
+        }
+        a:hover, a:active, a:focus
+        {
+            outline: 0;
+        }
+        button:focus
+        {
+            outline: 0;
+        }
+        .offer-container
+        {
+            width: 720px;
+            margin-top: 7%;
+        }
+        .col-md-9, .col-md-3
+        {
+            padding: 0px;
+        }
+        .container
+        {
+            padding-right: 1px;
+            padding-left: 1px;
+        }
+        .center
+        {
+            width: 100px;
+        }
+        .font16
+        {
+            font-size: 16px;
+            color: Green;
+        }
+        .panel
+        {
+            box-shadow: 10px 10px 5px #888888;
+        }
+        .panel-body
+        {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .error-label
+        {
+            margin-top: 15px;
+        }
+        .alignright
+        {
+            text-align: right;
+            float: right;
+        }
+        .font18
+        {
+            font-size: 24px;
+            color: Green;
+            font-weight: bolder;
+        }
+        @media screen and (max-width: 767px)
+        {
+            .offer-container
+            {
+                margin-top: 0px;
+                width: auto;
+            }
+            h2
+            {
+                font-size: 20px;
+            }
+            .panel
+            {
+                box-shadow: none;
+            }
+            .error-label
+            {
+                margin-left: -15px;
+                margin-top: 5px;
+            }
+        }
+
+    </style>
+
+
+    {% for offerTemplate in offer.offerTemplates %}
+
+    <div class="container" align="center" top="20">
+        <div class="offer-container">
+            <div class="panel panel-primary" align="center">
+                <div class="panel-heading">
+                    <h2>
+                        <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table class="table table-striped plansTable">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Kiekis
+                                    </th>
+                                    <th>
+                                        Produktas
+                                    </th>
+                                    <th>
+                                        Kaina
+                                    </th>
+                                    <th>
+                                        Perziuros
+                                    </th>
+                                    <th>
+                                        P/K
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for offerTemplatePosition in offerTemplate.template.positionTemplates %}
+                                <tr>
+                                    <div class="center">
+                                        <td><label>{{  offerTemplatePosition.count }}</label></td>
+                                        <td><label>{{ offerTemplatePosition.position.name }}</label></td>
+                                        <td><label>{{  offerTemplatePosition.position.price }}</label></td>
+                                        <td><label>{{  offerTemplatePosition.position.reach }}</label></td>
+                                        <td><label>{{ offerTemplatePosition.position.divide() }}</label></td>
+                                    </div>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left" type="button"
+                                id="btn-check-offers">
+                            <i class="fa fa-calculator"></i>Accept Offer</button>
+
+                        <div class="col-md-12" style="text-align: center;">
+                            <div class="alert alert-danger error-label" style="display: none; text-align: center;"
+                                 role="alert">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table" style="margin-left: -25px;">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <label class=" font16">
+                                        Rezultatai</label>
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label class=" font16">
+                                        Kaina</label>
+                                </td>
+                                <td>
+                                    <i class="fa fa-inr font18"></i>
+                                </td>
+                                <td>
+                                    <label id="Label3" class="txtTotal font18 alignright">
+                                        0
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="font16">
+                                        Perziuros</label>
+                                </td>
+                                <td>
+                                    <i class="fa fa-inr font18"></i>
+                                </td>
+                                <td>
+                                    <label id="Label4" class="txtDiscount font18 alignright">
+                                        0
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="font16">
+                                        Perziuros kaina</label>
+                                </td>
+                                <td>
+                                    <i class="fa fa-inr font18"></i>
+                                </td>
+                                <td>
+                                    <label id="Label5" class="txtNetPayable font18 alignright">
+                                        0
+                                    </label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    </div>
+    </div>
+    </div>
     {% endfor %}
+
+
+
+
 {% endblock %}

@@ -54,6 +54,13 @@ class Position
         $this->count = 0;
     }
 
+    public function divide () {
+        if ($this->getReach()==0){
+            return 0;
+        }
+        return number_format($this->getPrice()/$this->getReach(),2);
+    }
+
     /**
      * @return mixed
      */
