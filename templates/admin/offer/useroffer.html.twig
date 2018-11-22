@@ -278,6 +278,12 @@
 
     <div class="container content">
         <div class="row">
+            <div>
+                Sveiki, {{ offer.clientName }} ({{ offer.clientEmail }})
+            </div>
+            <div>
+                {{ offer.message }}
+            </div>
             {% for offerTemplate in offer.offerTemplates %}
 
                 <!-- Pricing -->
@@ -287,7 +293,7 @@
                             <h3>
                                 {{ offerTemplate.template.title }}
                             </h3>
-                            <h4><i>$</i>{{ offerTemplate.template.price }}
+                            <h4><i>Kaina €</i>{{ offerTemplate.template.price }}
                             </h4>
                         </div>
                         <ul class="pricing-content list-unstyled">
@@ -304,7 +310,7 @@
                                 Patikima
                             </li>
                             <li>
-                                Zalia
+                                Žalia
                             </li>
                         </ul>
                         <div class="pricing-footer">
@@ -420,7 +426,7 @@
                                         </td>
                                         <td>
                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                0
+                                                {{ offerTemplate.template.price }}
                                             </label>
                                         </td>
                                     </tr>
@@ -434,7 +440,7 @@
                                         </td>
                                         <td>
                                             <label id="Label4" class="txtDiscount font18 alignright">
-                                                0
+                                                {{ offerTemplate.template.reach }}
                                             </label>
                                         </td>
                                     </tr>
@@ -448,7 +454,7 @@
                                         </td>
                                         <td>
                                             <label id="Label5" class="txtNetPayable font18 alignright">
-                                                0
+                                                {{ offerTemplate.template.divide() }}
                                             </label>
                                         </td>
                                     </tr>

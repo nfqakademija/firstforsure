@@ -32,6 +32,7 @@ easy_admin:
         - { label: 'Pavadinimas', property: 'title' }
         - { label: 'Pozicijos', property: 'positionTitle' }
         - { label: 'Kaina', property: 'price' }
+        - { label: 'Reach', property: 'reach' }
     Offer:
       class: App\Entity\Offer
       controller: App\Controller\Admin\OfferAdminController

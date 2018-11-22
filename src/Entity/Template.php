@@ -43,6 +43,11 @@ class Template
     private $price;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $reach;
+
+    /**
      * @ORM\Column(type="string", length=50)
      */
     private $status;
@@ -56,6 +61,7 @@ class Template
     {
         $this->positionTemplates = new ArrayCollection();
         $this->price = 0;
+        $this->reach = 0;
     }
 
     /**
@@ -127,9 +133,36 @@ class Template
     }
 
 
+    public function addReach($reach): void
+    {
+        $this->reach += $reach;
+    }
+
+    public function minusReach($reach): void
+    {
+        $this->reach -= $reach;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReach()
+    {
+        return $this->reach;
+    }
+
+    /**
+     * @param mixed $reach
+     */
+    public function setReach($reach): void
+    {
+        $this->reach = $reach;
     }
 
     public function getTitle(): ?string
@@ -193,5 +226,12 @@ class Template
 //            }
         }
         return $positions;
+    }
+
+    public function divide () {
+        if ($this->getReach()==0){
+            return 0;
+        }
+        return number_format($this->getPrice()/$this->getReach(),4);
     }
 }

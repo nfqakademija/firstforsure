@@ -1,0 +1,8 @@
+{% block main %}
+    {% if errorType == 1 %}
+        <h1 style="color:red;">Šis užsakymas jau įvykdytas!!!</h1>
+    {% endif %}
+    {% if errorType == 2 %}
+        <h1 style="color:red;">Užsakymas neegzistuoja arba pasibaigė užsakymo laikas!!!</h1>
+    {% endif %}
+{% endblock %}

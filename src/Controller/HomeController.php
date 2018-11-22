@@ -96,11 +96,15 @@ class HomeController extends Controller
                 foreach ($posTemplates as $key2 => $value2) {
                     if ($value2->getPosition() === $position) {
                         $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $oldReach = $value2->getCount() * $value2->getPosition()->getReach();
                         $value2->setPosition($position);
                         $value2->setCount((int)$request->get('count')[$key]);
                         $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $newReach = $value2->getCount() * $value2->getPosition()->getReach();
                         $template->minusPrice($oldPrice);
                         $template->addPrice($newPrice);
+                        $template->minusReach($oldReach);
+                        $template->addReach($newReach);
                         $exists = true;
                         break;
                     }
@@ -109,6 +113,7 @@ class HomeController extends Controller
                     $template->addPositionTemplate($templatePosition);
 
                     $template->addPrice((float)$request->get('sum')[$key]);
+                    $template->addReach((float)$request->get('sum2')[$key]);
 
 
                     $em->persist($templatePosition);
@@ -121,6 +126,7 @@ class HomeController extends Controller
                     $template->removePositionTemplate($templ);
                 }
                 $template->setPrice(0);
+                $template->setReach(0);
             }
         }
 
@@ -248,6 +254,13 @@ class HomeController extends Controller
 
         $offer = $repo->findByMd5($md5);
 
+        if(!$offer)
+        {
+            return $this->render('admin/offer/error.html.twig', [
+                'errorType' => 2
+            ]);
+        }
+
         if($offer[0]->getStatus() != 'Parduota') {
 
             $offer[0]->setStatus('Peržiūrėtas');
@@ -260,7 +273,9 @@ class HomeController extends Controller
         }
         else
         {
-            return $this->redirectToRoute('admin');
+            return $this->render('admin/offer/error.html.twig', [
+                'errorType' => 1
+                ]);
         }
     }
 

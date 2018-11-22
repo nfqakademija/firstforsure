@@ -134,7 +134,7 @@
                         <span class="glyphicon glyphicon-ok"></span>
                     </label>
                 </div>
-                {{ template.title }} {{ template.id}}
+                {{ template.title }} {{ template.price}}
 
                 <a href="#{{ template.id }}" data-toggle="modal"
                    data-target="#{{ template.id }}"><span class="glyphicon glyphicon-expand"></span></a>
@@ -232,7 +232,7 @@
                                                         </td>
                                                         <td>
                                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                                0
+                                                                {{ templated.price}}
                                                             </label>
                                                         </td>
                                                     </tr>
@@ -246,7 +246,7 @@
                                                         </td>
                                                         <td>
                                                             <label id="Label4" class="txtDiscount font18 alignright">
-                                                                0
+                                                                {{ templated.reach }}
                                                             </label>
                                                         </td>
                                                     </tr>
@@ -260,7 +260,7 @@
                                                         </td>
                                                         <td>
                                                             <label id="Label5" class="txtNetPayable font18 alignright">
-                                                                0
+                                                                {{ templated.divide() }}
                                                             </label>
                                                         </td>
                                                     </tr>
