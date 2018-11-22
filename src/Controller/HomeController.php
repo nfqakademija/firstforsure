@@ -247,13 +247,20 @@ class HomeController extends Controller
 
         $offer = $repo->findByMd5($md5);
 
-        $offer[0]->setStatus('Peržiūrėtas');
-        $em->persist($offer[0]);
-        $em->flush();
+        if($offer[0]->getStatus() != 'Parduota') {
 
-        return $this->render('admin/offer/useroffer.html.twig', [
-            'offer' => $offer[0]
-        ]);
+            $offer[0]->setStatus('Peržiūrėtas');
+            $em->persist($offer[0]);
+            $em->flush();
+
+            return $this->render('admin/offer/useroffer.html.twig', [
+                'offer' => $offer[0]
+            ]);
+        }
+        else
+        {
+            return $this->redirectToRoute('admin');
+        }
     }
 
     /**
@@ -277,7 +284,10 @@ class HomeController extends Controller
         $boughtTemplate->setStatus('Nupirkta');
 
         foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $key => $value) {
-            $boughtTemplate->addPositionTemplate($value);
+            $remaining = $value->getPosition()->getRemaining();
+            $use = $value->getCount();
+            $value->getPosition()->setRemaining($remaining-$use);
+//            $boughtTemplate->addPositionTemplate($value);
         }
 
         $em->persist($boughtOffer);

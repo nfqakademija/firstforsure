@@ -10,85 +10,82 @@
 
     <style>
         /* popup box style */
-        body
-        {
+        body {
             background-color: #D3D3D3;
         }
-        a:hover, a:active, a:focus
-        {
+
+        a:hover, a:active, a:focus {
             outline: 0;
         }
-        button:focus
-        {
+
+        button:focus {
             outline: 0;
         }
-        .offer-container
-        {
+
+        .offer-container {
             width: 720px;
             margin-top: 7%;
             color: green;
         }
 
-        .col-md-9, .col-md-3
-        {
+        .col-md-9, .col-md-3 {
             padding: 0px;
         }
-        .container
-        {
+
+        .container {
             padding-right: 1px;
             padding-left: 1px;
 
         }
-        .center
-        {
+
+        .center {
             width: 100px;
         }
-        .font16
-        {
+
+        .font16 {
             font-size: 16px;
             color: Green;
         }
-        .panel
-        {
+
+        .panel {
 
         }
-        .panel-body
-        {
+
+        .panel-body {
             padding-left: 0;
             padding-right: 0;
         }
-        .error-label
-        {
+
+        .error-label {
             margin-top: 15px;
         }
-        .alignright
-        {
+
+        .alignright {
             text-align: right;
             float: right;
         }
-        .font18
-        {
+
+        .font18 {
             font-size: 24px;
             color: Green;
             font-weight: bolder;
         }
-        @media screen and (max-width: 767px)
-        {
-            .offer-container
-            {
+
+        @media screen and (max-width: 767px) {
+            .offer-container {
                 margin-top: 0px;
                 width: auto;
             }
-            h2
-            {
+
+            h2 {
                 font-size: 20px;
             }
-            .panel
-            {
+
+            .panel {
                 box-shadow: none;
             }
-            .error-label
-            {
+
+            .error-label {
                 margin-left: -15px;
                 margin-top: 5px;
             }
@@ -218,6 +215,7 @@
             color: #FFFFFF;
             background-color: #f3c200;
         }
+
         .yellow-crusta.btn:hover,
         .yellow-crusta.btn:focus,
         .yellow-crusta.btn:active,
@@ -261,7 +259,6 @@
         }
 
 
-
     </style>
 
 
@@ -283,47 +280,49 @@
         <div class="row">
             {% for offerTemplate in offer.offerTemplates %}
 
-            <!-- Pricing -->
-            <div class="col-md-4">
-                <div class="pricing hover-effect">
-                    <div class="pricing-head">
-                        <h3>
-                            {{ offerTemplate.template.title }}
-                        </h3>
-                        <h4><i>$</i>{{ offerTemplate.template.price }}
-                        </h4>
-                    </div>
-                    <ul class="pricing-content list-unstyled">
-                        <li>
-                            Efektyvu
-                        </li>
-                        <li>
-                            Grazu
-                        </li>
-                        <li>
-                            Teisinga
-                        </li>
-                        <li>
-                            Patikima
-                        </li>
-                        <li>
-                            Zalia
-                        </li>
-                    </ul>
-                    <div class="pricing-footer">
-                        <p>
-                            Nuostabus pasiulymas jums.
-                        </p>
+                <!-- Pricing -->
+                <div class="col-md-4">
+                    <div class="pricing hover-effect">
+                        <div class="pricing-head">
+                            <h3>
+                                {{ offerTemplate.template.title }}
+                            </h3>
+                            <h4><i>$</i>{{ offerTemplate.template.price }}
+                            </h4>
+                        </div>
+                        <ul class="pricing-content list-unstyled">
+                            <li>
+                                Efektyvu
+                            </li>
+                            <li>
+                                Grazu
+                            </li>
+                            <li>
+                                Teisinga
+                            </li>
+                            <li>
+                                Patikima
+                            </li>
+                            <li>
+                                Zalia
+                            </li>
+                        </ul>
+                        <div class="pricing-footer">
+                            <p>
+                                Nuostabus pasiulymas jums.
+                            </p>
 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ offerTemplate.template.id }}">Take A Look</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#{{ offerTemplate.template.id }}">Take A Look
+                            </button>
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
 
-            <!--//End Pricing -->
+                <!--//End Pricing -->
             {% endfor %}
         </div>
     </div>
@@ -332,126 +331,133 @@
 
 
     {% for offerTemplate in offer.offerTemplates %}
-        <div id="{{ offerTemplate.template.id }}"  class="modal fade bd-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div id="{{ offerTemplate.template.id }}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                        <div class="offer-container">
-                            <div class="panel panel-primary" align="center">
-                                <div class="panel-heading">
-                                    <h2>
-                                        <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
+                <div class="offer-container">
+                    <div class="panel panel-primary" align="center">
+                        <div class="panel-heading">
+                            <h2>
+                                <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-8">
+                                <div class="table-responsive">
+                                    <table class="table table-striped plansTable">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Kiekis
+                                            </th>
+                                            <th>
+                                                Produktas
+                                            </th>
+                                            <th>
+                                                Kaina
+                                            </th>
+                                            <th>
+                                                Perziuros
+                                            </th>
+                                            <th>
+                                                P/K
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for offerTemplatePosition in offerTemplate.template.positionTemplates %}
+                                            <tr>
+                                                <div class="center">
+                                                    <td><label>{{ offerTemplatePosition.count }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.position.name }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.position.price }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.position.reach }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.position.divide() }}</label>
+                                                    </td>
+                                                </div>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="col-md-8">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped plansTable">
-                                                <thead>
-                                                <tr>
-                                                    <th>
-                                                        Kiekis
-                                                    </th>
-                                                    <th>
-                                                        Produktas
-                                                    </th>
-                                                    <th>
-                                                        Kaina
-                                                    </th>
-                                                    <th>
-                                                        Perziuros
-                                                    </th>
-                                                    <th>
-                                                        P/K
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for offerTemplatePosition in offerTemplate.template.positionTemplates %}
-                                                    <tr>
-                                                        <div class="center">
-                                                            <td><label>{{  offerTemplatePosition.count }}</label></td>
-                                                            <td><label>{{ offerTemplatePosition.position.name }}</label></td>
-                                                            <td><label>{{  offerTemplatePosition.position.price }}</label></td>
-                                                            <td><label>{{  offerTemplatePosition.position.reach }}</label></td>
-                                                            <td><label>{{ offerTemplatePosition.position.divide() }}</label></td>
-                                                        </div>
-                                                    </tr>
-                                                {% endfor %}
+                                <form action="/acceptoffer" method="post">
+                                    <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
+                                            type="submit"
+                                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
+                                        <i class="fa fa-calculator"></i>Accept Offer
+                                    </button>
+                                </form>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left" type="button"
-                                                id="btn-check-offers">
-                                            <i class="fa fa-calculator"></i>Accept Offer</button>
-
-                                        <div class="col-md-12" style="text-align: center;">
-                                            <div class="alert alert-danger error-label" style="display: none; text-align: center;"
-                                                 role="alert">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <table class="table" style="margin-left: -25px;">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    <label class=" font16">
-                                                        Rezultatai</label>
-                                                </th>
-                                                <th>
-                                                </th>
-                                                <th>
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <label class=" font16">
-                                                        Kaina</label>
-                                                </td>
-                                                <td>
-                                                    <i class="fa fa-inr font18"></i>
-                                                </td>
-                                                <td>
-                                                    <label id="Label3" class="txtTotal font18 alignright">
-                                                        0
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="font16">
-                                                        Perziuros</label>
-                                                </td>
-                                                <td>
-                                                    <i class="fa fa-inr font18"></i>
-                                                </td>
-                                                <td>
-                                                    <label id="Label4" class="txtDiscount font18 alignright">
-                                                        0
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="font16">
-                                                        Perziuros kaina</label>
-                                                </td>
-                                                <td>
-                                                    <i class="fa fa-inr font18"></i>
-                                                </td>
-                                                <td>
-                                                    <label id="Label5" class="txtNetPayable font18 alignright">
-                                                        0
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="col-md-12" style="text-align: center;">
+                                    <div class="alert alert-danger error-label"
+                                         style="display: none; text-align: center;"
+                                         role="alert">
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <table class="table" style="margin-left: -25px;">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <label class=" font16">
+                                                Rezultatai</label>
+                                        </th>
+                                        <th>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class=" font16">
+                                                Kaina</label>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-inr font18"></i>
+                                        </td>
+                                        <td>
+                                            <label id="Label3" class="txtTotal font18 alignright">
+                                                0
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="font16">
+                                                Perziuros</label>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-inr font18"></i>
+                                        </td>
+                                        <td>
+                                            <label id="Label4" class="txtDiscount font18 alignright">
+                                                0
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="font16">
+                                                Perziuros kaina</label>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-inr font18"></i>
+                                        </td>
+                                        <td>
+                                            <label id="Label5" class="txtNetPayable font18 alignright">
+                                                0
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                    </div>
+                </div>
             </div>
         </div>
     {% endfor %}
