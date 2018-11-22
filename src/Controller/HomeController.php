@@ -110,6 +110,7 @@ class HomeController extends Controller
 
                     $template->addPrice((float)$request->get('sum')[$key]);
 
+
                     $em->persist($templatePosition);
                     $em->persist($template);
                 }
@@ -287,7 +288,9 @@ class HomeController extends Controller
             $remaining = $value->getPosition()->getRemaining();
             $use = $value->getCount();
             $value->getPosition()->setRemaining($remaining-$use);
-//            $boughtTemplate->addPositionTemplate($value);
+            $valueclone = clone $value;
+            $em->persist($valueclone);
+            $boughtTemplate->addPositionTemplate($valueclone);
         }
 
         $em->persist($boughtOffer);
