@@ -1289,7 +1289,7 @@
                             </label>
                         </div></td>
                     <td><p class="lead" align="center">{{ position.name }}</p></td>
-                    <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
+                    <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/><span>({{ position.remaining }})</span></td></p>
                     <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
                     <td><p align="center"><input class="positionViews" type="text" disabled value="{{ position.reach }}"/></td></p>
                     <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
