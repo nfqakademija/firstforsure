@@ -9,6 +9,7 @@ easy_admin:
 
     menu:
     - { entity: Position }
+    - { entity: PositionWithoutTime }
     - { entity: Template }
     - { entity: Offer }
     - { entity: SoldOffer }
@@ -17,10 +18,21 @@ easy_admin:
     Position:
       class: App\Entity\Position
       list:
+        dql_filter: "entity.hasTime = true"
         fields:
         - { label: 'Pavadinimas', property: 'name' }
         - { label: 'Minutes kaina', property: 'price' }
         - { label: 'Minutes pasiekiamumas', property: 'reach' }
+        - { label: 'Likutis', property: 'remaining' }
+        - { label: 'Bendras kiekis', property: 'maxQuantity' }
+    PositionWithoutTime:
+      class: App\Entity\Position
+      list:
+        dql_filter: "entity.hasTime = false"
+        fields:
+        - { label: 'Pavadinimas', property: 'name' }
+        - { label: 'Vieneto kaina', property: 'price' }
+        - { label: 'Vieneto pasiekiamumas', property: 'reach' }
         - { label: 'Likutis', property: 'remaining' }
         - { label: 'Bendras kiekis', property: 'maxQuantity' }
     Template:
@@ -51,7 +63,6 @@ easy_admin:
       controller: App\Controller\Admin\OfferAdminController
       actions:
       - { name: 'show', icon: 'search' }
-      disabled_actions: ['edit', 'delete']
       list:
         dql_filter: "entity.status = 'Parduota'"
         fields:

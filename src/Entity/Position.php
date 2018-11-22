@@ -39,6 +39,11 @@ class Position
     private $remaining;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasTime;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $maxQuantity;
@@ -52,6 +57,22 @@ class Position
     public function __construct()
     {
         $this->count = 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHasTime()
+    {
+        return $this->hasTime;
+    }
+
+    /**
+     * @param mixed $hasTime
+     */
+    public function setHasTime($hasTime): void
+    {
+        $this->hasTime = $hasTime;
     }
 
     public function divide () {

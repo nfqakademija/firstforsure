@@ -19,13 +19,15 @@ class TemplateAdminController extends BaseAdminController
         // creates a task and gives it some dummy data for this example
         $repo = $this->getDoctrine()->getRepository(Position::class);
 
-        $positionItems = $repo->findAll();
+        $positionTimeItems = $repo->findByTime(true);
+        $positionNoTimeItems = $repo->findByTime(false);
 
 
         return $this->render('admin/template/edit.html.twig', [
             'id' => 0,
             'title' => '',
-            'positionItems' => $positionItems
+            'positionTimeItems' => $positionTimeItems,
+            'positionNoTimeItems' => $positionNoTimeItems
         ]);
     }
 
@@ -41,6 +43,8 @@ class TemplateAdminController extends BaseAdminController
 
         $activePositionItems = $activeItem->getPositionTemplates();
         $positionItems = $posRepo->findAll();
+        $positionTimeItems = $posRepo->findByTime(true);
+        $positionNoTimeItems = $posRepo->findByTime(false);
 
         foreach ($positionItems as $key => $value)
         {
@@ -55,7 +59,8 @@ class TemplateAdminController extends BaseAdminController
         return $this->render('admin/template/edit.html.twig', [
             'id' => $activeItem->getId(),
             'title' => $activeItem->getTitle(),
-            'positionItems' => $positionItems
+            'positionTimeItems' => $positionTimeItems,
+            'positionNoTimeItems' => $positionNoTimeItems
         ]);
     }
 }

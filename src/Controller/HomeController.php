@@ -325,22 +325,48 @@ class HomeController extends Controller
      */
     public function resetDatabase()
     {
+
         $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository(PositionTemplate::class);
-        $entities = $repository->findAll();
 
-        foreach ($entities as $entity) {
-            $em->remove($entity);
-        }
-        $em->flush();
+//        $repository = $em->getRepository(OfferTemplate::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
+//
+//        $repository = $em->getRepository(BoughtTemplate::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
 
-        $repository = $em->getRepository(Template::class);
-        $entities = $repository->findAll();
+//        $repository = $em->getRepository(Template::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
 
-        foreach ($entities as $entity) {
-            $em->remove($entity);
-        }
-        $em->flush();
+//        $repository = $em->getRepository(PositionTemplate::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
+
+//        $repository = $em->getRepository(Template::class);
+//        $entities = $repository->findAll();
+//
+//        foreach ($entities as $entity) {
+//            $em->remove($entity);
+//        }
+//        $em->flush();
 
 
 //        $repository = $em->getRepository(Position::class);
