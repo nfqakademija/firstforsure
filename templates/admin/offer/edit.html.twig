@@ -126,20 +126,21 @@
                     <input name="id" hidden value="{{ id }}" />
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="clientName">Client Name</label>
+                        <label for="clientName">Kliento vardas, pavardė</label>
                         <input type="text" class="form-control" placeholder="Petras Petraitis" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
                     </div>
                     <div class="form-group">
-                        <label for="clientEmail">Email</label>
+                        <label for="clientEmail">El.Paštas</label>
                         <input type="text" class="form-control" placeholder="petras@petras.com" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
                     </div>
                     <div class="form-group ">
-                        <label for="clientMessage">Your Message</label>
+                        <label for="clientMessage">Žinutė klientui</label>
                         <textarea type="text"  class="form-control" placeholder="Description" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
                     </div>
 
 
         <div class="row">
+            <h4>Šablonai</h4>
         {% for template in templateItems %}
             <div class="col-sm-4">
                 <div class="btn-group" data-toggle="buttons">
@@ -161,7 +162,7 @@
 
         </div>
             <p>
-                <button type="submit" class="myButton">Send Offer</button>
+                <button type="submit" class="myButton">Išsaugoti pasiūlymą</button>
             </p>
                 </form>
 
@@ -191,7 +192,7 @@
                                                                 Kaina
                                                             </th>
                                                             <th>
-                                                                Perziuros
+                                                                Peržiūros
                                                             </th>
                                                             <th>
                                                                 P/K
@@ -254,7 +255,7 @@
                                                     <tr>
                                                         <td>
                                                             <label class="font16">
-                                                                Perziuros</label>
+                                                                Peržiūros</label>
                                                         </td>
                                                         <td>
                                                             <i class="fa fa-inr font18"></i>
@@ -268,7 +269,7 @@
                                                     <tr>
                                                         <td>
                                                             <label class="font16">
-                                                                Perziuros kaina</label>
+                                                                Peržiūros kaina</label>
                                                         </td>
                                                         <td>
                                                             <i class="fa fa-inr font18"></i>

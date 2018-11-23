@@ -8,26 +8,30 @@ easy_admin:
 
 
     menu:
-    - { entity: Position }
-    - { entity: PositionWithoutTime }
-    - { entity: Template }
-    - { entity: Offer }
-    - { entity: SoldOffer }
-    - { entity: BoughtTemplate }
+    - { label: 'Reklamos pozicijos ( laikas )', entity: Position }
+    - { label: 'Reklamos pozicijos ( vienetas )', entity: PositionWithoutTime }
+    - { label: 'Šablonai',entity: Template }
+    - { label: 'Pasiūlymai', entity: Offer }
+    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
+    - { label: 'Parduoti Šablonai', entity: BoughtTemplate }
   entities:
     Position:
       class: App\Entity\Position
+      label: 'Reklamos pozicijos'
       list:
+        title: 'Reklamos pozicijos ( laikas )'
         dql_filter: "entity.hasTime = true"
         fields:
         - { label: 'Pavadinimas', property: 'name' }
-        - { label: 'Minutes kaina', property: 'price' }
-        - { label: 'Minutes pasiekiamumas', property: 'reach' }
+        - { label: 'Minutės kaina', property: 'price' }
+        - { label: 'Minutės pasiekiamumas', property: 'reach' }
         - { label: 'Likutis', property: 'remaining' }
         - { label: 'Bendras kiekis', property: 'maxQuantity' }
     PositionWithoutTime:
       class: App\Entity\Position
+      label: 'Reklamos pozicijos'
       list:
+        title: 'Reklamos pozicijos ( vienetas )'
         dql_filter: "entity.hasTime = false"
         fields:
         - { label: 'Pavadinimas', property: 'name' }
@@ -37,22 +41,25 @@ easy_admin:
         - { label: 'Bendras kiekis', property: 'maxQuantity' }
     Template:
       class: App\Entity\Template
+      label: 'Šablonai'
       controller: App\Controller\Admin\TemplateAdminController
       list:
+        title: 'Šablonai'
         dql_filter: "entity.status != 'Nupirkta'"
         fields:
         - { label: 'Pavadinimas', property: 'title' }
         - { label: 'Pozicijos', property: 'positionTitle' }
         - { label: 'Kaina', property: 'price' }
-        - { label: 'Reach', property: 'reach' }
+        - { label: 'Pasiekiamumas', property: 'reach' }
     Offer:
       class: App\Entity\Offer
+      label: 'Pasiūlymai'
       controller: App\Controller\Admin\OfferAdminController
       list:
+        title: 'Pasiūlymai'
         dql_filter: "entity.status != 'Parduota'"
         actions:
-        - { name: 'send', icon: 'search' }
-        - { name: 'edit', icon: 'pencil' }
+        - { label: 'Siųsti', name: 'send'}
         fields:
         - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
@@ -60,10 +67,12 @@ easy_admin:
         - { label: 'Statusas', property: 'status' }
     SoldOffer:
       class: App\Entity\Offer
+      label: 'Parduoti pasiūlymai'
       controller: App\Controller\Admin\OfferAdminController
       actions:
       - { name: 'show', icon: 'search' }
       list:
+        title: 'Parduoti pasiūlymai'
         dql_filter: "entity.status = 'Parduota'"
         fields:
         - { label: 'Gavėjo email', property: 'clientEmail' }
@@ -72,7 +81,9 @@ easy_admin:
         - { label: 'Statusas', property: 'status' }
     BoughtTemplate:
       class: App\Entity\BoughtTemplate
+      label: 'Parduoti šablonai'
       list:
+        title: 'Parduoti šablonai'
         fields:
         - { label: 'Pasiūlymas', property: 'offer' }
         - { label: 'Šablonas', property: 'template' }
