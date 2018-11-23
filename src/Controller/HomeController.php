@@ -79,7 +79,9 @@ class HomeController extends Controller
                 $index = $value->getPosition()->getId();
                 if (!in_array($index, $active)) {
                     $price = $value->getCount() * $value->getPosition()->getPrice();
+                    $reach = $value->getCount() * $value->getPosition()->getReach();
                     $template->minusPrice($price);
+                    $template->minusReach($reach);
                     $em->remove($value);
                     $em->flush();
                 }
@@ -318,65 +320,5 @@ class HomeController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('admin');
-    }
-
-    /**
-     * @Route("/resetdatabase", name="resetdb")
-     */
-    public function resetDatabase()
-    {
-
-        $em = $this->getDoctrine()->getManager();
-
-//        $repository = $em->getRepository(OfferTemplate::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-//
-//        $repository = $em->getRepository(BoughtTemplate::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-
-//        $repository = $em->getRepository(Template::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-
-//        $repository = $em->getRepository(PositionTemplate::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-
-//        $repository = $em->getRepository(Template::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-
-
-//        $repository = $em->getRepository(Position::class);
-//        $entities = $repository->findAll();
-//
-//        foreach ($entities as $entity) {
-//            $em->remove($entity);
-//        }
-//        $em->flush();
-
-        return new Response('', Response::HTTP_OK);
     }
 }
