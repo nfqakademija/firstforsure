@@ -8,10 +8,10 @@
 {% block main %}
     <script>
         $(document).ready(function () {
-            $('.checkbox-js').on('click', function() {
+            $('.checkbox-js').on('click', function () {
                 console.log('atejo');
                 console.log($(this).find('.check').val());
-                if($(this).find('.check').val()>0) {
+                if ($(this).find('.check').val() > 0) {
                     console.log('ATEJO i g');
                     $(this).find('.check').val(0);
                 }
@@ -23,7 +23,8 @@
 
                 }
 
-            })})
+            })
+        })
         ///////////////////////////////////////
 
 
@@ -32,9 +33,11 @@
         .btn span.glyphicon {
             opacity: 1;
         }
+
         .btn.active span.glyphicon {
             opacity: 0;
         }
+
         input[type=text] {
             width: 50%;
             padding: 12px 20px;
@@ -54,26 +57,28 @@
         }
 
         .myButton {
-            background-color:green;
-            -moz-border-radius:28px;
-            -webkit-border-radius:28px;
-            border-radius:28px;
-            border:1px solid green;
-            display:inline-block;
-            cursor:pointer;
-            color:#ffffff;
-            font-family:Arial;
-            font-size:19px;
-            padding:3px 9px;
-            text-decoration:none;
-            text-shadow:0px 1px 0px #2f6627;
+            background-color: green;
+            -moz-border-radius: 28px;
+            -webkit-border-radius: 28px;
+            border-radius: 28px;
+            border: 1px solid green;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 19px;
+            padding: 3px 9px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #2f6627;
         }
+
         .myButton:hover {
-            background-color:green;
+            background-color: green;
         }
+
         .myButton:active {
-            position:relative;
-            top:1px;
+            position: relative;
+            top: 1px;
         }
 
         @font-face {
@@ -91,16 +96,17 @@
             font-weight: 400;
             line-height: 1;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale
 
-            icn {
-                background-color: Transparent;
-                background-repeat:no-repeat;
-                border: none;
-                cursor:pointer;
-                overflow: hidden;
-                outline:none;
-            }
+        -moz-osx-font-smoothing: grayscale
+        icn {
+            background-color: Transparent;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            outline: none;
+        }
+
         }
 
         .panel-heading {
@@ -119,12 +125,13 @@
         .panel {
             border-color: green;
         }
+
         .glyphicon {
             color: green;
         }
 
         .glyphicon-ok {
-            color:white;
+            color: white;
         }
 
 
@@ -133,52 +140,60 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <form action="/makeoffer" method="post">
-                    <input name="id" hidden value="{{ id }}" />
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="clientName">Kliento vardas, pavardė</label>
-                        <input type="text" class="form-control" placeholder="Petras Petraitis" name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
-                    </div>
-                    <div class="form-group">
-                        <label for="clientEmail">El.Paštas</label>
-                        <input type="text" class="form-control" placeholder="petras@petras.com" name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
-                    </div>
-                    <div class="form-group ">
-                        <label for="clientMessage">Žinutė klientui</label>
-                        <textarea type="text"  class="form-control" placeholder="Description" name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
-                    </div>
+                    <input name="id" hidden value="{{ id }}"/>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="clientName">Kliento vardas, pavardė</label>
+                            <input type="text" class="form-control" placeholder="Petras Petraitis"
+                                   name="clientName" {% if type == "show" %} disabled {% endif %} {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEmail">El.Paštas</label>
+                            <input type="text" class="form-control" placeholder="petras@petras.com"
+                                   name="clientEmail" {% if type == "show" %} disabled {% endif %} {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
+                        </div>
+                        <div class="form-group ">
+                            <label for="clientMessage">Žinutė klientui</label>
+                            <textarea type="text" class="form-control" placeholder="Description"
+                                      name="message" {% if type == "show" %} disabled {% endif %} {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
+                        </div>
 
 
-        <div class="row">
-            <h4>Šablonai</h4>
-        {% for template in templateItems %}
-            <div class="col-sm-4">
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-success {% if template.active is null %} active {% endif %} checkbox-js">
-                        <input type="checkbox" />
-                        <input type="hidden" class="check" value="{% if template.active %}1{% endif %}{% if template.active is null %}0{% endif %}" name='active[{{ template.id }}]'/>
-                        <span class="glyphicon glyphicon-ok"></span>
-                    </label>
-                </div>
-                {{ template.title }} {{ template.price}}
+                        <div class="row">
+                            <h4>Šablonai</h4>
+                            {% for template in templateItems %}
+                                <div class="col-sm-4">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-success {% if template.active is null %} active {% endif %} checkbox-js">
+                                            <input type="checkbox"/>
+                                            <input type="hidden" class="check"
+                                                   value="{% if template.active %}1{% endif %}{% if template.active is null %}0{% endif %}"
+                                                   name='active[{{ template.id }}]'/>
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </label>
+                                    </div>
+                                    {{ template.title }} {{ template.price }}
 
-                <a href="#{{ template.id }}" data-toggle="modal"
-                   data-target="#{{ template.id }}"><span class="glyphicon glyphicon-expand"></span></a>
-                <p></p>
-            </div>
+                                    <a href="#{{ template.id }}" data-toggle="modal"
+                                       data-target="#{{ template.id }}"><span class="glyphicon glyphicon-expand"></span></a>
+                                    <p></p>
+                                </div>
 
-        {% endfor %}
+                            {% endfor %}
 
 
-        </div>
-            <p>
-                <button type="submit" class="myButton">Išsaugoti pasiūlymą</button>
-            </p>
-                </form>
+                        </div>
+                        <p>
+                            {% if type == "edit" %}
+                                <button type="submit" class="myButton">Išsaugoti pasiūlymą</button>
+                            {% endif %}
+                        </p>
+                    </form>
 
                     {% for templated in templateItems %}
 
-                        <div id="{{ templated.id }}"  class="modal fade bd-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div id="{{ templated.id }}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="offer-container">
                                     <div class="panel panel-primary" align="center">
@@ -213,11 +228,20 @@
                                                         {% for offerTemplatePosition in templated.positionTemplates %}
                                                             <tr>
                                                                 <div class="center">
-                                                                    <td><label>{{  offerTemplatePosition.count }}</label></td>
-                                                                    <td><label>{{ offerTemplatePosition.position.name }}</label></td>
-                                                                    <td><label>{{  offerTemplatePosition.position.price }}</label></td>
-                                                                    <td><label>{{  offerTemplatePosition.position.reach }}</label></td>
-                                                                    <td><label>{{ offerTemplatePosition.position.divide() }}</label></td>
+                                                                    <td><label>{{ offerTemplatePosition.count }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ offerTemplatePosition.position.name }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ offerTemplatePosition.position.price }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ offerTemplatePosition.position.reach }}</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <label>{{ offerTemplatePosition.position.divide() }}</label>
+                                                                    </td>
                                                                 </div>
                                                             </tr>
                                                         {% endfor %}
@@ -228,7 +252,8 @@
 
 
                                                 <div class="col-md-12" style="text-align: center;">
-                                                    <div class="alert alert-danger error-label" style="display: none; text-align: center;"
+                                                    <div class="alert alert-danger error-label"
+                                                         style="display: none; text-align: center;"
                                                          role="alert">
                                                     </div>
                                                 </div>
@@ -258,7 +283,7 @@
                                                         </td>
                                                         <td>
                                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                                {{ templated.price}}
+                                                                {{ templated.price }}
                                                             </label>
                                                         </td>
                                                     </tr>
@@ -299,6 +324,12 @@
                             </div>
                         </div>
                     {% endfor %}
+                    <div>
+                        <h1>Žinutės</h1>
+                        {% for msg in messages %}
+                            <p><b>{{ msg.username }}: </b>{{ msg.text }} /// {{ msg.date|date("Y-m-d H:i:s")}}</p>
+                        {% endfor %}
+                    </div>
 
 
 {% endblock %}

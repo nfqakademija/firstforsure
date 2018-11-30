@@ -8,6 +8,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\Template;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
@@ -28,13 +29,16 @@ class OfferAdminController extends BaseAdminController
         ]);
     }
 
-    public function editAction()
+    public function showAction()
     {
         $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
         $templRepo = $this->getDoctrine()->getRepository(Template::class);
+        $msgRepo = $this->getDoctrine()->getRepository(Message::class);
         $id = $this->request->query->get('id');
 
         $activeOffer = $offerRepo->find($id);
+
+        $messages = $msgRepo->findByOfferId($id);
 
         $activeOfferItems = $activeOffer->getOfferTemplates();
         $templateItems = $templRepo->findForSale('Nupirkta');
@@ -47,9 +51,41 @@ class OfferAdminController extends BaseAdminController
             }
         }
         return $this->render('admin/offer/edit.html.twig', [
+            'type' => 'show',
             'id' => $id,
             'offer' => $activeOffer,
-            'templateItems' => $templateItems
+            'templateItems' => $templateItems,
+            'messages' => $messages
+        ]);
+    }
+
+    public function editAction()
+    {
+        $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
+        $templRepo = $this->getDoctrine()->getRepository(Template::class);
+        $msgRepo = $this->getDoctrine()->getRepository(Message::class);
+        $id = $this->request->query->get('id');
+
+        $activeOffer = $offerRepo->find($id);
+
+        $messages = $msgRepo->findByOfferId($id);
+
+        $activeOfferItems = $activeOffer->getOfferTemplates();
+        $templateItems = $templRepo->findForSale('Nupirkta');
+
+        foreach($templateItems as $key => $value) {
+            foreach ($activeOfferItems as $key2 => $value2) {
+                if($value2->getTemplate()->getId() === $value->getId()){
+                    $value->setActive(true);
+                }
+            }
+        }
+        return $this->render('admin/offer/edit.html.twig', [
+            'type' => 'edit',
+            'id' => $id,
+            'offer' => $activeOffer,
+            'templateItems' => $templateItems,
+            'messages' => $messages
         ]);
     }
 

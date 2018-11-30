@@ -1,16 +1,22 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {% block main %}
-    <h1>Viewed Offers: {{ viewedCount }}</h1>
+    <h1>Peržiūrėti pasiūlymai: {{ viewedCount }}</h1>
     {% if viewedCount > 0 %}
         {% for view in viewed %}
             <p>{{ view.clientName }}</p>
         {% endfor %}
     {% endif %}
 
-    <h1>Sent Offers: {{ sentCount }}</h1>
+    <h1>Išsiųsti pasiūlymai: {{ sentCount }}</h1>
     {% if sentCount > 0 %}
         {% for send in sent %}
             <p>{{ send.clientName }}</p>
         {% endfor %}
     {% endif %}
+
+    <h1>Reklamos pozicijos: </h1>
+    {% for pos in positions %}
+        <p>"{{ pos.name }}" liko: {{ pos.remaining }}</p>
+    {% endfor %}
+
 {% endblock %}

@@ -213,43 +213,6 @@ class HomeController extends Controller
         }
     }
 
-
-    /**
-     * @Route("/sendmail/{md5}", name="sendmail")
-     */
-    public function mail(\Swift_Mailer $mailer, $md5)
-    {
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-
-        $offer = $repo->findByMd5($md5);
-
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('zrvtzrvt@gmail.com')
-            ->setTo('gudauskas.osvaldas@gmail.com')
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'admin/offer/mail.html.twig',
-                    array('link' => '127.0.0.1:8000/readoffer/' . $md5, 'offer' => $offer[0])
-                ),
-                'text/html'
-            )/*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-
-        $mailer->send($message);
-        return $this->redirectToRoute('admin');
-    }
-
-
     public function reademail($md5)
     {
         $em = $this->getDoctrine()->getManager();
@@ -258,14 +221,13 @@ class HomeController extends Controller
 
         $offer = $repo->findByMd5($md5);
 
-        if(!$offer)
-        {
+        if (!$offer) {
             return $this->render('admin/offer/error.html.twig', [
                 'errorType' => 2
             ]);
         }
 
-        if($offer[0]->getStatus() != 'Parduota') {
+        if ($offer[0]->getStatus() != 'Parduota') {
 
             $offer[0]->setStatus('Peržiūrėtas');
             $em->persist($offer[0]);
@@ -277,14 +239,13 @@ class HomeController extends Controller
                 'offer' => $offer[0],
                 'messages' => $messages
             ]);
-        }
-        else
-        {
+        } else {
             return $this->render('admin/offer/error.html.twig', [
                 'errorType' => 1
-                ]);
+            ]);
         }
     }
+
     /**
      * @Route("/sendrespond", name="sendrespond")
      */
@@ -297,6 +258,7 @@ class HomeController extends Controller
         $message->setText($request->get("msg"));
         $message->setOffer($offer);
         $message->setUsername($request->get("username"));
+        $message->setDate(new \DateTime());
 
         $em->persist($message);
         $em->flush();
@@ -327,7 +289,7 @@ class HomeController extends Controller
         foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $key => $value) {
             $remaining = $value->getPosition()->getRemaining();
             $use = $value->getCount();
-            $value->getPosition()->setRemaining($remaining-$use);
+            $value->getPosition()->setRemaining($remaining - $use);
             $valueclone = clone $value;
             $em->persist($valueclone);
             $boughtTemplate->addPositionTemplate($valueclone);
