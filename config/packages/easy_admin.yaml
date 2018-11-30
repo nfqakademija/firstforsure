@@ -10,10 +10,10 @@ easy_admin:
     menu:
     - { label: 'Reklamos pozicijos ( laikas )', entity: Position }
     - { label: 'Reklamos pozicijos ( vienetas )', entity: PositionWithoutTime }
-    - { label: 'Šablonai',entity: Template }
+    - { label: 'Šablonai',entity: Template, role: ROLE_ADMIN}
     - { label: 'Pasiūlymai', entity: Offer }
-    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
-    - { label: 'Parduoti Šablonai', entity: BoughtTemplate }
+#    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
+    - { label: 'Užsakymai', entity: BoughtTemplate }
   entities:
     Position:
       class: App\Entity\Position
@@ -59,34 +59,35 @@ easy_admin:
         title: 'Pasiūlymai'
         dql_filter: "entity.status != 'Parduota'"
         actions:
+        - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
         fields:
         - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
         - { label: 'Statusas', property: 'status' }
-    SoldOffer:
-      class: App\Entity\Offer
-      label: 'Parduoti pasiūlymai'
-      controller: App\Controller\Admin\OfferAdminController
-      actions:
-      - { name: 'show', icon: 'search' }
-      list:
-        title: 'Parduoti pasiūlymai'
-        dql_filter: "entity.status = 'Parduota'"
-        fields:
-        - { label: 'Gavėjo email', property: 'clientEmail' }
-        - { label: 'Gavėjas', property: 'clientName' }
-        - { label: 'Šablonai', property: 'templateList'}
-        - { label: 'Statusas', property: 'status' }
+#    SoldOffer:
+#      class: App\Entity\Offer
+#      label: 'Parduoti pasiūlymai'
+#      controller: App\Controller\Admin\OfferAdminController
+#      actions:
+#      - { name: 'show', icon: 'search' }
+#      list:
+#        title: 'Parduoti pasiūlymai'
+#        dql_filter: "entity.status = 'Parduota'"
+#        fields:
+#        - { label: 'Gavėjo email', property: 'clientEmail' }
+#        - { label: 'Gavėjas', property: 'clientName' }
+#        - { label: 'Šablonai', property: 'templateList'}
+#        - { label: 'Statusas', property: 'status' }
     BoughtTemplate:
       class: App\Entity\BoughtTemplate
-      label: 'Parduoti šablonai'
+      label: 'Užsakymai'
       list:
-        title: 'Parduoti šablonai'
+        title: 'Užsakymai'
         fields:
         - { label: 'Pasiūlymas', property: 'offer' }
-        - { label: 'Šablonas', property: 'template' }
+        - { label: 'Užsakymas', property: 'template' }
 
     # List the entity class name you want to manage
 #        - App\Entity\Position
