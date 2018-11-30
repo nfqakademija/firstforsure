@@ -14,6 +14,29 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminContr
 
 class TemplateAdminController extends BaseAdminController
 {
+    public function copyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $templRepo = $this->getDoctrine()->getRepository(Template::class);
+        $id = $this->request->query->get('id');
+        $activeItem = $templRepo->find($id);
+
+        $template = clone $activeItem;
+
+        $posItems = $activeItem->getPositionTemplates();
+
+        foreach ($posItems as $templ)
+        {
+            $clone = clone $templ;
+            $em->persist($clone);
+            $template->addPositionTemplate($clone);
+        }
+        $template->setTitle($template->getTitle()." (Kopija)");
+        $em->persist($template);
+        $em->flush();
+
+        return $this->redirectToRoute('admin');
+    }
+
     public function newAction()
     {
         // creates a task and gives it some dummy data for this example

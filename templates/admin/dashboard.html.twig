@@ -1,0 +1,16 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% block main %}
+    <h1>Viewed Offers: {{ viewedCount }}</h1>
+    {% if viewedCount > 0 %}
+        {% for view in viewed %}
+            <p>{{ view.clientName }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h1>Sent Offers: {{ sentCount }}</h1>
+    {% if sentCount > 0 %}
+        {% for send in sent %}
+            <p>{{ send.clientName }}</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

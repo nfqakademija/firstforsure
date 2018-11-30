@@ -8,6 +8,7 @@ easy_admin:
 
 
     menu:
+    - { label: 'Pagrindinis', route: 'dashboard' }
     - { label: 'Reklamos pozicijos ( laikas )', entity: Position }
     - { label: 'Reklamos pozicijos ( vienetas )', entity: PositionWithoutTime }
     - { label: 'Šablonai',entity: Template, role: ROLE_ADMIN}
@@ -46,6 +47,8 @@ easy_admin:
       list:
         title: 'Šablonai'
         dql_filter: "entity.status != 'Nupirkta'"
+        actions:
+        - { label: 'Kopijuoti', name: 'copy'}
         fields:
         - { label: 'Pavadinimas', property: 'title' }
         - { label: 'Pozicijos', property: 'positionTitle' }
