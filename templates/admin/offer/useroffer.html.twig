@@ -390,13 +390,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <form action="/acceptoffer" method="post">
-                                    <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
-                                            type="submit"
-                                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
-                                        <i class="fa fa-calculator"></i>Patvirtinti pasiūlymą
-                                    </button>
-                                </form>
+                                {#<form action="/acceptoffer" method="post">#}
+                                    {#<button class="btn btn-sm btn-success ladda-button" data-style="expand-left"#}
+                                            {#type="submit"#}
+                                            {#id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">#}
+                                        {#<i class="fa fa-calculator"></i>Patvirtinti pasiūlymą#}
+                                    {#</button>#}
+                                {#</form>#}
 
                                 <div class="col-md-12" style="text-align: center;">
                                     <div class="alert alert-danger error-label"
@@ -471,8 +471,16 @@
             </div>
         </div>
     {% endfor %}
-
-
+    <h1>Messages:</h1>
+    {% for message in messages %}
+        <p><b>{{ message.username }}: </b>{{ message.text }}</p>
+    {% endfor %}
+    <form action="/sendrespond" method="post">
+        <input type="hidden" value="{{ offer.id }}" name="offerId">
+        <input type="hidden" value="{{ offer.clientName }}" name="username">
+        <input type="text" name="msg">
+        <input type="submit"/>
+    </form>
 
 
 {% endblock %}

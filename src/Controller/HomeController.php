@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BoughtTemplate;
+use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
 use App\Entity\Position;
@@ -253,6 +254,7 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository(Offer::class);
+        $mrepo = $this->getDoctrine()->getRepository(Message::class);
 
         $offer = $repo->findByMd5($md5);
 
@@ -269,8 +271,11 @@ class HomeController extends Controller
             $em->persist($offer[0]);
             $em->flush();
 
+            $messages = $mrepo->findByOfferId($offer[0]->getId());
+
             return $this->render('admin/offer/useroffer.html.twig', [
-                'offer' => $offer[0]
+                'offer' => $offer[0],
+                'messages' => $messages
             ]);
         }
         else
@@ -279,6 +284,24 @@ class HomeController extends Controller
                 'errorType' => 1
                 ]);
         }
+    }
+    /**
+     * @Route("/sendrespond", name="sendrespond")
+     */
+    public function sendRespond(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+        $offer = $repo->find($request->get("offerId"));
+        $message = new Message();
+        $message->setText($request->get("msg"));
+        $message->setOffer($offer);
+        $message->setUsername($request->get("username"));
+
+        $em->persist($message);
+        $em->flush();
+
+        return $this->redirectToRoute('admin');
     }
 
     /**

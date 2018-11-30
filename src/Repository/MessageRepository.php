@@ -18,4 +18,15 @@ class MessageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Message::class);
     }
+
+    public function findByOfferId($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.offer = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
