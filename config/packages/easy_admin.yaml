@@ -14,7 +14,7 @@ easy_admin:
     - { label: 'Šablonai',entity: Template, role: ROLE_ADMIN}
     - { label: 'Pasiūlymai', entity: Offer }
 #    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
-    - { label: 'Užsakymai', entity: BoughtTemplate }
+    - { label: 'Užsakymai', entity: Order }
   entities:
     Position:
       class: App\Entity\Position
@@ -83,8 +83,8 @@ easy_admin:
 #        - { label: 'Gavėjas', property: 'clientName' }
 #        - { label: 'Šablonai', property: 'templateList'}
 #        - { label: 'Statusas', property: 'status' }
-    BoughtTemplate:
-      class: App\Entity\BoughtTemplate
+    Order:
+      class: App\Entity\Order
       label: 'Užsakymai'
       list:
         title: 'Užsakymai'

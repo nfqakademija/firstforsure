@@ -390,13 +390,16 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                {#<form action="/acceptoffer" method="post">#}
-                                    {#<button class="btn btn-sm btn-success ladda-button" data-style="expand-left"#}
-                                            {#type="submit"#}
-                                            {#id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">#}
-                                        {#<i class="fa fa-calculator"></i>Patvirtinti pasiūlymą#}
-                                    {#</button>#}
-                                {#</form>#}
+                                <form action="/acceptoffer" method="post">
+                                    <input type="hidden" value="{{ offer.id }}" name="orderId">
+                                    <input type="hidden" value="{{ offer.clientName }}" name="username">
+                                    <input type="text" name="msg">
+                                    <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
+                                            type="submit"
+                                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
+                                        <i class="fa fa-calculator"></i>Patvirtinti pasiūlymą
+                                    </button>
+                                </form>
 
                                 <div class="col-md-12" style="text-align: center;">
                                     <div class="alert alert-danger error-label"

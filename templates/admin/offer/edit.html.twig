@@ -327,7 +327,7 @@
                     <div>
                         <h1>Žinutės</h1>
                         {% for msg in messages %}
-                            <p><b>{{ msg.username }}: </b>{{ msg.text }} /// {{ msg.date|date("Y-m-d H:i:s")}}</p>
+                            <p><b>{{ msg.username }}: </b>{{ msg.text }} /// {{ msg.date|date("Y-m-d H:i:s") }}</p>
                         {% endfor %}
                     </div>
 

@@ -23,6 +23,8 @@ class OfferAdminController extends BaseAdminController
         $templateItems = $repo->findForSale('Nupirkta');
 
         return $this->render('admin/offer/edit.html.twig', [
+            'messages' => [],
+            'type' => "edit",
             'offer' => new Offer(),
             'id' => 0,
             'templateItems' => $templateItems

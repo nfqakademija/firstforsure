@@ -11,9 +11,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OfferTemplateRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\Table(name="orders")
  */
-class BoughtTemplate
+class Order
 {
     /**
      * @ORM\Id()
@@ -35,6 +36,28 @@ class BoughtTemplate
      * @ORM\JoinColumn(nullable=false)
      */
     private $template;
+
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $status;
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
 
     /**
      * @return Offer

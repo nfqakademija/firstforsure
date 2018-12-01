@@ -9,3 +9,6 @@ basicform:
 readoffer:
     path: /readoffer/{md5}
     controller: App\Controller\HomeController::reademail
+
+logout:
+    path: /logout
