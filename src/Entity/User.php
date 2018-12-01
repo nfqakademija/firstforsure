@@ -32,7 +32,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $lastLogin;
 
