@@ -74,7 +74,7 @@
             background-color: #34495E;
         }
         .green {
-            background-color: #16A085;
+            background-color: #006d3e;
         }
         .blue {
             background-color: #2980B9;
@@ -104,7 +104,7 @@
             color: #34495E;
         }
         .text-green {
-            color: #16A085;
+            color: green;
         }
         .text-blue {
             color: #2980B9;
@@ -130,41 +130,41 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <div class="container bootstrap snippet">
         <div class="row">
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-sm-3">
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-bell fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Peržiūrėti pasiūlymai</div>
+                        <div class="circle-tile-description text-faded"> Peržiūrėti </div>
                         <div class="circle-tile-number text-faded ">{{ viewedCount }}</div>
                         <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Peržiūrėtas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-sm-3">
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Išsiųsti pasiūlymai</div>
+                        <div class="circle-tile-description text-faded"> Išsiųsti </div>
                         <div class="circle-tile-number text-faded ">{{ sentCount }}</div>
                         <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Išsiųstas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-sm-3">
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Atsakyti užsakymai</div>
+                        <div class="circle-tile-description text-faded"> Atsakyti </div>
                         <div class="circle-tile-number text-faded ">{{ orderCount }}</div>
                         <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Atsakytas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-sm-3">
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Patvirtinti užsakymai</div>
+                        <div class="circle-tile-description text-faded"> Patvirtinti </div>
                         <div class="circle-tile-number text-faded ">{{ acceptCount }}</div>
                         <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Patvirtintas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
@@ -174,55 +174,62 @@
         </div>
     </div>
 
-    <div class="container">
-        <h2>{{  'admin.menu.position.notime'|trans }}</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5" >
+                <h2>{{  'admin.menu.position.notime'|trans }}</h2>
 
-        <!--table-->
-        <table class="table table-striped">
-            <thead>
-            <tr class="info">
-                <th>Pavadinimas</th>
-                <th>Likutis</th>
-                <th>Bendras kiekis</th>
+                <!--table-->
+                <table class="table table-striped">
+                    <thead>
+                    <tr class="info">
+                        <th>Pavadinimas</th>
+                        <th>Likutis</th>
+                        <th>Bendras kiekis</th>
 
-            </thead>
-            <tbody>
-            {% for pos in positions %}
-                {% if pos.hasTime == false %}
-                    <tr>
-                        <td>{{ pos.name }}</td>
-                        <td>{{ pos.remaining }}</td>
-                        <td>{{ pos.maxQuantity }}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                    {% for pos in positions %}
+                        {% if pos.hasTime == false %}
+                            <tr>
+                                <td>{{ pos.name }}</td>
+                                <td>{{ pos.remaining }}</td>
+                                <td>{{ pos.maxQuantity }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-1" >
+            </div>
+            <div class="col-sm-5">
+                <h2>{{  'admin.menu.position.hastime'|trans }}</h2>
+                <!--table-->
+                <table class="table table-striped">
+                    <thead>
+                    <tr class="info">
+                        <th>Pavadinimas</th>
+                        <th>Likutis</th>
+                        <th>Bendras kiekis</th>
+
+                    </thead>
+                    <tbody>
+                    {% for pos in positions %}
+                        {% if pos.hasTime == true %}
+                            <tr>
+                                <td>{{ pos.name }}</td>
+                                <td>{{ pos.remaining }}</td>
+                                <td>{{ pos.maxQuantity }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <h2>{{  'admin.menu.position.hastime'|trans }}</h2>
 
-        <!--table-->
-        <table class="table table-striped">
-            <thead>
-            <tr class="info">
-                <th>Pavadinimas</th>
-                <th>Likutis</th>
-                <th>Bendras kiekis</th>
 
-            </thead>
-            <tbody>
-            {% for pos in positions %}
-                {% if pos.hasTime == true %}
-                <tr>
-                    <td>{{ pos.name }}</td>
-                    <td>{{ pos.remaining }}</td>
-                    <td>{{ pos.maxQuantity }}</td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
 
 {% endblock %}
