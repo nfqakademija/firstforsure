@@ -135,7 +135,7 @@ class HomeController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('admin');
+        return $this->redirect("/admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1");
     }
 
     /**
@@ -208,7 +208,7 @@ class HomeController extends Controller
                 }
             }
             $em->flush();
-            return $this->redirectToRoute('admin');
+            return $this->redirect("/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1");
             //return $this->redirectToRoute('sendmail', ['md5' => $offer->getMd5()]);
         }
     }

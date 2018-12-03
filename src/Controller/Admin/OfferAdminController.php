@@ -137,6 +137,6 @@ class OfferAdminController extends BaseAdminController
         ;
 
         $mailer->send($message);
-        return $this->redirectToRoute('admin');
+        return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
     }
 }

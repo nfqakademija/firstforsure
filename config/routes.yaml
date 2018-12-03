@@ -12,3 +12,6 @@ readoffer:
 
 logout:
     path: /logout
+
+admin_template:
+    path: /admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1

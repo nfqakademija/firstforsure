@@ -34,7 +34,7 @@ class TemplateAdminController extends BaseAdminController
         $em->persist($template);
         $em->flush();
 
-        return $this->redirectToRoute('admin');
+        return $this->redirect("/admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1");
     }
 
     public function newAction()
