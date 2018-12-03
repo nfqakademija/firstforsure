@@ -19,6 +19,16 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findByStatus($status)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.status = :val')
+            ->setParameter('val', $status)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Position[] Returns an array of Position objects
     //  */

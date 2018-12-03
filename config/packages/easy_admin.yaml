@@ -59,6 +59,10 @@ easy_admin:
       label: 'Pasiūlymai'
       controller: App\Controller\Admin\OfferAdminController
       list:
+        form_filters:
+        - enabled
+        - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
+        - organization
         title: 'Pasiūlymai'
         dql_filter: "entity.status != 'Parduota'"
         actions:
@@ -88,9 +92,15 @@ easy_admin:
       label: 'Užsakymai'
       list:
         title: 'Užsakymai'
+        form_filters:
+        - enabled
+        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas } } }
+        - organization
         fields:
         - { label: 'Pasiūlymas', property: 'offer' }
         - { label: 'Užsakymas', property: 'template' }
+        - { label: 'Statusas', property: 'status' }
+
 
     # List the entity class name you want to manage
 #        - App\Entity\Position

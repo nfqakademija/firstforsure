@@ -133,9 +133,9 @@
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-bell fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Users</div>
-                        <div class="circle-tile-number text-faded ">265</div>
-                        <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <div class="circle-tile-description text-faded"> Peržiūrėti pasiūlymai</div>
+                        <div class="circle-tile-number text-faded ">{{ viewedCount }}</div>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Peržiūrėtas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -143,9 +143,9 @@
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Users</div>
-                        <div class="circle-tile-number text-faded ">265</div>
-                        <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <div class="circle-tile-description text-faded"> Išsiųsti pasiūlymai</div>
+                        <div class="circle-tile-number text-faded ">{{ sentCount }}</div>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Išsiųstas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -153,9 +153,9 @@
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Users</div>
-                        <div class="circle-tile-number text-faded ">265</div>
-                        <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <div class="circle-tile-description text-faded"> Atsakyti užsakymai</div>
+                        <div class="circle-tile-number text-faded ">{{ orderCount }}</div>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Atsakytas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -163,122 +163,65 @@
                 <div class="circle-tile ">
                     <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
                     <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Users</div>
-                        <div class="circle-tile-number text-faded ">265</div>
-                        <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <div class="circle-tile-description text-faded"> Patvirtinti užsakymai</div>
+                        <div class="circle-tile-number text-faded ">{{ acceptCount }}</div>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Patvirtintas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-6">
-                <div class="circle-tile ">
-                    <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
-                    <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Users</div>
-                        <div class="circle-tile-number text-faded ">265</div>
-                        <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-
 
         </div>
     </div>
 
     <div class="container">
-        <h2>Table Example</h2>
+        <h2>Reklamos pozicijos ( vienetai )</h2>
 
         <!--table-->
         <table class="table table-striped">
             <thead>
             <tr class="info">
                 <th>Pavadinimas</th>
-                <th>Bendras Kiekis</th>
                 <th>Likutis</th>
+                <th>Bendras kiekis</th>
 
             </thead>
             <tbody>
-            <tr>
-                <!--first example-->
-                <td>aaaa</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
-            <tr>
-                <!--second example-->
-                <td>sadsadsadsadsad</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
-            <tr>
-                <!--third example-->
-                <td>sadsadsadsadsad</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
+            {% for pos in positions %}
+                {% if pos.hasTime == false %}
+                    <tr>
+                        <td>{{ pos.name }}</td>
+                        <td>{{ pos.remaining }}</td>
+                        <td>{{ pos.maxQuantity }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
     </div>
     <div class="container">
-        <h2>Table Example</h2>
+        <h2>Reklamos pozicijos ( minutės )</h2>
 
         <!--table-->
         <table class="table table-striped">
             <thead>
             <tr class="info">
                 <th>Pavadinimas</th>
-                <th>Bendras Kiekis</th>
                 <th>Likutis</th>
+                <th>Bendras kiekis</th>
 
             </thead>
             <tbody>
-            <tr>
-                <!--first example-->
-                <td>aaaa</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
-            <tr>
-                <!--second example-->
-                <td>sadsadsadsadsad</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
-            <tr>
-                <!--third example-->
-                <td>sadsadsadsadsad</td>
-                <td>100</td>
-                <td>100</td>
-
-            </tr>
+            {% for pos in positions %}
+                {% if pos.hasTime == true %}
+                <tr>
+                    <td>{{ pos.name }}</td>
+                    <td>{{ pos.remaining }}</td>
+                    <td>{{ pos.maxQuantity }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
             </tbody>
         </table>
     </div>
-
-
-
-
-    <h1>Peržiūrėti pasiūlymai: {{ viewedCount }}</h1>
-    {% if viewedCount > 0 %}
-        {% for view in viewed %}
-            <p>{{ view.clientName }}</p>
-        {% endfor %}
-    {% endif %}
-
-    <h1>Išsiųsti pasiūlymai: {{ sentCount }}</h1>
-    {% if sentCount > 0 %}
-        {% for send in sent %}
-            <p>{{ send.clientName }}</p>
-        {% endfor %}
-    {% endif %}
-
-    <h1>Reklamos pozicijos: </h1>
-    {% for pos in positions %}
-        <p>"{{ pos.name }}" liko: {{ pos.remaining }}</p>
-    {% endfor %}
 
 {% endblock %}

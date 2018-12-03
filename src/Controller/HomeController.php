@@ -301,13 +301,13 @@ class HomeController extends Controller
 
         $boughtTempl->setOffer($boughtOffer);
         $boughtTempl->setTemplate($boughtTemplate);
+        $boughtTempl->setStatus("Atsakytas");
 
         $em->persist($boughtTempl);
 
-        $order = $orderRep->find($request->get("orderId"));
         $message = new Message();
         $message->setText($request->get("msg"));
-        $message->setOrder($order);
+        $message->setOrder($boughtTempl);
         $message->setUsername($request->get("username"));
         $message->setDate(new \DateTime());
 

@@ -9,6 +9,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Offer;
+use App\Entity\Order;
 use App\Entity\Position;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class AdminController extends BaseAdminController
     public function makeDashboard(Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Offer::class);
+        $repoOrder = $this->getDoctrine()->getRepository(Order::class);
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
 
         $viewed = $repo->findByStatus("Peržiūrėtas");
@@ -29,6 +31,12 @@ class AdminController extends BaseAdminController
 
         $sent = $repo->findByStatus("Išsiųstas");
         $sentCount = count($sent);
+
+        $came = $repoOrder->findByStatus("Atsakytas");
+        $orderCount = count($came);
+
+        $accept = $repoOrder->findByStatus("Patvirtintas");
+        $acceptCount = count($accept);
 
         $positions = $posRepo->findAll();
 
@@ -39,7 +47,9 @@ class AdminController extends BaseAdminController
             'viewedCount' => $viewedCount,
             'sent' => $sent,
             'sentCount' => $sentCount,
-            'positions' => $positions
+            'positions' => $positions,
+            'orderCount' => $orderCount,
+            'acceptCount' => $acceptCount,
         ]);
     }
 }

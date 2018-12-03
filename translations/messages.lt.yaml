@@ -6,3 +6,5 @@ admin:
     price: Vieneto kaina
   template:
     title: Šablonas
+list_form_filters:
+  heading_title: Antraštė
