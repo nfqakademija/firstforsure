@@ -1,10 +1,21 @@
 admin:
-  position:
-    title: Pozicija
-    name: Pavadinimas
-    reach: Pasiekiamumas
-    price: Vieneto kaina
-  template:
-    title: Šablonas
+  menu:
+    dashboard: Pagrindinis
+    templates: Šablonai
+    offers: Pasiūlymai
+    orders: Užsakymai
+    position:
+      hastime: Reklamos pozicijos (laikas)
+      notime: Reklamos pozicijos (vienetai)
+      title: Pozicija
+      name: Pavadinimas
+      reach: Pasiekiamumas
+      price: Vieneto kaina
+    template:
+      title: Šablonas
 list_form_filters:
   heading_title: Antraštė
+Offer: Pasiūlymas
+Position: poziciją
+Template: šabloną
+Status: Statusas

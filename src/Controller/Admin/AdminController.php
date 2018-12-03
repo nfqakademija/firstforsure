@@ -12,6 +12,7 @@ use App\Entity\Offer;
 use App\Entity\Order;
 use App\Entity\Position;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +21,7 @@ class AdminController extends BaseAdminController
     /**
      * @Route("/admin/dashboard", name="dashboard")
      */
-    public function makeDashboard(Request $request)
+    public function makeDashboard(Request $request, TranslatorInterface $translator)
     {
         $repo = $this->getDoctrine()->getRepository(Offer::class);
         $repoOrder = $this->getDoctrine()->getRepository(Order::class);

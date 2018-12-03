@@ -8,13 +8,13 @@ easy_admin:
 
 
     menu:
-    - { label: 'Pagrindinis', route: 'dashboard' }
-    - { label: 'Reklamos pozicijos ( laikas )', entity: Position }
-    - { label: 'Reklamos pozicijos ( vienetas )', entity: PositionWithoutTime }
-    - { label: 'Šablonai',entity: Template, role: ROLE_ADMIN}
-    - { label: 'Pasiūlymai', entity: Offer }
+    - { label: 'admin.menu.dashboard', route: 'dashboard' }
+    - { label: 'admin.menu.position.hastime', entity: Position }
+    - { label: 'admin.menu.position.notime', entity: PositionWithoutTime }
+    - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
+    - { label: 'admin.menu.offers', entity: Offer }
 #    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
-    - { label: 'Užsakymai', entity: Order }
+    - { label: 'admin.menu.orders', entity: Order }
   entities:
     Position:
       class: App\Entity\Position
@@ -56,14 +56,12 @@ easy_admin:
         - { label: 'Pasiekiamumas', property: 'reach' }
     Offer:
       class: App\Entity\Offer
-      label: 'Pasiūlymai'
       controller: App\Controller\Admin\OfferAdminController
       list:
         form_filters:
         - enabled
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
-        title: 'Pasiūlymai'
         dql_filter: "entity.status != 'Parduota'"
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
