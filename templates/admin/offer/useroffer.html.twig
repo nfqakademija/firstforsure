@@ -391,6 +391,7 @@
                                     </table>
                                 </div>
                                 <form action="/acceptoffer" method="post">
+                                    <h3>Jūsų komentaras</h3>
                                     <input type="hidden" value="{{ offer.id }}" name="orderId">
                                     <input type="hidden" value="{{ offer.clientName }}" name="username">
                                     <input type="text" name="msg">
@@ -474,16 +475,4 @@
             </div>
         </div>
     {% endfor %}
-    <h1>Messages:</h1>
-    {% for message in messages %}
-        <p><b>{{ message.username }}: </b>{{ message.text }}</p>
-    {% endfor %}
-    <form action="/sendrespond" method="post">
-        <input type="hidden" value="{{ offer.id }}" name="offerId">
-        <input type="hidden" value="{{ offer.clientName }}" name="username">
-        <input type="text" name="msg">
-        <input type="submit"/>
-    </form>
-
-
 {% endblock %}
