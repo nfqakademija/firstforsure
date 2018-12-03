@@ -87,7 +87,9 @@ easy_admin:
 #        - { label: 'Statusas', property: 'status' }
     Order:
       class: App\Entity\Order
+      controller: App\Controller\Admin\OrderAdminController
       label: 'Užsakymai'
+      disabled_actions: ['new']
       list:
         title: 'Užsakymai'
         form_filters:

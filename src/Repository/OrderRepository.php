@@ -29,6 +29,14 @@ class OrderRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findByOffer($offer){
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.offer = :val')
+            ->setParameter('val', $offer)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Position[] Returns an array of Position objects
     //  */

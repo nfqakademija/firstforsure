@@ -1,0 +1,18 @@
+{% block main %}
+<h1>VEIKIA</h1>
+    {% for msg in messages %}
+        <p>{{ msg.username }}:  {{ msg.text }}</p>
+    {% endfor %}
+
+    <form action="/clientorderresponse" method="post">
+        <h3>Jūsų komentaras</h3>
+        <input type="hidden" value="{{ order.id }}" name="orderId">
+        <input type="hidden" value="{{ order.offer.clientName }}" name="username">
+        <input type="text" name="msg">
+        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
+                type="submit"
+                id="btn-check-offers" name="accept">
+            <i class="fa fa-calculator"></i>Siusti zinute
+        </button>
+    </form>
+{% endblock %}
