@@ -66,6 +66,8 @@
 
       - name: "Assets install"
         shell: bin/console assets:install --env=prod
+        args:
+          chdir: "{{ deploy_helper.new_release_path }}"
 
       - name: Finalize the deploy, removing the unfinished file and switching the symlink
         deploy_helper:
