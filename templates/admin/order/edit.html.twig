@@ -17,4 +17,9 @@
             <i class="fa fa-calculator"></i>Siusti zinute
         </button>
     </form>
+    <form action="/orderaccept" method="post">
+        <h1>Patvirtinti užsakymą</h1>
+        <input type="hidden" value="{{ order.id }}" name="orderId">
+        <input type="submit">
+    </form>
 {% endblock %}

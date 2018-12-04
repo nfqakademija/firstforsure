@@ -9,12 +9,12 @@ easy_admin:
 
     menu:
     - { label: 'admin.menu.dashboard', route: 'dashboard' }
-    - { label: 'admin.menu.position.hastime', entity: Position }
-    - { label: 'admin.menu.position.notime', entity: PositionWithoutTime }
-    - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
+    - { label: 'admin.menu.orders', entity: Order }
     - { label: 'admin.menu.offers', entity: Offer }
 #    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
-    - { label: 'admin.menu.orders', entity: Order }
+    - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
+    - { label: 'admin.menu.position.hastime', entity: Position, role: ROLE_ADMIN}
+    - { label: 'admin.menu.position.notime', entity: PositionWithoutTime, role: ROLE_ADMIN}
   entities:
     Position:
       class: App\Entity\Position

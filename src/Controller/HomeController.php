@@ -287,10 +287,10 @@ class HomeController extends Controller
         $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
         $boughtTemplate->setStatus('Nupirkta');
 
-        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $key => $value) {
-            $remaining = $value->getPosition()->getRemaining();
-            $use = $value->getCount();
-            $value->getPosition()->setRemaining($remaining - $use);
+        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $value) {
+            //$remaining = $value->getPosition()->getRemaining();
+           // $use = $value->getCount();
+            //$value->getPosition()->setRemaining($remaining - $use);
             $valueclone = clone $value;
             $em->persist($valueclone);
             $boughtTemplate->addPositionTemplate($valueclone);

@@ -65,6 +65,33 @@ class OrderAdminController extends BaseAdminController
 
     /**
      *
+     * @Route("/orderaccept", name="orderaccept")
+     */
+    public function orderAccept(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('orderId');
+        $repo = $this->getDoctrine()->getRepository(Order::class);
+        $order = $repo->find($id);
+
+        $order->setStatus("Patvirtintas");
+
+        foreach($order->getTemplate()->getPositionTemplates() as $value) {
+            $remaining = $value->getPosition()->getRemaining();
+            $use = $value->getCount();
+            $value->getPosition()->setRemaining($remaining - $use);
+            $em->persist($value);
+            $em->flush();
+        }
+
+        $em->persist($order);
+        $em->flush();
+
+        return $this->redirectToRoute("admin");
+    }
+
+    /**
+     *
      * @Route("/clientorderresponse", name="clientorderresponse")
      */
     public function clientResponseSend(Request $request)
