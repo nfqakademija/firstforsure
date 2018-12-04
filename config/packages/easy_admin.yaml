@@ -62,12 +62,11 @@ easy_admin:
         - enabled
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
-        dql_filter: "entity.status != 'Parduota'"
+#        dql_filter: "entity.status != 'Parduota' AND entity.user.id = prisijungusiouserioid"
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
         fields:
-        - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
         - { label: 'Statusas', property: 'status' }

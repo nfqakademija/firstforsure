@@ -11,6 +11,9 @@ namespace App\Controller\Admin;
 use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\Order;
+use App\Entity\Position;
+use App\Entity\PositionTemplate;
+use App\Entity\Template;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,16 +24,135 @@ class OrderAdminController extends BaseAdminController
     {
         $msgRepo = $this->getDoctrine()->getRepository(Message::class);
         $orderRepo = $this->getDoctrine()->getRepository(Order::class);
+        $templRepo = $this->getDoctrine()->getRepository(Template::class);
         $id = $this->request->query->get('id');
 
         $order = $orderRepo->find($id);
 
+        $title = $order->getTemplate()->getTitle();
+
         $messages = $msgRepo->findByOfferId($id);
+
+        $posRepo = $this->getDoctrine()->getRepository(Position::class);
+
+        $activeItem = $templRepo->find($order->getTemplate()->getId());
+
+        $activePositionItems = $activeItem->getPositionTemplates();
+        $positionItems = $posRepo->findAll();
+        $positionTimeItems = $posRepo->findByTime(true);
+        $positionNoTimeItems = $posRepo->findByTime(false);
+
+        foreach ($positionItems as $value)
+        {
+            foreach ($activePositionItems as $value2)
+            {
+                if($value2->getPosition()->getId() === $value->getId()){
+                    $value->setCount($value2->getCount());
+                }
+            }
+        }
 
         return $this->render('admin/order/edit.html.twig', [
             'messages' => $messages,
-            'order' => $order
+            'order' => $order,
+            'id' => $id,
+            'title' => $title,
+            'positionTimeItems' => $positionTimeItems,
+            'positionNoTimeItems' => $positionNoTimeItems
         ]);
+    }
+
+    /**
+     * @Route("/makeordertemplate", name="makeordertemplate")
+     */
+    public function makeOrderTemplate(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $orderRepo = $this->getDoctrine()->getRepository(Order::class);
+        $active = $request->get('active');
+
+        foreach ($active as $key => $value) {
+            if ($value === "0") {
+                unset($active[$key]);
+            }
+        }
+
+        $orderId = $request->get('orderId');
+
+        $order = $orderRepo->find($orderId);
+
+        $template = $order->getTemplate();
+
+        $template->setTitle($request->get('title'));
+        $template->setStatus('Parduodama');
+
+        $em->persist($template);
+        $em->flush();
+
+        $posTemplates = $template->getPositionTemplates();
+
+        if ($active != null) {
+            foreach ($posTemplates as $key => $value) {
+                $index = $value->getPosition()->getId();
+                if (!in_array($index, $active)) {
+                    $price = $value->getCount() * $value->getPosition()->getPrice();
+                    $reach = $value->getCount() * $value->getPosition()->getReach();
+                    $template->minusPrice($price);
+                    $template->minusReach($reach);
+                    $em->remove($value);
+                    $em->flush();
+                }
+            }
+            foreach ($active as $key => $value) {
+                $exists = false;
+                $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
+                $templatePosition = new PositionTemplate();
+                $templatePosition->setTemplate($template)
+                    ->setPosition($position)
+                    ->setCount((int)$request->get('count')[$key]);
+                $position->setCount((int)$request->get('count')[$key]);
+
+                foreach ($posTemplates as $key2 => $value2) {
+                    if ($value2->getPosition() === $position) {
+                        $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $oldReach = $value2->getCount() * $value2->getPosition()->getReach();
+                        $value2->setPosition($position);
+                        $value2->setCount((int)$request->get('count')[$key]);
+                        $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $newReach = $value2->getCount() * $value2->getPosition()->getReach();
+                        $template->minusPrice($oldPrice);
+                        $template->addPrice($newPrice);
+                        $template->minusReach($oldReach);
+                        $template->addReach($newReach);
+                        $exists = true;
+                        break;
+                    }
+                }
+                if (!$exists) {
+                    $template->addPositionTemplate($templatePosition);
+
+                    $template->addPrice((float)$request->get('sum')[$key]);
+                    $template->addReach((float)$request->get('sum2')[$key]);
+
+
+                    $em->persist($templatePosition);
+                    $em->persist($template);
+                }
+            }
+        } else {
+            if ($posTemplates !== null) {
+                foreach ($posTemplates as $templ) {
+                    $template->removePositionTemplate($templ);
+                }
+                $template->setPrice(0);
+                $template->setReach(0);
+            }
+        }
+
+        $em->flush();
+
+        return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
     }
 
     /**

@@ -161,12 +161,16 @@ class HomeController extends Controller
             $offer = new Offer();
         } else {
             $offer = $offerRepo->find($offerId);
+            dump($offer);exit;
         }
 
         $offer->setClientEmail($request->get('clientEmail'));
         $offer->setClientName($request->get('clientName'));
         $offer->setMessage($request->get('message'));
         $offer->setStatus('Sukurtas');
+        $offer->setUser($this->getUser());
+
+        $em->persist($offer);
 
         $time = new \DateTime();
 
@@ -284,6 +288,7 @@ class HomeController extends Controller
         $boughtOffer->setStatus('Parduota');
         $boughtTemplate = new Template();
         $boughtTemplate->setPrice($acceptedOT->getTemplate()->getPrice());
+        $boughtTemplate->setReach($acceptedOT->getTemplate()->getReach());
         $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
         $boughtTemplate->setStatus('Nupirkta');
 

@@ -15,6 +15,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminContr
 
 class OfferAdminController extends BaseAdminController
 {
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $user = $this->getUser();
+        $dqlFilter = "entity.status != 'Parduota' AND entity.user = ".$user->getId();
+        return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+    }
+
     public function newAction()
     {
         // creates a task and gives it some dummy data for this example
