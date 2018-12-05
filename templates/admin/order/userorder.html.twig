@@ -27,25 +27,15 @@
     <div class="container">
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">Panel heading without title</div>
+                <div class="panel-heading">{{ order.id }}</div>
                 <div class="panel-body">
                     <div class="container">
+                        {% for msg in messages %}
                         <div class="row message-bubble">
-                            <p class="text-muted">Matt Townsen</p>
-                            <span>Why is yo shit so broke?</span>
+                            <p class="text-muted">{{ msg.username }}:</p>
+                            <span>{{ msg.text }}</span>
                         </div>
-                        <div class="row message-bubble">
-                            <p class="text-muted">Matt Townsen</p>
-                            <p>It Isn't'</p>
-                        </div>
-                        <div class="row message-bubble">
-                            <p class="text-muted">Matt Townsen</p>
-                            <p>Umm yes it is</p>
-                        </div>
-                        <div class="row message-bubble">
-                            <p class="text-muted">Matt Townsen</p>
-                            <p>Test message</p>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="panel-footer">
                         <div class="input-group">
@@ -61,9 +51,7 @@
     </div>
 
 <h1>VEIKIA</h1>
-    {% for msg in messages %}
-        <p>{{ msg.username }}:  {{ msg.text }}</p>
-    {% endfor %}
+
 
     <form action="/clientorderresponse" method="post">
         <h3>Jūsų komentaras</h3>
