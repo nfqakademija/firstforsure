@@ -6,6 +6,7 @@
     <h1 class="title">{{ _content_title }}</h1>
 {% endblock %}
 {% block main %}
+
     <script>
         function recalculate() {
             var i, total = 0;
@@ -106,11 +107,29 @@
             opacity: 0;
         }
         input[type=text] {
-            width: 50%;
-            padding: 12px 20px;
+            width: 70%;
+            padding: 1px 1px;
             margin: 8px 0;
             box-sizing: border-box;
-            border: 2px solid green;
+            border: 1px solid green;
+            border-radius: 2px;
+        }
+
+        .inputName {
+            width: 50%;
+            padding: 10px 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid green;
+            border-radius: 2px;
+        }
+
+        .inputQty {
+            width: 50%;
+            padding: 1px 1px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid green;
             border-radius: 2px;
         }
 
@@ -199,6 +218,9 @@
             right:0;            /*and to the left of the window.*/
         }
 
+        p { color: #222; font-family: 'Open Sans', sans-serif;
+            font-size: 15px; font-weight: 400; line-height: 24px; margin: 0 0 14px; }
+
 
 
     </style>
@@ -216,20 +238,20 @@
     <form action="/maketemplate" method="post">
         <input name="id" hidden value="{{ id }}" />
         <center>
-            <input name="title" type="text" value="{{ title }}"/>
+            <input name="title" class=" inputName"  value="{{ title }}"/>
             <button class="myButton">Saugoti</button>
 
         </center>
         <table class="table table-responsive">
 
             <tr>
-                <th scope="col"><p class="lead" align="center">✔</p></th>
-                <th scope="col"><p class="lead" align="center">Pozicija</p></th>
-                <th scope="col"><p class="lead" align="center">Kiekis</p></th>
-                <th scope="col"><p class="lead" align="center">Vieneto kaina</p></th>
-                <th scope="col"><p class="lead" align="center">Pamatymai</p></th>
-                <th scope="col"><p class="lead" align="center">Suma</p></th>
-                <th scope="col"><p class="lead" align="center">PSuma</p></th>
+                <th scope="col"><p  align="center">✔</p></th>
+                <th scope="col"><p  align="center">Pozicija</p></th>
+                <th scope="col"><p  align="center">Kiekis</p></th>
+                <th scope="col"><p  align="center">Vieneto kaina</p></th>
+                <th scope="col"><p  align="center">Pamatymai</p></th>
+                <th scope="col"><p  align="center">Suma</p></th>
+                <th scope="col"><p  align="center">PSuma</p></th>
             </tr>
 
             <tbody>
@@ -245,7 +267,7 @@
                                 <span class="glyphicon glyphicon-ok"></span>
                             </label>
                         </div></td>
-                    <td><p class="lead" align="center">{{ position.name }}</p></td>
+                    <td><p align="center">{{ position.name }}</p></td>
                     <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/><span>{{ position.remaining }}</span></td></p>
                     <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
                     <td><p align="center"><input class="positionViews" type="text" disabled value="{{ position.reach }}"/></td></p>
@@ -261,10 +283,10 @@
         <table class="table table-responsive">
 
             <tr>
-                <th scope="col"><p class="lead" align="center">✔</p></th>
-                <th scope="col"><p class="lead" align="center">Pozicija</p></th>
-                <th scope="col"><p class="lead" align="center">Kaina</p></th>
-                <th scope="col"><p class="lead" align="center">Pasiekiamumas</p></th>
+                <th scope="col"><p align="center">✔</p></th>
+                <th scope="col"><p  align="center">Pozicija</p></th>
+                <th scope="col"><p  align="center">Kaina</p></th>
+                <th scope="col"><p  align="center">Pasiekiamumas</p></th>
             </tr>
 
             <tbody>
@@ -280,7 +302,7 @@
                                 <span class="glyphicon glyphicon-ok"></span>
                             </label>
                         </div></td>
-                    <td><p class="lead" align="center">{{ position.name }}</p></td>
+                    <td><p  align="center">{{ position.name }}</p></td>
                     <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price }}></td></p>
                     <td><p align="center"><input  class="sum2" name="sum2[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach }}></td></p>
                     <input hidden class="positionViews" type="text" disabled value="{{ position.reach }}"/>
