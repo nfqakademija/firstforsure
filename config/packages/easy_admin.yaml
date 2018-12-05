@@ -11,7 +11,6 @@ easy_admin:
     - { label: 'admin.menu.dashboard', route: 'dashboard' }
     - { label: 'admin.menu.orders', entity: Order }
     - { label: 'admin.menu.offers', entity: Offer }
-#    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
     - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
     - { label: 'admin.menu.position.hastime', entity: Position, role: ROLE_ADMIN}
     - { label: 'admin.menu.position.notime', entity: PositionWithoutTime, role: ROLE_ADMIN}
@@ -65,6 +64,7 @@ easy_admin:
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
+        sort: ['viewed', 'ASC']
         fields:
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
@@ -90,6 +90,7 @@ easy_admin:
       label: 'Užsakymai'
       disabled_actions: ['new']
       list:
+        sort: 'viewed'
         title: 'Užsakymai'
         form_filters:
         - enabled
