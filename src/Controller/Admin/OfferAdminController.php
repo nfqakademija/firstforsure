@@ -137,7 +137,8 @@ class OfferAdminController extends BaseAdminController
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
-                    array('link' => '127.0.0.1:8000/readoffer/'.$offer->getMd5(), 'offer' => $offer)
+                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readoffer/'.$offer->getMd5(), 'offer' => $offer)
+                    //array('link' => '127.0.0.1:8000/readoffer/'.$offer->getMd5(), 'offer' => $offer)
                 ),
                 'text/html'
             )/*
