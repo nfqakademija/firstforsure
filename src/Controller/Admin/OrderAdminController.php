@@ -82,6 +82,7 @@ class OrderAdminController extends BaseAdminController
     public function makeOrderTemplate(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $mailer = $this->get('mailer');
 
         $orderRepo = $this->getDoctrine()->getRepository(Order::class);
         $active = $request->get('active');
@@ -95,6 +96,10 @@ class OrderAdminController extends BaseAdminController
         $orderId = $request->get('orderId');
 
         $order = $orderRepo->find($orderId);
+        $order->setStatus("Atnaujintas/Išsiųstas");
+        $date = new \DateTime();
+        //$date->modify('+2 hours');
+        $order->setViewed($date->format('Y-m-d H:i:s'));
 
         $template = $order->getTemplate();
 
@@ -163,6 +168,49 @@ class OrderAdminController extends BaseAdminController
             }
         }
 
+        $message = new Message();
+
+        $message->setDate(new \DateTime());
+        $message->setText($request->get('msg'));
+        $message->setOrder($order);
+        $message->setUsername("MANAGER");
+
+        $em->persist($message);
+
+        $time = new \DateTime();
+
+        $hash = md5($request->get('username') . $time->format('Y-m-d H:i:s'));
+
+        $order->getOffer()->setMd5($hash);
+
+        $em->persist($order);
+        $em->flush();
+
+        $message = (new \Swift_Message('Atsakymas į reklamos pasiūlymą'))
+            ->setFrom('zrvtzrvt@gmail.com')
+            ->setTo($order->getOffer()->getClientEmail())
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'admin/offer/mail.html.twig',
+                    array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
+                ),
+                'text/html'
+            )/*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+
+        $mailer->send($message);
+        return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
+
         $em->flush();
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
@@ -187,7 +235,11 @@ class OrderAdminController extends BaseAdminController
                 'errorType' => 2
             ]);
         }
-        //$order[0]->setStatus('Peržiūrėtas');
+        $order[0]->setStatus('Peržiūrėtas');
+        $date = new \DateTime();
+        $order[0]->setViewed($date->format('Y-m-d H:i:s'));
+        $em->persist($order[0]);
+        $em->flush();
 
         $messages = $mrepo->findByOfferId($order[0]->getId());
 
@@ -241,6 +293,8 @@ class OrderAdminController extends BaseAdminController
 
 
         $order->setStatus('Atsakytas');
+        $date = new \DateTime();
+        $order->setViewed($date->format('Y-m-d H:i:s'));
 
         $em->persist($order);
         $message = new Message();
@@ -274,6 +328,8 @@ class OrderAdminController extends BaseAdminController
 
 
         $order->setStatus('Išsiųstas');
+        $date = new \DateTime();
+        $order->setViewed($date->format('Y-m-d H:i:s'));
 
         $em->persist($order);
         $message = new Message();

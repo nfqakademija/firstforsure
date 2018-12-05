@@ -69,6 +69,7 @@ easy_admin:
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
         - { label: 'Statusas', property: 'status' }
+        - { label: 'Atnaujinimo laikas', property: 'viewed' }
 #    SoldOffer:
 #      class: App\Entity\Offer
 #      label: 'Parduoti pasiūlymai'
@@ -100,6 +101,7 @@ easy_admin:
         - { label: 'Kaina', property: 'template.price' }
         - { label: 'Pasiekiamumas', property: 'template.reach' }
         - { label: 'Statusas', property: 'status' }
+        - { label: 'Atnaujinimo laikas', property: 'viewed' }
 
 
     # List the entity class name you want to manage

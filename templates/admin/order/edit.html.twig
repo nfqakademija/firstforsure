@@ -285,6 +285,14 @@
             {% endfor %}
             </tbody>
         </table>
+        <h3>Messages</h3>
+        {% for msg in messages %}
+            <p><b>{{ msg.username }}: </b>{{ msg.text }}</p>
+        {% endfor %}
+        <h1>Atsakymas</h1>
+            <h3>Jūsų komentaras</h3>
+            <input type="hidden" value="{{ order.offer.clientName }}" name="username">
+            <input type="text" name="msg">
         <footer id="sticky">
 
             <div class="row">
@@ -304,22 +312,6 @@
     </form>
 
 <h1>Order edit</h1>
-    <h3>Messages</h3>
-    {% for msg in messages %}
-        <p><b>{{ msg.username }}: </b>{{ msg.text }}</p>
-    {% endfor %}
-    <h1>Atsakymas</h1>
-    <form action="/orderresponse" method="post">
-        <h3>Jūsų komentaras</h3>
-        <input type="hidden" value="{{ order.id }}" name="orderId">
-        <input type="hidden" value="{{ order.offer.clientName }}" name="username">
-        <input type="text" name="msg">
-        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
-                type="submit"
-                id="btn-check-offers" name="accept">
-            <i class="fa fa-calculator"></i>Siusti zinute
-        </button>
-    </form>
     <form action="/orderaccept" method="post">
         <h1>Patvirtinti užsakymą</h1>
         <input type="hidden" value="{{ order.id }}" name="orderId">

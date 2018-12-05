@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\Validator\Constraints\Date;
 
 class HomeController extends Controller
 {
@@ -161,7 +162,6 @@ class HomeController extends Controller
             $offer = new Offer();
         } else {
             $offer = $offerRepo->find($offerId);
-            dump($offer);exit;
         }
 
         $offer->setClientEmail($request->get('clientEmail'));
@@ -169,6 +169,8 @@ class HomeController extends Controller
         $offer->setMessage($request->get('message'));
         $offer->setStatus('Sukurtas');
         $offer->setUser($this->getUser());
+        $date = new \DateTime();
+        $offer->setViewed($date->format('Y-m-d H:i:s'));
 
         $em->persist($offer);
 
@@ -195,7 +197,6 @@ class HomeController extends Controller
                 foreach ($offerTemplates as $key2 => $value2) {
                     if ($value2->getTemplate() === $template) {
                         $exists = true;
-                        dump($value2);
                         break;
                     }
                 }
@@ -234,6 +235,8 @@ class HomeController extends Controller
         if ($offer[0]->getStatus() != 'Parduota') {
 
             $offer[0]->setStatus('Peržiūrėtas');
+            $date = new \DateTime();
+            $offer[0]->setViewed($date->format('Y-m-d H:i:s'));
             $em->persist($offer[0]);
             $em->flush();
 

@@ -50,7 +50,7 @@ class Offer
     private $status;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=32)
      */
     private $viewed;
 
