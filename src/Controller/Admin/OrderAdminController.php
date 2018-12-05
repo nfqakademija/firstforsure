@@ -262,6 +262,9 @@ class OrderAdminController extends BaseAdminController
         $order = $repo->find($id);
 
         $order->setStatus("Patvirtintas");
+        $date = new \DateTime();
+
+        $order->setViewed($date->format("Y-m-d H:i:s"));
 
         foreach($order->getTemplate()->getPositionTemplates() as $value) {
             $remaining = $value->getPosition()->getRemaining();
@@ -274,7 +277,7 @@ class OrderAdminController extends BaseAdminController
         $em->persist($order);
         $em->flush();
 
-        return $this->redirectToRoute("admin");
+        return $this->redirect("/admin/?entity=Order&action=list&menuIndex=1&submenuIndex=-1");
     }
 
     /**
