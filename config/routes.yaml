@@ -15,3 +15,6 @@ logout:
 
 admin_template:
     path: /admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1
+
+admin_dashboard:
+    path: /admin/dashboard

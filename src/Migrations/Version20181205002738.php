@@ -8,14 +8,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181115114159 extends AbstractMigration
+final class Version20181205002738 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE position ADD `limit` INT NOT NULL, CHANGE timeleft remaining INT NOT NULL');
+        $this->addSql('ALTER TABLE offer CHANGE viewed viewed VARCHAR(32) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20181115114159 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE position ADD timeleft INT NOT NULL, DROP remaining, DROP `limit`');
+        $this->addSql('ALTER TABLE offer CHANGE viewed viewed DATETIME NOT NULL');
     }
 }

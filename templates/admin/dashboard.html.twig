@@ -128,6 +128,51 @@
 
 
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <h1>Užsakymai</h1>
+    <div class="row">
+        <div class="col-lg-2 col-sm-3">
+            <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content green">
+                    <div class="circle-tile-description text-faded"> Atsakyti </div>
+                    <div class="circle-tile-number text-faded ">{{ orderCount }}</div>
+                    <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=1&submenuIndex=-1&form_filters[status][0]=Atsakytas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-3">
+            <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content green">
+                    <div class="circle-tile-description text-faded"> Patvirtinti </div>
+                    <div class="circle-tile-number text-faded ">{{ acceptCount }}</div>
+                    <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=1&submenuIndex=-1&form_filters[status][0]=Patvirtintas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-3">
+            <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading green"><i class="fa fa-bell fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content green">
+                    <div class="circle-tile-description text-faded"> Peržiūrėti </div>
+                    <div class="circle-tile-number text-faded ">{{ viewedOrderCount }}</div>
+                    <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=1&submenuIndex=-1&form_filters[status][0]=Peržiūrėtas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-sm-3">
+            <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content green">
+                    <div class="circle-tile-description text-faded"> Išsiųsti </div>
+                    <div class="circle-tile-number text-faded ">{{ sentOrderCount }}</div>
+                    <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=1&submenuIndex=-1&form_filters[status][0]=Išsiųstas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <h1>Pasiūlymai</h1>
     <div class="container bootstrap snippet">
         <div class="row">
             <div class="col-lg-2 col-sm-3">
@@ -136,7 +181,7 @@
                     <div class="circle-tile-content green">
                         <div class="circle-tile-description text-faded"> Peržiūrėti </div>
                         <div class="circle-tile-number text-faded ">{{ viewedCount }}</div>
-                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Peržiūrėtas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=2&submenuIndex=-1&form_filters[status][0]=Peržiūrėtas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -146,31 +191,10 @@
                     <div class="circle-tile-content green">
                         <div class="circle-tile-description text-faded"> Išsiųsti </div>
                         <div class="circle-tile-number text-faded ">{{ sentCount }}</div>
-                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=4&submenuIndex=-1&form_filters[status][0]=Išsiųstas">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Offer&sortField=id&sortDirection=DESC&menuIndex=2&submenuIndex=-1&form_filters[status][0]=Išsiųstas">More Info<i class="fa fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-sm-3">
-                <div class="circle-tile ">
-                    <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
-                    <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Atsakyti </div>
-                        <div class="circle-tile-number text-faded ">{{ orderCount }}</div>
-                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Atsakytas">More Info<i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-sm-3">
-                <div class="circle-tile ">
-                    <a href="#"><div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
-                    <div class="circle-tile-content green">
-                        <div class="circle-tile-description text-faded"> Patvirtinti </div>
-                        <div class="circle-tile-number text-faded ">{{ acceptCount }}</div>
-                        <a class="circle-tile-footer" href="/admin/?action=list&entity=Order&sortField=id&sortDirection=DESC&menuIndex=5&submenuIndex=-1&form_filters[status][0]=Patvirtintas">More Info<i class="fa fa-chevron-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 

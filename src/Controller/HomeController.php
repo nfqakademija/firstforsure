@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\Validator\Constraints\Date;
 
 class HomeController extends Controller
 {
@@ -167,6 +168,11 @@ class HomeController extends Controller
         $offer->setClientName($request->get('clientName'));
         $offer->setMessage($request->get('message'));
         $offer->setStatus('Sukurtas');
+        $offer->setUser($this->getUser());
+        $date = new \DateTime();
+        $offer->setViewed($date->format('Y-m-d H:i:s'));
+
+        $em->persist($offer);
 
         $time = new \DateTime();
 
@@ -191,7 +197,6 @@ class HomeController extends Controller
                 foreach ($offerTemplates as $key2 => $value2) {
                     if ($value2->getTemplate() === $template) {
                         $exists = true;
-                        dump($value2);
                         break;
                     }
                 }
@@ -230,6 +235,8 @@ class HomeController extends Controller
         if ($offer[0]->getStatus() != 'Parduota') {
 
             $offer[0]->setStatus('Peržiūrėtas');
+            $date = new \DateTime();
+            $offer[0]->setViewed($date->format('Y-m-d H:i:s'));
             $em->persist($offer[0]);
             $em->flush();
 
@@ -284,13 +291,14 @@ class HomeController extends Controller
         $boughtOffer->setStatus('Parduota');
         $boughtTemplate = new Template();
         $boughtTemplate->setPrice($acceptedOT->getTemplate()->getPrice());
+        $boughtTemplate->setReach($acceptedOT->getTemplate()->getReach());
         $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
         $boughtTemplate->setStatus('Nupirkta');
 
-        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $key => $value) {
-            $remaining = $value->getPosition()->getRemaining();
-            $use = $value->getCount();
-            $value->getPosition()->setRemaining($remaining - $use);
+        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $value) {
+            //$remaining = $value->getPosition()->getRemaining();
+           // $use = $value->getCount();
+            //$value->getPosition()->setRemaining($remaining - $use);
             $valueclone = clone $value;
             $em->persist($valueclone);
             $boughtTemplate->addPositionTemplate($valueclone);
@@ -302,6 +310,7 @@ class HomeController extends Controller
         $boughtTempl->setOffer($boughtOffer);
         $boughtTempl->setTemplate($boughtTemplate);
         $boughtTempl->setStatus("Atsakytas");
+        $boughtTempl->setUser($this->getUser());
 
         $em->persist($boughtTempl);
 

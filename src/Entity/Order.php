@@ -31,6 +31,11 @@ class Order
     private $offer;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $discount;
+
+    /**
      * @var Template
      * @ORM\ManyToOne(targetEntity="App\Entity\Template")
      * @ORM\JoinColumn(nullable=false)
@@ -42,6 +47,68 @@ class Order
      * @ORM\Column(type="string", length=32)
      */
     private $status;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $viewed;
+
+    /**
+     * @return mixed
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
+
+    /**
+     * @param mixed $viewed
+     */
+    public function setViewed($viewed): void
+    {
+        $this->viewed = $viewed;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @param mixed $discount
+     */
+    public function setDiscount($discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+
 
     /**
      * @return mixed

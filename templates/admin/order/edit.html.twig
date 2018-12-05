@@ -1,20 +1,319 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {% block main %}
-<h1>Order edit</h1>
-    <h3>Messages</h3>
-    {% for msg in messages %}
-        <p><b>{{ msg.username }}: </b>{{ msg.text }}</p>
-    {% endfor %}
-    <h1>Atsakymas</h1>
-    <form action="/orderresponse" method="post">
-        <h3>Jūsų komentaras</h3>
+    <script>
+        function recalculate() {
+            var i, total = 0;
+            for (i = 0; i < $('.sum').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                    total += parseInt($($('.sum')[i]).val());
+                }
+            }
+            $('#moneycount').text(total);
+            var i, total = 0;
+            for (i = 0; i < $('.sum2').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                    total += parseInt($($('.sum2')[i]).val());
+                }}
+            $('#reachcount').text(total);
+        };
+
+        function calculate() {
+
+
+            var i, total=0;
+            for (i = 0; i < $('.sum').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                    total += parseInt($($('.sum')[i]).val());
+                }
+            }
+            $('#moneycount').text(total);
+
+
+
+
+
+            var i, total=0;
+            for (i = 0; i < $('.sum2').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                    total += parseInt($($('.sum2')[i]).val());
+                }
+            }
+            $('#reachcount').text(total);
+
+
+        }
+
+        $(document).ready(function () {
+
+
+            recalculate();
+
+
+
+
+            $('.checkbox-js').on('click', function() {
+                console.log('atejo');
+                console.log($(this).find('.check').val());
+                if($(this).find('.check').val()>0) {
+                    console.log('ATEJO i g');
+                    $(this).find('.check').val(0);
+                    recalculate();
+                }
+                else {
+
+                    console.log('ATEJO i bloga');
+                    $(this).find('.check').val(1);
+                    recalculate();
+
+
+                }
+
+            });
+            $('.positionCount').on('change', function () {
+                var sumInput = $(this).closest('.positionRow').find('.sum');
+                var newInput = $(this).val() * $(sumInput).data('price');
+                $(sumInput).val(newInput);
+                recalculate();
+            })
+
+            $('.positionCount').on('change', function () {
+                var sumInput = $(this).closest('.positionRow').find('.sum2');
+                var newInput = $(this).val() * $(sumInput).data('reach');
+                $(sumInput).val(newInput);
+                recalculate();
+            })
+
+
+        })
+
+
+
+        ///////////////////////////////////////
+
+
+    </script>
+    <style>
+        .btn span.glyphicon {
+            opacity: 1;
+        }
+        .btn.active span.glyphicon {
+            opacity: 0;
+        }
+        input[type=text] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid green;
+            border-radius: 2px;
+        }
+
+        .myButton {
+            background-color:green;
+            -moz-border-radius:28px;
+            -webkit-border-radius:28px;
+            border-radius:28px;
+            border:1px solid green;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:19px;
+            padding:3px 9px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #2f6627;
+        }
+        .myButton:hover {
+            background-color:green;
+        }
+        .myButton:active {
+            position:relative;
+            top:1px;
+        }
+
+        @font-face {
+            font-family: 'Glyphicons Halflings';
+            src: url(../fonts/glyphicons-halflings-regular.eot);
+            src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(../fonts/glyphicons-halflings-regular.woff) format('woff'), url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+        }
+
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: 400;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        .glyphicon-ok:before {
+            content: "\e013"
+        }
+
+        @media only screen and (max-width: 600px) {
+            input[type=text] {
+                width: 50%;
+                padding: 1px 2px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid green;
+                border-radius: 2px;
+            }
+
+            position-checkbox {
+                padding: 3px 4px;
+            }
+
+
+        }
+
+        body {
+            margin:0; /*gets rid of white space around body*/
+            margin-top:16px;
+            position:relative; /*REQUIRED Sets up positioning for your footer*/
+        }
+
+        #sticky {
+            width:36%;
+            border: 2px solid green;
+            background-color: whitesmoke!important;
+            padding-top:3px;
+            padding-bottom: 3px;
+            margin-bottom: 3px;
+            background:white;
+            color:black;
+            font-weight:bold;
+            font-size:24px;
+            text-align:center;
+            position:fixed;    /*Here's what sticks it*/
+            bottom:0;          /*to the bottom of the window*/
+            right:0;            /*and to the left of the window.*/
+        }
+
+
+
+    </style>
+
+    <center><h2 class="module-title">Šablonas</h2></center>
+
+
+
+
+
+
+
+
+    <form action="/makeordertemplate" method="post">
         <input type="hidden" value="{{ order.id }}" name="orderId">
-        <input type="hidden" value="{{ order.offer.clientName }}" name="username">
-        <input type="text" name="msg">
-        <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
-                type="submit"
-                id="btn-check-offers" name="accept">
-            <i class="fa fa-calculator"></i>Siusti zinute
-        </button>
+        <center>
+            <input name="title" type="text" value="{{ title }}"/>
+            <button class="myButton">Saugoti</button>
+
+        </center>
+        <table class="table table-responsive">
+
+            <tr>
+                <th scope="col"><p class="lead" align="center">✔</p></th>
+                <th scope="col"><p class="lead" align="center">Pozicija</p></th>
+                <th scope="col"><p class="lead" align="center">Kiekis</p></th>
+                <th scope="col"><p class="lead" align="center">Vieneto kaina</p></th>
+                <th scope="col"><p class="lead" align="center">Pamatymai</p></th>
+                <th scope="col"><p class="lead" align="center">Suma</p></th>
+                <th scope="col"><p class="lead" align="center">PSuma</p></th>
+            </tr>
+
+            <tbody>
+
+            {% for position in positionTimeItems %}
+
+                <tr class="positionRow">
+                    <td>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
+                                <input type="checkbox" />
+                                <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </label>
+                        </div></td>
+                    <td><p class="lead" align="center">{{ position.name }}</p></td>
+                    <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/><span>{{ position.remaining }}</span></td></p>
+                    <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
+                    <td><p align="center"><input class="positionViews" type="text" disabled value="{{ position.reach }}"/></td></p>
+                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
+                    <td><p align="center"><input  class="sum2" name="sum2[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach*position.count }}></td></p>
+
+                </tr>
+
+
+            {% endfor %}
+            </tbody>
+        </table>
+        <table class="table table-responsive">
+
+            <tr>
+                <th scope="col"><p class="lead" align="center">✔</p></th>
+                <th scope="col"><p class="lead" align="center">Pozicija</p></th>
+                <th scope="col"><p class="lead" align="center">Kaina</p></th>
+                <th scope="col"><p class="lead" align="center">Pasiekiamumas</p></th>
+            </tr>
+
+            <tbody>
+
+            {% for position in positionNoTimeItems %}
+
+                <tr class="positionRow">
+                    <td>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
+                                <input type="checkbox" />
+                                <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </label>
+                        </div></td>
+                    <td><p class="lead" align="center">{{ position.name }}</p></td>
+                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price }}></td></p>
+                    <td><p align="center"><input  class="sum2" name="sum2[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach }}></td></p>
+                    <input hidden class="positionViews" type="text" disabled value="{{ position.reach }}"/>
+                    <input hidden class="positionPrice" type="text" disabled value="{{ position.price }}"/>
+                    <input hidden class="positionCount"  name='count[{{ position.id }}]' type="text" value="1"/>
+                </tr>
+
+
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3>Messages</h3>
+        {% for msg in messages %}
+            <p><b>{{ msg.username }}: </b>{{ msg.text }}</p>
+        {% endfor %}
+        <h1>Atsakymas</h1>
+            <h3>Jūsų komentaras</h3>
+            <input type="hidden" value="{{ order.offer.clientName }}" name="username">
+            <input type="text" name="msg">
+        <footer id="sticky">
+
+            <div class="row">
+                <p>Bendra kaina:<span id='moneycount'>000</span></p>
+                <p>Numatomos perziuros:<span id='reachcount'>000</span></p>
+
+
+            </div>
+        </footer>
+
+
+        <center>
+            <button class="myButton">Saugoti</button>
+        </center>
+
+
+    </form>
+
+    <form action="/orderaccept" method="post">
+        <h1>Patvirtinti užsakymą</h1>
+        <input type="hidden" value="{{ order.id }}" name="orderId">
+        <input type="submit">
     </form>
 {% endblock %}

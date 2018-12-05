@@ -50,7 +50,7 @@ class Offer
     private $status;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=32)
      */
     private $viewed;
 
@@ -69,12 +69,35 @@ class Offer
     private $offerTemplates;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * Template constructor.
      */
     public function __construct()
     {
         $this->offerTemplates = new ArrayCollection();
         $this->viewed = New \DateTime();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
     /**

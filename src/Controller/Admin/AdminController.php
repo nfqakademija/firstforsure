@@ -27,17 +27,25 @@ class AdminController extends BaseAdminController
         $repoOrder = $this->getDoctrine()->getRepository(Order::class);
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
 
-        $viewed = $repo->findByStatus("Peržiūrėtas");
+        $user = $this->getUser();
+
+        $viewed = $repo->findByStatus("Peržiūrėtas", $user->getId());
         $viewedCount = count($viewed);
 
-        $sent = $repo->findByStatus("Išsiųstas");
+        $sent = $repo->findByStatus("Išsiųstas", $user->getId());
         $sentCount = count($sent);
 
-        $came = $repoOrder->findByStatus("Atsakytas");
+        $came = $repoOrder->findByStatus("Atsakytas", $user->getId());
         $orderCount = count($came);
 
-        $accept = $repoOrder->findByStatus("Patvirtintas");
+        $accept = $repoOrder->findByStatus("Patvirtintas", $user->getId());
         $acceptCount = count($accept);
+
+        $viewedOrder = $repoOrder->findByStatus("Peržiūrėtas", $user->getId());
+        $viewedOrderCount = count($viewedOrder);
+
+        $sentOrder = $repoOrder->findByStatus("Išsiųstas", $user->getId());
+        $sentOrderCount = count($sentOrder);
 
         $positions = $posRepo->findAll();
 
@@ -51,6 +59,8 @@ class AdminController extends BaseAdminController
             'positions' => $positions,
             'orderCount' => $orderCount,
             'acceptCount' => $acceptCount,
+            'viewedOrderCount' => $viewedOrderCount,
+            'sentOrderCount' => $sentOrderCount
         ]);
     }
 }

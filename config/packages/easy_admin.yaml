@@ -9,12 +9,12 @@ easy_admin:
 
     menu:
     - { label: 'admin.menu.dashboard', route: 'dashboard' }
-    - { label: 'admin.menu.position.hastime', entity: Position }
-    - { label: 'admin.menu.position.notime', entity: PositionWithoutTime }
-    - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
+    - { label: 'admin.menu.orders', entity: Order }
     - { label: 'admin.menu.offers', entity: Offer }
 #    - { label: 'Parduoti pasiūlymai', entity: SoldOffer }
-    - { label: 'admin.menu.orders', entity: Order }
+    - { label: 'admin.menu.templates',entity: Template, role: ROLE_ADMIN}
+    - { label: 'admin.menu.position.hastime', entity: Position, role: ROLE_ADMIN}
+    - { label: 'admin.menu.position.notime', entity: PositionWithoutTime, role: ROLE_ADMIN}
   entities:
     Position:
       class: App\Entity\Position
@@ -62,15 +62,14 @@ easy_admin:
         - enabled
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
-        dql_filter: "entity.status != 'Parduota'"
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
         fields:
-        - { label: 'Gavėjo email', property: 'clientEmail' }
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
         - { label: 'Statusas', property: 'status' }
+        - { label: 'Atnaujinimo laikas', property: 'viewed' }
 #    SoldOffer:
 #      class: App\Entity\Offer
 #      label: 'Parduoti pasiūlymai'
@@ -94,12 +93,15 @@ easy_admin:
         title: 'Užsakymai'
         form_filters:
         - enabled
-        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas } } }
+        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas, Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
         fields:
-        - { label: 'Pasiūlymas', property: 'offer' }
+        - { label: 'Klientas', property: 'offer.clientEmail' }
         - { label: 'Užsakymas', property: 'template' }
+        - { label: 'Kaina', property: 'template.price' }
+        - { label: 'Pasiekiamumas', property: 'template.reach' }
         - { label: 'Statusas', property: 'status' }
+        - { label: 'Atnaujinimo laikas', property: 'viewed' }
 
 
     # List the entity class name you want to manage
