@@ -193,8 +193,9 @@ class OrderAdminController extends BaseAdminController
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
-                    array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
-                ),
+                    //array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
+                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
+               ),
                 'text/html'
             )/*
              * If you also want to include a plaintext version of the message
