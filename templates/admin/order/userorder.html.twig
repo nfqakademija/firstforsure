@@ -59,12 +59,11 @@
     </div>
 
 
-    {% for offerTemplate in offer.offerTemplates %}
                 <div class="offer-container">
                     <div class="panel panel-primary" align="center">
                         <div class="panel-heading">
                             <h2>
-                                <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
+                                <i class="fa fa-calculator"></i>{{ order.template.title }}</h2>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-8">
@@ -90,7 +89,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for offerTemplatePosition in offerTemplate.template.positionTemplates %}
+                                        {% for offerTemplatePosition in order.template.positionTemplates %}
                                             <tr>
                                                 <div class="center">
                                                     <td><label>{{ offerTemplatePosition.count }}</label></td>
@@ -139,7 +138,7 @@
                                         </td>
                                         <td>
                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                {{ offerTemplate.template.price }}
+                                                {{ order.template.price }}
                                             </label>
                                         </td>
                                     </tr>
@@ -153,7 +152,7 @@
                                         </td>
                                         <td>
                                             <label id="Label4" class="txtDiscount font18 alignright">
-                                                {{ offerTemplate.template.reach }}
+                                                {{ order.template.reach }}
                                             </label>
                                         </td>
                                     </tr>
@@ -167,7 +166,7 @@
                                         </td>
                                         <td>
                                             <label id="Label5" class="txtNetPayable font18 alignright">
-                                                {{ offerTemplate.template.divide() }}
+                                                {{ order.template.divide() }}
                                             </label>
                                         </td>
                                     </tr>
@@ -179,7 +178,6 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
 
 
 
