@@ -310,6 +310,8 @@ class HomeController extends Controller
         $boughtTempl->setOffer($boughtOffer);
         $boughtTempl->setTemplate($boughtTemplate);
         $boughtTempl->setStatus("Atsakytas");
+        $date = new \DateTime();
+        $boughtTempl->setViewed($date->format('Y-m-d H:i:s'));
         $boughtTempl->setUser($this->getUser());
 
         $em->persist($boughtTempl);

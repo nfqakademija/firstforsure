@@ -64,7 +64,7 @@ easy_admin:
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
-        sort: ['viewed', 'ASC']
+        sort: 'viewed'
         fields:
         - { label: 'Gavėjas', property: 'clientName' }
         - { label: 'Šablonai', property: 'templateList'}
