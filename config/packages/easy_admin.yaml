@@ -57,6 +57,7 @@ easy_admin:
       class: App\Entity\Offer
       controller: App\Controller\Admin\OfferAdminController
       list:
+        title: 'Pasiūlymai'
         form_filters:
         - enabled
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
