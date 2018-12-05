@@ -29,11 +29,13 @@ class OfferRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findByStatus($status)
+    public function findByStatus($status, $id)
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.status = :val')
+            ->andWhere('p.user = :id')
             ->setParameter('val', $status)
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
             ;

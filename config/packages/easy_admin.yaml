@@ -62,7 +62,6 @@ easy_admin:
         - enabled
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
-#        dql_filter: "entity.status != 'Parduota' AND entity.user.id = prisijungusiouserioid"
         actions:
         - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
@@ -96,8 +95,10 @@ easy_admin:
         - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas } } }
         - organization
         fields:
-        - { label: 'Pasiūlymas', property: 'offer' }
+        - { label: 'Klientas', property: 'offer.clientEmail' }
         - { label: 'Užsakymas', property: 'template' }
+        - { label: 'Kaina', property: 'template.price' }
+        - { label: 'Pasiekiamumas', property: 'template.reach' }
         - { label: 'Statusas', property: 'status' }
 
 

@@ -20,6 +20,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderAdminController extends BaseAdminController
 {
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $user = $this->getUser();
+        if(in_array("ROLE_ADMIN",$user->getRoles()))
+        {
+            $dqlFilter = "";
+        }
+        else
+        {
+            $dqlFilter = "entity.user = ".$user->getId();
+        }
+        return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+    }
+
     public function editAction()
     {
         $msgRepo = $this->getDoctrine()->getRepository(Message::class);
@@ -85,7 +99,6 @@ class OrderAdminController extends BaseAdminController
         $template = $order->getTemplate();
 
         $template->setTitle($request->get('title'));
-        $template->setStatus('Parduodama');
 
         $em->persist($template);
         $em->flush();

@@ -307,6 +307,7 @@ class HomeController extends Controller
         $boughtTempl->setOffer($boughtOffer);
         $boughtTempl->setTemplate($boughtTemplate);
         $boughtTempl->setStatus("Atsakytas");
+        $boughtTempl->setUser($this->getUser());
 
         $em->persist($boughtTempl);
 

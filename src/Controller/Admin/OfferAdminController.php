@@ -18,7 +18,14 @@ class OfferAdminController extends BaseAdminController
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $user = $this->getUser();
+        if(in_array("ROLE_ADMIN",$user->getRoles()))
+        {
+            $dqlFilter = "entity.status != 'Parduota'";
+        }
+        else
+        {
         $dqlFilter = "entity.status != 'Parduota' AND entity.user = ".$user->getId();
+        }
         return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
     }
 
