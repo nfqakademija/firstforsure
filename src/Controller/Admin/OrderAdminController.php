@@ -96,7 +96,7 @@ class OrderAdminController extends BaseAdminController
         $orderId = $request->get('orderId');
 
         $order = $orderRepo->find($orderId);
-        $order->setStatus("Atnaujintas/Išsiųstas");
+        $order->setStatus("Išsiųstas");
         $date = new \DateTime();
         //$date->modify('+2 hours');
         $order->setViewed($date->format('Y-m-d H:i:s'));

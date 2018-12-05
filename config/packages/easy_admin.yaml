@@ -93,7 +93,7 @@ easy_admin:
         title: 'Užsakymai'
         form_filters:
         - enabled
-        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas } } }
+        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas, Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
         fields:
         - { label: 'Klientas', property: 'offer.clientEmail' }

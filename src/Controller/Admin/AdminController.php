@@ -41,6 +41,12 @@ class AdminController extends BaseAdminController
         $accept = $repoOrder->findByStatus("Patvirtintas", $user->getId());
         $acceptCount = count($accept);
 
+        $viewedOrder = $repoOrder->findByStatus("Peržiūrėtas", $user->getId());
+        $viewedOrderCount = count($viewedOrder);
+
+        $sentOrder = $repoOrder->findByStatus("Išsiųstas", $user->getId());
+        $sentOrderCount = count($sentOrder);
+
         $positions = $posRepo->findAll();
 
 
@@ -53,6 +59,8 @@ class AdminController extends BaseAdminController
             'positions' => $positions,
             'orderCount' => $orderCount,
             'acceptCount' => $acceptCount,
+            'viewedOrderCount' => $viewedOrderCount,
+            'sentOrderCount' => $sentOrderCount
         ]);
     }
 }
