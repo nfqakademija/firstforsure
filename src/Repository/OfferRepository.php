@@ -25,8 +25,7 @@ class OfferRepository extends ServiceEntityRepository
             ->andWhere('p.md5 = :val')
             ->setParameter('val', $md5)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findByStatus($status, $id)
@@ -37,36 +36,18 @@ class OfferRepository extends ServiceEntityRepository
             ->setParameter('val', $status)
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
-    // /**
-    //  * @return Position[] Returns an array of Position objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findCountByStatus($status, $id)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('COUNT(p.id)')
+            ->andWhere('p.status = :val')
+            ->andWhere('p.user = :id')
+            ->setParameter('val', $status)
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Position
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

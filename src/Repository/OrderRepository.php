@@ -31,6 +31,19 @@ class OrderRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findCountByStatus($status, $id)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.status = :val')
+            ->andWhere('p.user = :id')
+            ->setParameter('val', $status)
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
     public function findByOffer($offer){
         return $this->createQueryBuilder('p')
             ->andWhere('p.offer = :val')

@@ -11,6 +11,8 @@ namespace App\Controller\Admin;
 use App\Entity\Offer;
 use App\Entity\Order;
 use App\Entity\Position;
+use App\Models\OfferStatus;
+use App\Service\Admin\Dashboard\CounterService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,44 +25,12 @@ class AdminController extends BaseAdminController
      */
     public function makeDashboard(Request $request, TranslatorInterface $translator)
     {
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-        $repoOrder = $this->getDoctrine()->getRepository(Order::class);
-        $posRepo = $this->getDoctrine()->getRepository(Position::class);
-
-        $user = $this->getUser();
-
-        $viewed = $repo->findByStatus("Peržiūrėtas", $user->getId());
-        $viewedCount = count($viewed);
-
-        $sent = $repo->findByStatus("Išsiųstas", $user->getId());
-        $sentCount = count($sent);
-
-        $came = $repoOrder->findByStatus("Atsakytas", $user->getId());
-        $orderCount = count($came);
-
-        $accept = $repoOrder->findByStatus("Patvirtintas", $user->getId());
-        $acceptCount = count($accept);
-
-        $viewedOrder = $repoOrder->findByStatus("Peržiūrėtas", $user->getId());
-        $viewedOrderCount = count($viewedOrder);
-
-        $sentOrder = $repoOrder->findByStatus("Išsiųstas", $user->getId());
-        $sentOrderCount = count($sentOrder);
-
-        $positions = $posRepo->findAll();
-
-
+        $positions = $this->getDoctrine()->getRepository(Position::class)->findAll();
 
         return $this->render('admin/dashboard.html.twig', [
-            'viewed' => $viewed,
-            'viewedCount' => $viewedCount,
-            'sent' => $sent,
-            'sentCount' => $sentCount,
+            'offerCounts' => $this->get(CounterService::class)->getOfferCounts($this->getUser()->getId()),
+            'orderCounts' => $this->get(CounterService::class)->getOrderCounts($this->getUser()->getId()),
             'positions' => $positions,
-            'orderCount' => $orderCount,
-            'acceptCount' => $acceptCount,
-            'viewedOrderCount' => $viewedOrderCount,
-            'sentOrderCount' => $sentOrderCount
         ]);
     }
 }

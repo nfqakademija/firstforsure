@@ -54,13 +54,6 @@ class Offer
      */
     private $viewed;
 
-//    /**
-//     * @var Template
-//     * @ORM\ManyToOne(targetEntity="App\Entity\Template", inversedBy="positionTemplates")
-//     * @ORM\JoinColumn(nullable=false)
-//     */
-//    private $template;
-
     /**
      * @var OfferTemplate[]
      *
