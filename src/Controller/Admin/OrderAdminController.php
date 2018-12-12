@@ -98,7 +98,6 @@ class OrderAdminController extends BaseAdminController
         $order = $orderRepo->find($orderId);
         $order->setStatus("Išsiųstas");
         $date = new \DateTime();
-        //$date->modify('+2 hours');
         $order->setViewed($date->format('Y-m-d H:i:s'));
 
         $template = $order->getTemplate();

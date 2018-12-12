@@ -235,7 +235,7 @@
 
 
 
-    <form action="/maketemplate" method="post">
+    <form action="{{ path('admin_template_create') }}" method="post">
         <input name="id" hidden value="{{ id }}" />
         <center>
             <input name="title" class=" inputName"  value="{{ title }}"/>

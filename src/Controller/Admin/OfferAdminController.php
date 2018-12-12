@@ -11,30 +11,32 @@ namespace App\Controller\Admin;
 use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\Template;
+use App\Models\TemplateStatus;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OfferAdminController extends BaseAdminController
 {
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $user = $this->getUser();
-        if(in_array("ROLE_ADMIN",$user->getRoles()))
-        {
+        if (in_array("ROLE_ADMIN", $user->getRoles())) {
             $dqlFilter = "entity.status != 'Parduota'";
+        } else {
+            $dqlFilter = "entity.status != 'Parduota' AND entity.user = " . $user->getId();
         }
-        else
-        {
-        $dqlFilter = "entity.status != 'Parduota' AND entity.user = ".$user->getId();
-        }
-        return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+
+        return $this->get('easyadmin.query_builder')->createListQueryBuilder(
+            $this->entity,
+            $sortField,
+            $sortDirection,
+            $dqlFilter);
     }
 
     public function newAction()
     {
-        // creates a task and gives it some dummy data for this example
         $repo = $this->getDoctrine()->getRepository(Template::class);
-
-        $templateItems = $repo->findForSale('Nupirkta');
+        $templateItems = $repo->findForSale(TemplateStatus::BOUGHT);
 
         return $this->render('admin/offer/edit.html.twig', [
             'messages' => [],
@@ -42,36 +44,6 @@ class OfferAdminController extends BaseAdminController
             'offer' => new Offer(),
             'id' => 0,
             'templateItems' => $templateItems
-        ]);
-    }
-
-    public function showAction()
-    {
-        $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
-        $templRepo = $this->getDoctrine()->getRepository(Template::class);
-        $msgRepo = $this->getDoctrine()->getRepository(Message::class);
-        $id = $this->request->query->get('id');
-
-        $activeOffer = $offerRepo->find($id);
-
-        $messages = $msgRepo->findByOfferId($id);
-
-        $activeOfferItems = $activeOffer->getOfferTemplates();
-        $templateItems = $templRepo->findForSale('Nupirkta');
-
-        foreach($templateItems as $key => $value) {
-            foreach ($activeOfferItems as $key2 => $value2) {
-                if($value2->getTemplate()->getId() === $value->getId()){
-                    $value->setActive(true);
-                }
-            }
-        }
-        return $this->render('admin/offer/edit.html.twig', [
-            'type' => 'show',
-            'id' => $id,
-            'offer' => $activeOffer,
-            'templateItems' => $templateItems,
-            'messages' => $messages
         ]);
     }
 
@@ -89,9 +61,9 @@ class OfferAdminController extends BaseAdminController
         $activeOfferItems = $activeOffer->getOfferTemplates();
         $templateItems = $templRepo->findForSale('Nupirkta');
 
-        foreach($templateItems as $key => $value) {
+        foreach ($templateItems as $key => $value) {
             foreach ($activeOfferItems as $key2 => $value2) {
-                if($value2->getTemplate()->getId() === $value->getId()){
+                if ($value2->getTemplate()->getId() === $value->getId()) {
                     $value->setActive(true);
                 }
             }
@@ -118,8 +90,7 @@ class OfferAdminController extends BaseAdminController
 
         $offer = $repo->find($id);
 
-        foreach($offer->getOfferTemplates() as $key => $value)
-        {
+        foreach ($offer->getOfferTemplates() as $key => $value) {
             $value->setStatus('Sent');
         }
 
@@ -137,8 +108,9 @@ class OfferAdminController extends BaseAdminController
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
-                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readoffer/'.$offer->getMd5(), 'offer' => $offer)
-                    //array('link' => '127.0.0.1:8000/readoffer/'.$offer->getMd5(), 'offer' => $offer)
+                    array('link' => $this->generateUrl('readoffer', ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL),
+                        'offer' => $offer)
+                //array('link' => '127.0.0.1:8000/readoffer/'.$offer->getMd5(), 'offer' => $offer)
                 ),
                 'text/html'
             )/*

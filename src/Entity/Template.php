@@ -122,25 +122,29 @@ class Template
         $this->price = $price;
     }
 
-    public function addPrice($price): void
+    public function addPrice($price): self
     {
         $this->price += $price;
+        return $this;
     }
 
-    public function minusPrice($price): void
+    public function minusPrice($price): self
     {
         $this->price -= $price;
+        return $this;
     }
 
 
-    public function addReach($reach): void
+    public function addReach($reach): self
     {
         $this->reach += $reach;
+        return $this;
     }
 
-    public function minusReach($reach): void
+    public function minusReach($reach): self
     {
         $this->reach -= $reach;
+        return $this;
     }
 
 

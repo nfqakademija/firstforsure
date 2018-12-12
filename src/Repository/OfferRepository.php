@@ -25,7 +25,7 @@ class OfferRepository extends ServiceEntityRepository
             ->andWhere('p.md5 = :val')
             ->setParameter('val', $md5)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
     public function findByStatus($status, $id)

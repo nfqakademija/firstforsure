@@ -63,7 +63,6 @@ easy_admin:
         - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
         - organization
         actions:
-        - { label: 'Peržiūrėti', name: 'show'}
         - { label: 'Siųsti', name: 'send'}
         sort: 'viewed'
         fields:

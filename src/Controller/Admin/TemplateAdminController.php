@@ -9,7 +9,9 @@
 namespace App\Controller\Admin;
 use App\Entity\Position;
 use App\Entity\Template;
+use App\Service\Admin\Template\TemplateManager as TemplateManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class TemplateAdminController extends BaseAdminController
@@ -56,28 +58,14 @@ class TemplateAdminController extends BaseAdminController
 
     public function editAction()
     {
-
-
         $templRepo = $this->getDoctrine()->getRepository(Template::class);
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
         $id = $this->request->query->get('id');
 
         $activeItem = $templRepo->find($id);
 
-        $activePositionItems = $activeItem->getPositionTemplates();
-        $positionItems = $posRepo->findAll();
         $positionTimeItems = $posRepo->findByTime(true);
         $positionNoTimeItems = $posRepo->findByTime(false);
-
-        foreach ($positionItems as $key => $value)
-        {
-            foreach ($activePositionItems as $key2 => $value2)
-            {
-                if($value2->getPosition()->getId() === $value->getId()){
-                    $value->setCount($value2->getCount());
-                }
-            }
-        }
 
         return $this->render('admin/template/edit.html.twig', [
             'id' => $activeItem->getId(),
@@ -85,5 +73,17 @@ class TemplateAdminController extends BaseAdminController
             'positionTimeItems' => $positionTimeItems,
             'positionNoTimeItems' => $positionNoTimeItems
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param TemplateManager $templateManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function makeTemplate(Request $request, TemplateManager $templateManager)
+    {
+        $templateManager->makeTemplate($request);
+
+        return $this->redirect("/admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1");
     }
 }

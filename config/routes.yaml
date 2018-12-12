@@ -18,3 +18,7 @@ admin_template:
 
 admin_dashboard:
     path: /admin/dashboard
+
+admin_template_create:
+    path: /create/template
+    controller: App\Controller\Admin\TemplateAdminController::makeTemplate
