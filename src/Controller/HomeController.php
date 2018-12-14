@@ -83,39 +83,20 @@ class HomeController extends Controller
         $acceptedId = $request->get('accept');
 
         $acceptedOT = $offerTemplRepo->find($acceptedId);
+        $acceptedOT->setStatus("CHECKED");
+        $em->persist($acceptedOT);
 
         $boughtOffer = $acceptedOT->getOffer();
-        $boughtOffer->setStatus(O);
-        $boughtTemplate = new Template();
-        $boughtTemplate->setPrice($acceptedOT->getTemplate()->getPrice());
-        $boughtTemplate->setReach($acceptedOT->getTemplate()->getReach());
-        $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
-        $boughtTemplate->setStatus(TemplateStatus::BOUGHT);
+        $boughtOffer->setStatus(Offer::ASSIGNED);
 
-        foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $value) {
-            //$remaining = $value->getPosition()->getRemaining();
-            // $use = $value->getCount();
-            //$value->getPosition()->setRemaining($remaining - $use);
-            $valueclone = clone $value;
-            $em->persist($valueclone);
-            $boughtTemplate->addPositionTemplate($valueclone);
-        }
+        $date = new \DateTime();
+        $boughtOffer->setViewed($date->format('Y-m-d H:i:s'));
 
         $em->persist($boughtOffer);
-        $em->persist($boughtTemplate);
-
-        $boughtTempl->setOffer($boughtOffer);
-        $boughtTempl->setTemplate($boughtTemplate);
-        $boughtTempl->setStatus("Atsakytas");
-        $date = new \DateTime();
-        $boughtTempl->setViewed($date->format('Y-m-d H:i:s'));
-        $boughtTempl->setUser($this->getUser());
-
-        $em->persist($boughtTempl);
 
         $message = new Message();
         $message->setText($request->get("msg"));
-        $message->setOrder($boughtTempl);
+        $message->setOffer($acceptedOT->getOffer());
         $message->setUsername($request->get("username"));
         $message->setDate(new \DateTime());
 

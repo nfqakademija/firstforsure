@@ -80,9 +80,9 @@ class Message
     }
 
     /**
-     * @param Order $offer
+     * @param Offer $offer
      */
-    public function setOffer(Order $offer): void
+    public function setOffer(Offer $offer): void
     {
         $this->offer = $offer;
     }
