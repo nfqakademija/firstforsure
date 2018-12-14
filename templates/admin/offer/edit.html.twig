@@ -144,7 +144,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <form action="/makeoffer" method="post">
+                <form action="{{ path('admin_offer_create') }}" method="post">
                     <input name="id" hidden value="{{ id }}"/>
                     <form class="form-horizontal">
                         <div class="form-group">

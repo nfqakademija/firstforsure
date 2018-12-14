@@ -87,10 +87,12 @@ class Offer
 
     /**
      * @param User $user
+     * @return Offer
      */
-    public function setUser(User $user): void
+    public function setUser(User $user): self
     {
         $this->user = $user;
+        return $this;
     }
 
     /**
@@ -102,11 +104,13 @@ class Offer
     }
 
     /**
-     * @param mixed $viewed
+     * @param $viewed
+     * @return Offer
      */
-    public function setViewed($viewed): void
+    public function setViewed($viewed): self
     {
         $this->viewed = $viewed;
+        return $this;
     }
 
     /**
@@ -118,11 +122,13 @@ class Offer
     }
 
     /**
-     * @param mixed $status
+     * @param $status
+     * @return Offer
      */
-    public function setStatus($status): void
+    public function setStatus($status): self
     {
         $this->status = $status;
+        return $this;
     }
 
 
@@ -146,11 +152,13 @@ class Offer
     }
 
     /**
-     * @param mixed $message
+     * @param $message
+     * @return Offer
      */
-    public function setMessage($message): void
+    public function setMessage($message): self
     {
         $this->message = $message;
+        return $this;
     }
 
 
@@ -164,11 +172,13 @@ class Offer
     }
 
     /**
-     * @param mixed $md5
+     * @param $md5
+     * @return Offer
      */
-    public function setMd5($md5): void
+    public function setMd5($md5): self
     {
         $this->md5 = $md5;
+        return $this;
     }
 
 
@@ -182,11 +192,13 @@ class Offer
     }
 
     /**
-     * @param mixed $clientName
+     * @param $clientName
+     * @return Offer
      */
-    public function setClientName($clientName): void
+    public function setClientName($clientName): self
     {
         $this->clientName = $clientName;
+        return $this;
     }
 
     /**
@@ -198,11 +210,13 @@ class Offer
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return Offer
      */
-    public function setId($id): void
+    public function setId($id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -214,11 +228,13 @@ class Offer
     }
 
     /**
-     * @param mixed $clientEmail
+     * @param $clientEmail
+     * @return Offer
      */
-    public function setClientEmail($clientEmail): void
+    public function setClientEmail($clientEmail): self
     {
         $this->clientEmail = $clientEmail;
+        return $this;
     }
 
     /**

@@ -65,12 +65,12 @@ class CounterService
             'viewed' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::VIEWED,
-                $this->offerRepository->findCountByStatus(OrderStatus::CONFIRMED, $userId),
+                $this->offerRepository->findCountByStatus(OrderStatus::VIEWED, $userId),
                 'Viewed'),
             'sent' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::SENT,
-                $this->offerRepository->findCountByStatus(OrderStatus::CONFIRMED, $userId),
+                $this->offerRepository->findCountByStatus(OrderStatus::SENT, $userId),
                 'Sent'),
         ];
     }

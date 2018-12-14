@@ -22,3 +22,7 @@ admin_dashboard:
 admin_template_create:
     path: /create/template
     controller: App\Controller\Admin\TemplateAdminController::makeTemplate
+
+admin_offer_create:
+    path: /create/offer
+    controller: App\Controller\Admin\OfferAdminController::makeOffer

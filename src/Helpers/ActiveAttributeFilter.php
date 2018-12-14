@@ -22,6 +22,6 @@ class ActiveAttributeFilter
                 unset($active[$key]);
             }
         }
-        return array($active);
+        return $active;
     }
 }

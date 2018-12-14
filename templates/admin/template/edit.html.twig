@@ -1,6 +1,6 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {#{% form_theme form with easyadmin_config('design.form_theme') %}#}
-{% set _content_title = ''%}{% block page_title -%}
+{% set _content_title = '' %}{% block page_title -%}
     {{ _content_title }}
 {%- endblock %}{% block content_header %}
     <h1 class="title">{{ _content_title }}</h1>
@@ -11,41 +11,39 @@
         function recalculate() {
             var i, total = 0;
             for (i = 0; i < $('.sum').length; i++) {
-                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val() == 1) {
                     total += parseInt($($('.sum')[i]).val());
                 }
             }
             $('#moneycount').text(total);
             var i, total = 0;
             for (i = 0; i < $('.sum2').length; i++) {
-                if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val() == 1) {
                     total += parseInt($($('.sum2')[i]).val());
-                }}
-        $('#reachcount').text(total);
+                }
+            }
+            $('#reachcount').text(total);
         };
 
         function calculate() {
 
 
-                var i, total=0;
-                for (i = 0; i < $('.sum').length; i++) {
-                    if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
-                        total += parseInt($($('.sum')[i]).val());
-                    }
+            var i, total = 0;
+            for (i = 0; i < $('.sum').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val() == 1) {
+                    total += parseInt($($('.sum')[i]).val());
                 }
-                $('#moneycount').text(total);
+            }
+            $('#moneycount').text(total);
 
 
-
-
-
-                var i, total=0;
-                for (i = 0; i < $('.sum2').length; i++) {
-                    if ($($('.sum')[i]).closest('.positionRow').find('.check').val()==1) {
-                        total += parseInt($($('.sum2')[i]).val());
-                    }
+            var i, total = 0;
+            for (i = 0; i < $('.sum2').length; i++) {
+                if ($($('.sum')[i]).closest('.positionRow').find('.check').val() == 1) {
+                    total += parseInt($($('.sum2')[i]).val());
                 }
-                $('#reachcount').text(total);
+            }
+            $('#reachcount').text(total);
 
 
         }
@@ -56,12 +54,10 @@
             recalculate();
 
 
-
-
-            $('.checkbox-js').on('click', function() {
+            $('.checkbox-js').on('click', function () {
                 console.log('atejo');
                 console.log($(this).find('.check').val());
-                if($(this).find('.check').val()>0) {
+                if ($(this).find('.check').val() > 0) {
                     console.log('ATEJO i g');
                     $(this).find('.check').val(0);
                     recalculate();
@@ -94,7 +90,6 @@
         })
 
 
-
         ///////////////////////////////////////
 
 
@@ -103,9 +98,11 @@
         .btn span.glyphicon {
             opacity: 1;
         }
+
         .btn.active span.glyphicon {
             opacity: 0;
         }
+
         input[type=text] {
             width: 70%;
             padding: 1px 1px;
@@ -134,26 +131,28 @@
         }
 
         .myButton {
-            background-color:green;
-            -moz-border-radius:28px;
-            -webkit-border-radius:28px;
-            border-radius:28px;
-            border:1px solid green;
-            display:inline-block;
-            cursor:pointer;
-            color:#ffffff;
-            font-family:Arial;
-            font-size:19px;
-            padding:3px 9px;
-            text-decoration:none;
-            text-shadow:0px 1px 0px #2f6627;
+            background-color: green;
+            -moz-border-radius: 28px;
+            -webkit-border-radius: 28px;
+            border-radius: 28px;
+            border: 1px solid green;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 19px;
+            padding: 3px 9px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #2f6627;
         }
+
         .myButton:hover {
-            background-color:green;
+            background-color: green;
         }
+
         .myButton:active {
-            position:relative;
-            top:1px;
+            position: relative;
+            top: 1px;
         }
 
         @font-face {
@@ -192,35 +191,39 @@
                 padding: 3px 4px;
             }
 
-
         }
 
         body {
-            margin:0; /*gets rid of white space around body*/
-            margin-top:16px;
-            position:relative; /*REQUIRED Sets up positioning for your footer*/
+            margin: 0; /*gets rid of white space around body*/
+            margin-top: 16px;
+            position: relative; /*REQUIRED Sets up positioning for your footer*/
         }
 
         #sticky {
-            width:36%;
+            width: 36%;
             border: 2px solid green;
-            background-color: whitesmoke!important;
-            padding-top:3px;
+            background-color: whitesmoke !important;
+            padding-top: 3px;
             padding-bottom: 3px;
             margin-bottom: 3px;
-            background:white;
-            color:black;
-            font-weight:bold;
-            font-size:24px;
-            text-align:center;
-            position:fixed;    /*Here's what sticks it*/
-            bottom:0;          /*to the bottom of the window*/
-            right:0;            /*and to the left of the window.*/
+            background: white;
+            color: black;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            position: fixed; /*Here's what sticks it*/
+            bottom: 0; /*to the bottom of the window*/
+            right: 0; /*and to the left of the window.*/
         }
 
-        p { color: #222; font-family: 'Open Sans', sans-serif;
-            font-size: 15px; font-weight: 400; line-height: 24px; margin: 0 0 14px; }
-
+        p {
+            color: #222;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 24px;
+            margin: 0 0 14px;
+        }
 
 
     </style>
@@ -228,30 +231,23 @@
 
     <center><h2 class="module-title">Šablonas</h2></center>
 
-
-
-
-
-
-
-
     <form action="{{ path('admin_template_create') }}" method="post">
-        <input name="id" hidden value="{{ id }}" />
+        <input name="id" hidden {% if id is defined %}value="{{ id }}" {% endif %}/>
         <center>
-            <input name="title" class=" inputName"  value="{{ title }}"/>
+            <input name="title" class=" inputName" {% if title is defined %}value="{{ title }}" {% endif %}/>
             <button class="myButton">Saugoti</button>
 
         </center>
         <table class="table table-responsive">
 
             <tr>
-                <th scope="col"><p  align="center">✔</p></th>
-                <th scope="col"><p  align="center">Pozicija</p></th>
-                <th scope="col"><p  align="center">Kiekis</p></th>
-                <th scope="col"><p  align="center">Vieneto kaina</p></th>
-                <th scope="col"><p  align="center">Pamatymai</p></th>
-                <th scope="col"><p  align="center">Suma</p></th>
-                <th scope="col"><p  align="center">PSuma</p></th>
+                <th scope="col"><p align="center">✔</p></th>
+                <th scope="col"><p align="center">Pozicija</p></th>
+                <th scope="col"><p align="center">Kiekis</p></th>
+                <th scope="col"><p align="center">Vieneto kaina</p></th>
+                <th scope="col"><p align="center">Pamatymai</p></th>
+                <th scope="col"><p align="center">Suma</p></th>
+                <th scope="col"><p align="center">PSuma</p></th>
             </tr>
 
             <tbody>
@@ -262,17 +258,32 @@
                     <td>
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
-                                <input type="checkbox" />
-                                <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
+                                <input type="checkbox"/>
+                                <input type="hidden" class="check"
+                                       value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}"
+                                       name='active[{{ position.id }}]'/>
                                 <span class="glyphicon glyphicon-ok"></span>
                             </label>
-                        </div></td>
+                        </div>
+                    </td>
                     <td><p align="center">{{ position.name }}</p></td>
-                    <td><p align="center"><input  class="positionCount"  name='count[{{ position.id }}]' type="text" value="{{ position.count }}"/></td></p>
-                    <td><p align="center"><input class="positionPrice" type="text" disabled value="{{ position.price }}"/></td></p>
-                    <td><p align="center"><input class="positionViews" type="text" disabled value="{{ position.reach }}"/></td></p>
-                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price*position.count }}></td></p>
-                    <td><p align="center"><input  class="sum2" name="sum2[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach*position.count }}></td></p>
+                    <td><p align="center"><input class="positionCount" name='count[{{ position.id }}]' type="text"
+                                                 value="{{ position.count }}"/></td>
+                    </p>
+                    <td><p align="center"><input class="positionPrice" type="text" disabled
+                                                 value="{{ position.price }}"/></td>
+                    </p>
+                    <td><p align="center"><input class="positionViews" type="text" disabled
+                                                 value="{{ position.reach }}"/></td>
+                    </p>
+                    <td><p align="center"><input class="sum" name="sum[{{ position.id }}]" type="text"
+                                                 data-price={{ position.price }} value={{ position.price*position.count }}>
+                    </td>
+                    </p>
+                    <td><p align="center"><input class="sum2" name="sum2[{{ position.id }}]" type="text"
+                                                 data-reach={{ position.reach }} value={{ position.reach*position.count }}>
+                    </td>
+                    </p>
 
                 </tr>
 
@@ -284,9 +295,9 @@
 
             <tr>
                 <th scope="col"><p align="center">✔</p></th>
-                <th scope="col"><p  align="center">Pozicija</p></th>
-                <th scope="col"><p  align="center">Kaina</p></th>
-                <th scope="col"><p  align="center">Pasiekiamumas</p></th>
+                <th scope="col"><p align="center">Pozicija</p></th>
+                <th scope="col"><p align="center">Kaina</p></th>
+                <th scope="col"><p align="center">Pasiekiamumas</p></th>
             </tr>
 
             <tbody>
@@ -297,32 +308,39 @@
                     <td>
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
-                                <input type="checkbox" />
-                                <input type="hidden" class="check" value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}" name='active[{{ position.id }}]'/>
+                                <input type="checkbox"/>
+                                <input type="hidden" class="check"
+                                       value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}"
+                                       name='active[{{ position.id }}]'/>
                                 <span class="glyphicon glyphicon-ok"></span>
                             </label>
-                        </div></td>
-                    <td><p  align="center">{{ position.name }}</p></td>
-                    <td><p align="center"><input  class="sum" name="sum[{{ position.id }}]" type="text" data-price={{ position.price }} value={{ position.price }}></td></p>
-                    <td><p align="center"><input  class="sum2" name="sum2[{{ position.id }}]" type="text" data-reach={{ position.reach}} value={{ position.reach }}></td></p>
+                        </div>
+                    </td>
+                    <td><p align="center">{{ position.name }}</p></td>
+                    <td><p align="center"><input class="sum" name="sum[{{ position.id }}]" type="text"
+                                                 data-price={{ position.price }} value={{ position.price }}></td>
+                    </p>
+                    <td><p align="center"><input class="sum2" name="sum2[{{ position.id }}]" type="text"
+                                                 data-reach={{ position.reach }} value={{ position.reach }}></td>
+                    </p>
                     <input hidden class="positionViews" type="text" disabled value="{{ position.reach }}"/>
                     <input hidden class="positionPrice" type="text" disabled value="{{ position.price }}"/>
-                    <input hidden class="positionCount"  name='count[{{ position.id }}]' type="text" value="1"/>
+                    <input hidden class="positionCount" name='count[{{ position.id }}]' type="text" value="1"/>
                 </tr>
 
 
             {% endfor %}
             </tbody>
         </table>
-            <footer id="sticky">
+        <footer id="sticky">
 
-                <div class="row">
-                    <p>Bendra kaina:<span id='moneycount'>000</span></p>
-                    <p>Numatomos perziuros:<span id='reachcount'>000</span></p>
+            <div class="row">
+                <p>Bendra kaina:<span id='moneycount'>000</span></p>
+                <p>Numatomos perziuros:<span id='reachcount'>000</span></p>
 
 
-                </div>
-            </footer>
+            </div>
+        </footer>
 
 
         <center>
@@ -333,5 +351,5 @@
     </form>
 
 
-    
+
 {% endblock %}

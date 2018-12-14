@@ -12,7 +12,9 @@ use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\Template;
 use App\Models\TemplateStatus;
+use App\Service\Admin\Offer\OfferManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OfferAdminController extends BaseAdminController
@@ -127,5 +129,16 @@ class OfferAdminController extends BaseAdminController
 
         $mailer->send($message);
         return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
+    }
+
+    /**
+     * @param Request $request
+     * @param OfferManager $offerManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function makeOffer(Request $request, OfferManager $offerManager)
+    {
+        $offerManager->makeOffer($request, $this->getUser());
+        return $this->redirect("/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1");
     }
 }

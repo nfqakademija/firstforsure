@@ -49,8 +49,6 @@ class TemplateAdminController extends BaseAdminController
 
 
         return $this->render('admin/template/edit.html.twig', [
-            'id' => 0,
-            'title' => '',
             'positionTimeItems' => $positionTimeItems,
             'positionNoTimeItems' => $positionNoTimeItems
         ]);
@@ -64,8 +62,20 @@ class TemplateAdminController extends BaseAdminController
 
         $activeItem = $templRepo->find($id);
 
+        $activePositionItems = $activeItem->getPositionTemplates();
+        $positionItems = $posRepo->findAll();
         $positionTimeItems = $posRepo->findByTime(true);
         $positionNoTimeItems = $posRepo->findByTime(false);
+
+        foreach ($positionItems as $value)
+        {
+            foreach ($activePositionItems as $value2)
+            {
+                if($value2->getPosition()->getId() === $value->getId()){
+                    $value->setCount($value2->getCount());
+                }
+            }
+        }
 
         return $this->render('admin/template/edit.html.twig', [
             'id' => $activeItem->getId(),
