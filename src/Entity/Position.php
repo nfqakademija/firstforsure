@@ -49,6 +49,7 @@ class Position
     private $maxQuantity;
 
     private $count;
+    private $offerPrice;
 
     /**
      * Position constructor.
@@ -58,6 +59,24 @@ class Position
     {
         $this->count = 0;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOfferPrice()
+    {
+        return $this->offerPrice;
+    }
+
+    /**
+     * @param mixed $offerPrice
+     */
+    public function setOfferPrice($offerPrice): void
+    {
+        $this->offerPrice = $offerPrice;
+    }
+
+
 
     /**
      * @return mixed

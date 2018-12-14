@@ -88,7 +88,7 @@ class OfferManager
             ->setClientEmail($request->get('clientEmail'))
             ->setClientName($request->get('clientName'))
             ->setMessage($request->get('message'))
-            ->setStatus('Sukurtas')
+            ->setStatus(Offer::CREATED)
             ->setUser($user)
             ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
 

@@ -27,7 +27,7 @@
     <div class="container">
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ order.id }}</div>
+                <div class="panel-heading">{{ offer.id }}</div>
                 <div class="panel-body">
                     <div class="container">
                         {% for msg in messages %}
@@ -41,8 +41,8 @@
                         <div class="input-group">
                             <form action="/clientorderresponse" method="post">
                                 <h3>Jūsų komentaras</h3>
-                                <input type="hidden" value="{{ order.id }}" name="orderId">
-                                <input type="hidden" value="{{ order.offer.clientName }}" name="username">
+                                <input type="hidden" value="{{ offer.id }}" name="orderId">
+                                <input type="hidden" value="{{ offer.clientName }}" name="username">
                                 <input type="text" name="msg">
                                 <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
                                         type="submit"
@@ -62,8 +62,6 @@
                 <div class="offer-container">
                     <div class="panel panel-primary" align="center">
                         <div class="panel-heading">
-                            <h2>
-                                <i class="fa fa-calculator"></i>{{ order.template.title }}</h2>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-8">
@@ -89,7 +87,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for offerTemplatePosition in order.template.positionTemplates %}
+                                        {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
                                             <tr>
                                                 <div class="center">
                                                     <td><label>{{ offerTemplatePosition.count }}</label></td>
@@ -138,7 +136,7 @@
                                         </td>
                                         <td>
                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                {{ order.template.price }}
+                                                {{ offerTemplate.price }}
                                             </label>
                                         </td>
                                     </tr>
@@ -152,7 +150,7 @@
                                         </td>
                                         <td>
                                             <label id="Label4" class="txtDiscount font18 alignright">
-                                                {{ order.template.reach }}
+                                                {{ offerTemplate.reach }}
                                             </label>
                                         </td>
                                     </tr>
@@ -166,7 +164,7 @@
                                         </td>
                                         <td>
                                             <label id="Label5" class="txtNetPayable font18 alignright">
-                                                {{ order.template.divide() }}
+                                                {{ offerTemplate.divide() }}
                                             </label>
                                         </td>
                                     </tr>

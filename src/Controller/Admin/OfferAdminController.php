@@ -10,6 +10,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Message;
 use App\Entity\Offer;
+use App\Entity\OfferTemplate;
+use App\Entity\Position;
 use App\Entity\Template;
 use App\Models\TemplateStatus;
 use App\Service\Admin\Offer\OfferManager;
@@ -40,10 +42,12 @@ class OfferAdminController extends BaseAdminController
         $repo = $this->getDoctrine()->getRepository(Template::class);
         $templateItems = $repo->findForSale(TemplateStatus::BOUGHT);
 
+        $offer = new Offer();
+        $offer->setStatus(Offer::CREATED);
+
         return $this->render('admin/offer/edit.html.twig', [
             'messages' => [],
-            'type' => "edit",
-            'offer' => new Offer(),
+            'offer' => $offer,
             'id' => 0,
             'templateItems' => $templateItems
         ]);
@@ -54,6 +58,7 @@ class OfferAdminController extends BaseAdminController
         $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
         $templRepo = $this->getDoctrine()->getRepository(Template::class);
         $msgRepo = $this->getDoctrine()->getRepository(Message::class);
+        $otRepo = $this->getDoctrine()->getRepository(OfferTemplate::class);
         $id = $this->request->query->get('id');
 
         $activeOffer = $offerRepo->find($id);
@@ -63,19 +68,43 @@ class OfferAdminController extends BaseAdminController
         $activeOfferItems = $activeOffer->getOfferTemplates();
         $templateItems = $templRepo->findForSale('Nupirkta');
 
-        foreach ($templateItems as $key => $value) {
-            foreach ($activeOfferItems as $key2 => $value2) {
-                if ($value2->getTemplate()->getId() === $value->getId()) {
-                    $value->setActive(true);
+        foreach ($templateItems as $templateItem) {
+            foreach ($activeOfferItems as $activeOfferItem) {
+                if ($activeOfferItem->getTemplate()->getId() === $templateItem->getId()) {
+                    $templateItem->setActive(true);
                 }
             }
         }
+
+        $posRepo = $this->getDoctrine()->getRepository(Position::class);
+
+        $checkedOT = $otRepo->findCheckedOfferTemplate("CHECKED", $id);
+        $activePositionItems = $checkedOT->getOfferPositionTemplates();
+        $positionItems = $posRepo->findAll();
+        $positionTimeItems = $posRepo->findByTime(true);
+        $positionNoTimeItems = $posRepo->findByTime(false);
+
+        foreach ($positionItems as $value)
+        {
+            foreach ($activePositionItems as $value2)
+            {
+                if($value2->getPosition()->getId() === $value->getId()){
+                    $value->setCount($value2->getCount());
+                    $value->setOfferPrice($value2->getPrice());
+                }
+                else {
+                    $value->setOfferPrice($value->getPrice());
+                }
+            }
+        }
+
         return $this->render('admin/offer/edit.html.twig', [
-            'type' => 'edit',
             'id' => $id,
             'offer' => $activeOffer,
             'templateItems' => $templateItems,
-            'messages' => $messages
+            'messages' => $messages,
+            'positionTimeItems' => $positionTimeItems,
+            'positionNoTimeItems' => $positionNoTimeItems
         ]);
     }
 

@@ -215,4 +215,29 @@ class OfferTemplate
         return number_format($this->getPrice()/$this->getReach(),4);
     }
 
+    public function addPrice($price): self
+    {
+        $this->price += $price;
+        return $this;
+    }
+
+    public function minusPrice($price): self
+    {
+        $this->price -= $price;
+        return $this;
+    }
+
+
+    public function addReach($reach): self
+    {
+        $this->reach += $reach;
+        return $this;
+    }
+
+    public function minusReach($reach): self
+    {
+        $this->reach -= $reach;
+        return $this;
+    }
+
 }

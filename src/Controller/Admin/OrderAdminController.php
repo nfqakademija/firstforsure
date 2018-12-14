@@ -10,6 +10,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Message;
 use App\Entity\Offer;
+use App\Entity\OfferPositionTemplate;
+use App\Entity\OfferTemplate;
 use App\Entity\Order;
 use App\Entity\Position;
 use App\Entity\PositionTemplate;
@@ -17,6 +19,7 @@ use App\Entity\Template;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OrderAdminController extends BaseAdminController
 {
@@ -84,7 +87,8 @@ class OrderAdminController extends BaseAdminController
         $em = $this->getDoctrine()->getManager();
         $mailer = $this->get('mailer');
 
-        $orderRepo = $this->getDoctrine()->getRepository(Order::class);
+        $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
+        $otRepo = $this->getDoctrine()->getRepository(OfferTemplate::class);
         $active = $request->get('active');
 
         foreach ($active as $key => $value) {
@@ -93,27 +97,27 @@ class OrderAdminController extends BaseAdminController
             }
         }
 
-        $orderId = $request->get('orderId');
+        $offerId = $request->get('orderId');
 
-        $order = $orderRepo->find($orderId);
-        $order->setStatus("Išsiųstas");
+        $offer = $offerRepo->find($offerId);
+        $offer->setStatus(Offer::SENT);
         $date = new \DateTime();
-        $order->setViewed($date->format('Y-m-d H:i:s'));
+        $offer->setViewed($date->format('Y-m-d H:i:s'));
 
-        $template = $order->getTemplate();
+        $template = $otRepo->findCheckedOfferTemplate("CHECKED", $offerId);
 
-        $template->setTitle($request->get('title'));
+//        $template->setTitle($request->get('title'));
+//
+//        $em->persist($template);
+//        $em->flush();
 
-        $em->persist($template);
-        $em->flush();
-
-        $posTemplates = $template->getPositionTemplates();
+        $posTemplates = $template->getOfferPositionTemplates();
 
         if ($active != null) {
             foreach ($posTemplates as $key => $value) {
                 $index = $value->getPosition()->getId();
                 if (!in_array($index, $active)) {
-                    $price = $value->getCount() * $value->getPosition()->getPrice();
+                    $price = $value->getCount() * $value->getPosition()->getOfferPrice();
                     $reach = $value->getCount() * $value->getPosition()->getReach();
                     $template->minusPrice($price);
                     $template->minusReach($reach);
@@ -124,19 +128,22 @@ class OrderAdminController extends BaseAdminController
             foreach ($active as $key => $value) {
                 $exists = false;
                 $position = $this->getDoctrine()->getRepository(Position::class)->find($key);
-                $templatePosition = new PositionTemplate();
-                $templatePosition->setTemplate($template)
+                $templatePosition = new OfferPositionTemplate();
+                $templatePosition->setOfferTemplate($template)
                     ->setPosition($position)
                     ->setCount((int)$request->get('count')[$key]);
+                $templatePosition->setOffer($offer);
+                $templatePosition->setPrice($position->getPrice());
                 $position->setCount((int)$request->get('count')[$key]);
+//                $position->setOfferPrice(($int)$request->get('price')[$key]);
 
-                foreach ($posTemplates as $key2 => $value2) {
+                foreach ($posTemplates as $value2) {
                     if ($value2->getPosition() === $position) {
-                        $oldPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $oldPrice = $value2->getCount() * $value2->getPosition()->getOfferPrice();
                         $oldReach = $value2->getCount() * $value2->getPosition()->getReach();
                         $value2->setPosition($position);
                         $value2->setCount((int)$request->get('count')[$key]);
-                        $newPrice = $value2->getCount() * $value2->getPosition()->getPrice();
+                        $newPrice = $value2->getCount() * $value2->getPosition()->getOfferPrice();
                         $newReach = $value2->getCount() * $value2->getPosition()->getReach();
                         $template->minusPrice($oldPrice);
                         $template->addPrice($newPrice);
@@ -147,7 +154,7 @@ class OrderAdminController extends BaseAdminController
                     }
                 }
                 if (!$exists) {
-                    $template->addPositionTemplate($templatePosition);
+                    $template->addOfferPositionTemplate($templatePosition);
 
                     $template->addPrice((float)$request->get('sum')[$key]);
                     $template->addReach((float)$request->get('sum2')[$key]);
@@ -171,7 +178,7 @@ class OrderAdminController extends BaseAdminController
 
         $message->setDate(new \DateTime());
         $message->setText($request->get('msg'));
-        $message->setOrder($order);
+        $message->setOffer($offer);
         $message->setUsername("MANAGER");
 
         $em->persist($message);
@@ -180,20 +187,20 @@ class OrderAdminController extends BaseAdminController
 
         $hash = md5($request->get('username') . $time->format('Y-m-d H:i:s'));
 
-        $order->getOffer()->setMd5($hash);
+        $offer->setMd5($hash);
 
-        $em->persist($order);
+        $em->persist($offer);
         $em->flush();
 
         $message = (new \Swift_Message('Atsakymas į reklamos pasiūlymą'))
             ->setFrom('zrvtzrvt@gmail.com')
-            ->setTo($order->getOffer()->getClientEmail())
+            ->setTo($offer->getClientEmail())
             ->setBody(
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
                     //array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
-                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
+                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readorder/' . $offer->getMd5(), 'offer' => $offer)
                ),
                 'text/html'
             )/*
@@ -209,8 +216,6 @@ class OrderAdminController extends BaseAdminController
         ;
 
         $mailer->send($message);
-        return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
-
         $em->flush();
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
@@ -223,29 +228,28 @@ class OrderAdminController extends BaseAdminController
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $this->getDoctrine()->getRepository(Offer::class);
-        $orepo = $this->getDoctrine()->getRepository(Order::class);
+        $orepo = $this->getDoctrine()->getRepository(OfferTemplate::class);
         $mrepo = $this->getDoctrine()->getRepository(Message::class);
 
         $offer = $repo->findByMd5($md5);
-
-        $order = $orepo->findByOffer($offer[0]);
 
         if (!$offer) {
             return $this->render('admin/offer/error.html.twig', [
                 'errorType' => 2
             ]);
         }
-        $order[0]->setStatus('Peržiūrėtas');
+        $offer->setStatus(Offer::VIEWED);
+        $offerTemplate = $orepo->findCheckedOfferTemplate("CHECKED", $offer->getId());
         $date = new \DateTime();
-        $order[0]->setViewed($date->format('Y-m-d H:i:s'));
-        $em->persist($order[0]);
+        $offer->setViewed($date->format('Y-m-d H:i:s'));
+        $em->persist($offer);
         $em->flush();
 
-        $messages = $mrepo->findByOfferId($order[0]->getId());
+        $messages = $mrepo->findByOfferId($offer->getId());
 
         return $this->render('admin/order/userorder.html.twig', [
-            'order' => $order[0],
-            'offer' => $offer[0],
+            'offer' => $offer,
+            'offerTemplate' => $offerTemplate,
             'messages' => $messages
         ]);
     }
@@ -290,21 +294,21 @@ class OrderAdminController extends BaseAdminController
 
         $id = $request->get('orderId');
 
-        $repo = $this->getDoctrine()->getRepository(Order::class);
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
 
-        $order = $repo->find($id);
+        $offer = $repo->find($id);
 
 
-        $order->setStatus('Atsakytas');
+        $offer->setStatus(Offer::ANSWERED);
         $date = new \DateTime();
-        $order->setViewed($date->format('Y-m-d H:i:s'));
+        $offer->setViewed($date->format('Y-m-d H:i:s'));
 
-        $em->persist($order);
+        $em->persist($offer);
         $message = new Message();
 
         $message->setDate(new \DateTime());
         $message->setText($request->get('msg'));
-        $message->setOrder($order);
+        $message->setOffer($offer);
         $message->setUsername($request->get('username'));
 
         $em->persist($message);
@@ -360,7 +364,7 @@ class OrderAdminController extends BaseAdminController
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'admin/offer/mail.html.twig',
-                    array('link' => 'http://firstforsure.projektai.nfqakademija.lt/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
+                    array('link' => $this->generateUrl('readoffer', ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL), 'offer' => $order->getOffer())
                     //array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
                 ),
                 'text/html'

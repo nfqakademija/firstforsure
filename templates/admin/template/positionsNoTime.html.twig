@@ -1,0 +1,41 @@
+<table class="table table-responsive">
+
+    <tr>
+        <th scope="col"><p align="center">✔</p></th>
+        <th scope="col"><p align="center">Pozicija</p></th>
+        <th scope="col"><p align="center">Kaina</p></th>
+        <th scope="col"><p align="center">Pasiekiamumas</p></th>
+    </tr>
+
+    <tbody>
+
+    {% for position in positions %}
+
+        <tr class="positionRow">
+            <td>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-success {% if position.count is null %} active {% endif %} checkbox-js position-checkbox">
+                        <input type="checkbox"/>
+                        <input type="hidden" class="check"
+                               value="{% if position.count is not null %}1{% endif %}{% if position.count is null %}0{% endif %}"
+                               name='active[{{ position.id }}]'/>
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </label>
+                </div>
+            </td>
+            <td><p align="center">{{ position.name }}</p></td>
+            <td><p align="center"><input class="sum" name="sum[{{ position.id }}]" type="text"
+                                         data-price={{ position.price }} value={{ position.price }}></td>
+            </p>
+            <td><p align="center"><input class="sum2" name="sum2[{{ position.id }}]" type="text"
+                                         data-reach={{ position.reach }} value={{ position.reach }}></td>
+            </p>
+            <input hidden class="positionViews" type="text" disabled value="{{ position.reach }}"/>
+            <input hidden class="positionPrice" type="text" disabled value="{{ position.price }}"/>
+            <input hidden class="positionCount" name='count[{{ position.id }}]' type="text" value="1"/>
+        </tr>
+
+
+    {% endfor %}
+    </tbody>
+</table>
