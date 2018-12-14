@@ -2,6 +2,7 @@
 
 namespace App\Service\Admin\Dashboard;
 
+use App\Entity\Offer;
 use App\Models\OfferStatus;
 use App\Models\OrderStatus;
 use App\Repository\OfferRepository;
@@ -55,22 +56,22 @@ class CounterService
             'answered' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::ANSWERED,
-                $this->offerRepository->findCountByStatus(OrderStatus::ANSWERED, $userId),
+                $this->offerRepository->findCountByStatus(Offer::ANSWERED, $userId),
                 'Viewed'),
             'accepted' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::CONFIRMED,
-                $this->offerRepository->findCountByStatus(OrderStatus::CONFIRMED, $userId),
+                $this->offerRepository->findCountByStatus(Offer::CONFIRMED, $userId),
                 'Confirmed'),
             'viewed' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::VIEWED,
-                $this->offerRepository->findCountByStatus(OrderStatus::VIEWED, $userId),
+                $this->offerRepository->findCountByStatus(Offer::VIEWED, $userId),
                 'Viewed'),
             'sent' => $this->dataCounterFactory->create(
                 'Order',
                 OrderStatus::SENT,
-                $this->offerRepository->findCountByStatus(OrderStatus::SENT, $userId),
+                $this->offerRepository->findCountByStatus(Offer::SENT, $userId),
                 'Sent'),
         ];
     }
@@ -84,13 +85,13 @@ class CounterService
         return [
             'viewed' => $this->dataCounterFactory->create(
                 'Offer',
-                OfferStatus::VIEWED,
-                $this->offerRepository->findCountByStatus(OfferStatus::VIEWED, $userId),
+                Offer::VIEWED,
+                $this->offerRepository->findCountByStatus(Offer::VIEWED, $userId),
                 'Viewed'),
             'sent' => $this->dataCounterFactory->create(
                 'Offer',
-                OfferStatus::SENT,
-                $this->offerRepository->findCountByStatus(OfferStatus::SENT, $userId),
+                Offer::SENT,
+                $this->offerRepository->findCountByStatus(Offer::SENT, $userId),
                 'Sent'),
         ];
     }

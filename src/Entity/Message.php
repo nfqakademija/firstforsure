@@ -23,11 +23,11 @@ class Message
     private $text;
 
     /**
-     * @var Order
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @var Offer
+     * @ORM\ManyToOne(targetEntity="App\Entity\Offer")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $order;
+    private $offer;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -72,19 +72,19 @@ class Message
     }
 
     /**
-     * @return Order
+     * @return Offer
      */
-    public function getOrder(): Order
+    public function getOffer(): Offer
     {
-        return $this->order;
+        return $this->offer;
     }
 
     /**
-     * @param Order $order
+     * @param Order $offer
      */
-    public function setOrder(Order $order): void
+    public function setOffer(Order $offer): void
     {
-        $this->order = $order;
+        $this->offer = $offer;
     }
 
     /**

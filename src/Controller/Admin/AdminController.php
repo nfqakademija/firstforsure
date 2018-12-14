@@ -8,14 +8,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Offer;
-use App\Entity\Order;
 use App\Entity\Position;
-use App\Models\OfferStatus;
 use App\Service\Admin\Dashboard\CounterService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends BaseAdminController
@@ -23,7 +18,7 @@ class AdminController extends BaseAdminController
     /**
      * @Route("/admin/dashboard", name="dashboard")
      */
-    public function makeDashboard(Request $request, TranslatorInterface $translator)
+    public function makeDashboard()
     {
         $positions = $this->getDoctrine()->getRepository(Position::class)->findAll();
 

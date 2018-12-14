@@ -9,7 +9,7 @@
 namespace App\Event;
 
 
-use App\Models\OfferStatus;
+use App\Entity\Offer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -40,7 +40,7 @@ class OfferSubscriber implements EventSubscriberInterface
     public function onReadOffer(OfferEvent $event)
     {
         $offer = $event->getOffer();
-        $offer->setStatus(OfferStatus::VIEWED); // perziuretas
+        $offer->setStatus(Offer::VIEWED); // perziuretas
         $date = new \DateTime();
         $offer->setViewed($date->format('Y-m-d H:i:s'));
         $this->entityManager->persist($offer);

@@ -80,7 +80,7 @@ class TemplateManager
             $template = new Template();
         }
         $template->setTitle($request->get('title'));
-        $template->setStatus('Parduodama');
+        $template->setStatus(Template::BASE);
 
         $this->entityManager->persist($template);
         $this->entityManager->flush();

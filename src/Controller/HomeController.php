@@ -6,20 +6,12 @@ use App\Entity\Order;
 use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
-use App\Entity\Position;
-use App\Entity\PositionTemplate;
 use App\Entity\Template;
 use App\Event\OfferEvent;
-use App\Models\OfferStatus;
-use App\Repository\PositionRepository;
-use App\Service\Admin\Offer\OfferManager;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Models\TemplateStatus;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Validator\Constraints\Collection;
-use Symfony\Component\Validator\Constraints\Date;
 
 class HomeController extends Controller
 {
@@ -87,21 +79,18 @@ class HomeController extends Controller
     function acceptOffer(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $boughtTempl = new Order();
-        $em->persist($boughtTempl);
         $offerTemplRepo = $em->getRepository(OfferTemplate::class);
-        $orderRep = $em->getRepository(Order::class);
         $acceptedId = $request->get('accept');
 
         $acceptedOT = $offerTemplRepo->find($acceptedId);
 
         $boughtOffer = $acceptedOT->getOffer();
-        $boughtOffer->setStatus('Parduota');
+        $boughtOffer->setStatus(O);
         $boughtTemplate = new Template();
         $boughtTemplate->setPrice($acceptedOT->getTemplate()->getPrice());
         $boughtTemplate->setReach($acceptedOT->getTemplate()->getReach());
         $boughtTemplate->setTitle($acceptedOT->getTemplate()->getTitle());
-        $boughtTemplate->setStatus('Nupirkta');
+        $boughtTemplate->setStatus(TemplateStatus::BOUGHT);
 
         foreach ($acceptedOT->getTemplate()->getPositionTemplates() as $value) {
             //$remaining = $value->getPosition()->getRemaining();

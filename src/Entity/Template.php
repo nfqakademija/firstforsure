@@ -18,6 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Template
 {
+    public const BOUGHT = 'BOUGHT';
+    public const SENT = 'SENT';
+    public const BASE = 'BASE';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

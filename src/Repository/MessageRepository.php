@@ -22,7 +22,7 @@ class MessageRepository extends ServiceEntityRepository
     public function findByOfferId($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.order = :val')
+            ->andWhere('p.offer = :val')
             ->setParameter('val', $value)
             ->orderBy('p.id', 'ASC')
             ->getQuery()

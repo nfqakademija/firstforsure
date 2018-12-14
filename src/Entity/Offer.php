@@ -17,6 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Offer
 {
+    public const CREATED = 'CREATED';
+    public const ANSWERED = 'ANSWERED';
+    public const ASSIGNED = 'ASSIGNED';
+    public const CONFIRMED = 'CONFIRMED';
+    public const VIEWED = 'VIEWED';
+    public const SENT = 'SENT';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

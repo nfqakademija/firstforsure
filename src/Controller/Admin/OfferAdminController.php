@@ -96,7 +96,7 @@ class OfferAdminController extends BaseAdminController
             $value->setStatus('Sent');
         }
 
-        $offer->setStatus('Išsiųstas');
+        $offer->setStatus(Offer::SENT);
         $date = new \DateTime();
         $offer->setViewed($date->format('Y-m-d H:i:s'));
 

@@ -45,7 +45,7 @@ easy_admin:
       controller: App\Controller\Admin\TemplateAdminController
       list:
         title: 'Šablonai'
-        dql_filter: "entity.status != 'Nupirkta'"
+        dql_filter: "entity.status = 'BASE'"
         actions:
         - { label: 'Kopijuoti', name: 'copy'}
         fields:

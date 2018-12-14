@@ -297,7 +297,7 @@
                             <h3>
                                 {{ offerTemplate.template.title }}
                             </h3>
-                            <h4><i>Kaina €</i>{{ offerTemplate.template.price }}
+                            <h4><i>Kaina €</i>{{ offerTemplate.price }}
                             </h4>
                         </div>
                         <ul class="pricing-content list-unstyled">
@@ -337,9 +337,6 @@
         </div>
     </div>
 
-
-
-
     {% for offerTemplate in offer.offerTemplates %}
         <div id="{{ offerTemplate.template.id }}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -374,12 +371,12 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for offerTemplatePosition in offerTemplate.template.positionTemplates %}
+                                        {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
                                             <tr>
                                                 <div class="center">
                                                     <td><label>{{ offerTemplatePosition.count }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.name }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.position.price }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.price }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.reach }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.divide() }}</label>
                                                     </td>
@@ -434,7 +431,7 @@
                                         </td>
                                         <td>
                                             <label id="Label3" class="txtTotal font18 alignright">
-                                                {{ offerTemplate.template.price }}
+                                                {{ offerTemplate.price }}
                                             </label>
                                         </td>
                                     </tr>
@@ -448,7 +445,7 @@
                                         </td>
                                         <td>
                                             <label id="Label4" class="txtDiscount font18 alignright">
-                                                {{ offerTemplate.template.reach }}
+                                                {{ offerTemplate.reach }}
                                             </label>
                                         </td>
                                     </tr>
@@ -462,7 +459,7 @@
                                         </td>
                                         <td>
                                             <label id="Label5" class="txtNetPayable font18 alignright">
-                                                {{ offerTemplate.template.divide() }}
+                                                {{ offerTemplate.divide() }}
                                             </label>
                                         </td>
                                     </tr>

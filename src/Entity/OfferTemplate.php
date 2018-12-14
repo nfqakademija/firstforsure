@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +23,16 @@ class OfferTemplate
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $reach;
 
     /**
      * @ORM\Column(type="string", length=32)
@@ -40,6 +52,59 @@ class OfferTemplate
      * @ORM\JoinColumn(nullable=false)
      */
     private $offer;
+
+    /**
+     * @var OfferPositionTemplate[]
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OfferPositionTemplate", mappedBy="offerTemplate", orphanRemoval=true)
+     */
+    private $offerPositionTemplates;
+
+    public function __construct()
+    {
+        $this->offerPositionTemplates = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|OfferPositionTemplate[]
+     */
+    public function getOfferPositionTemplates(): Collection
+    {
+        return $this->offerPositionTemplates;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReach()
+    {
+        return $this->reach;
+    }
+
+    /**
+     * @param mixed $reach
+     */
+    public function setReach($reach): void
+    {
+        $this->reach = $reach;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
+    }
+
 
     /**
      * @return mixed
@@ -109,11 +174,45 @@ class OfferTemplate
     }
 
     /**
+     * @param OfferPositionTemplate $positionTemplate
+     *
+     * @return OfferTemplate
+     */
+    public function addOfferPositionTemplate(OfferPositionTemplate $positionTemplate): self
+    {
+        if (!$this->offerPositionTemplates->contains($positionTemplate)) {
+            $this->offerPositionTemplates[] = $positionTemplate;
+            $positionTemplate->setOfferTemplate($this);
+        }        return $this;
+    }    /**
+ * @param OfferPositionTemplate $positionTemplate
+ *
+ * @return Template
+ */
+    public function removeOfferPositionTemplate(OfferPositionTemplate $positionTemplate): self
+    {
+        if ($this->offerPositionTemplates->contains($positionTemplate)) {
+            $this->offerPositionTemplates->removeElement($positionTemplate);
+            // set the owning side to null (unless already changed)
+            if ($positionTemplate->getOfferTemplate() === $this) {
+                $positionTemplate->setOfferTemplate(null);
+            }
+        }        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
     {
         return $this->getId() . ' - ' . $this->getId();
+    }
+
+    public function divide () {
+        if ($this->getReach()==0){
+            return 0;
+        }
+        return number_format($this->getPrice()/$this->getReach(),4);
     }
 
 }

@@ -10,7 +10,9 @@ namespace App\Service\Admin\Offer;
 
 
 use App\Entity\Offer;
+use App\Entity\OfferPositionTemplate;
 use App\Entity\OfferTemplate;
+use App\Entity\Template;
 use App\Entity\User;
 use App\Helpers\ActiveAttributeFilter;
 use App\Repository\OfferRepository;
@@ -140,6 +142,25 @@ class OfferManager
                 $templateOffer->setOffer($offer)
                     ->setTemplate($template);
                 $templateOffer->setStatus("AddedToOffer");
+                $templateOffer->setPrice($template->getPrice());
+                $templateOffer->setReach($template->getReach());
+                $this->entityManager->persist($templateOffer);
+                $this->entityManager->flush();
+                foreach($template->getPositionTemplates() as $positionTemplate)
+                {
+                    $offerPositionTemplate = new OfferPositionTemplate();
+                    $offerPositionTemplate->setOffer($offer);
+                    $offerPositionTemplate->setOfferTemplate($templateOffer);
+                    $offerPositionTemplate->setPosition($positionTemplate->getPosition());
+
+                    $offerPositionTemplate->setPrice($positionTemplate->getPosition()->getPrice());
+                    $offerPositionTemplate->setCount($positionTemplate->getCount());
+                    $this->entityManager->persist($offerPositionTemplate);
+                    $this->entityManager->flush();
+                    $templateOffer->addOfferPositionTemplate($offerPositionTemplate);
+                    $this->entityManager->persist($templateOffer);
+
+                }
                 $offer->addOfferTemplate($templateOffer);
 
                 $this->entityManager->persist($templateOffer);
