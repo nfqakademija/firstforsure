@@ -98,8 +98,7 @@ class OrderAdminController extends BaseAdminController
         }
         $offer->setStatus(Offer::VIEWED);
         $offerTemplate = $orepo->findCheckedOfferTemplate("CHECKED", $offer->getId());
-        $date = new \DateTime();
-        $offer->setViewed($date->format('Y-m-d H:i:s'));
+        $offer->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
         $em->persist($offer);
         $em->flush();
 

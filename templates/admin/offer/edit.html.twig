@@ -142,12 +142,12 @@
 
     </style>
     {% if offer.status == "CREATED" %}
-        {% include('admin/offer/unassigned_edit.html.twig') with {'offer': offer, 'templateItems': templateItems} %}
+        {#{% include('admin/offer/unassigned_edit.html.twig') with {'offer': offer, 'templateItems': templateItems} %}#}
+        {% include('admin/offer/unassigned_edit.html.twig') with {'offer': offer} %}
     {% endif %}
     {% if offer.status != "CREATED" %}
         {% include('admin/offer/assigned_edit.html.twig') with {
             'offer': offer,
-            'templateItems': templateItems,
             'positionTimeItems': positionTimeItems,
             'positionNoTimeItems': positionNoTimeItems} %}
     {% endif %}
