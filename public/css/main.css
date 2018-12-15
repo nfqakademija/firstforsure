@@ -7,6 +7,8 @@ a, a:hover, a:focus{outline:none; text-decoration:none;}
 
 body{
     font-family: 'Open Sans', sans-serif;
+    height: 100%;
+    background: #017c50;
 }
 
 h2{float:left; width:100%; color:#fff; margin-bottom:30px; font-size: 14px;}
@@ -18,7 +20,9 @@ section{
 
     float:left;
     width:100%;
-    background-image: url(http://zalgiris.lt/wp-content/themes/zalgiris/dist/images/footer-background.jpg);            padding:30px 0;
+    background-image: url(http://zalgiris.lt/wp-content/themes/zalgiris/dist/images/footer-background.jpg);
+    padding:30px 0;
+    padding-bottom: 120px;
 }
 
 
@@ -193,7 +197,6 @@ section{
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
     section {
-        height: 100%;
     }
 
 }
@@ -203,4 +206,18 @@ section{
         padding: 5px;
     }
 
+}
+
+/**
+ * Footer Styles
+ */
+
+.footer {
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: #efefef;
+    text-align: center;
 }
