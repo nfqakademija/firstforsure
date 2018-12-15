@@ -48,11 +48,13 @@ class Message
     }
 
     /**
-     * @param mixed $date
+     * @param $date
+     * @return Message
      */
-    public function setDate($date): void
+    public function setDate($date): self
     {
         $this->date = $date;
+        return $this;
     }
 
     /**
@@ -64,11 +66,13 @@ class Message
     }
 
     /**
-     * @param mixed $username
+     * @param $username
+     * @return Message
      */
-    public function setUsername($username): void
+    public function setUsername($username): self
     {
         $this->username = $username;
+        return $this;
     }
 
     /**
@@ -81,10 +85,12 @@ class Message
 
     /**
      * @param Offer $offer
+     * @return Message
      */
-    public function setOffer(Offer $offer): void
+    public function setOffer(Offer $offer): self
     {
         $this->offer = $offer;
+        return $this;
     }
 
     /**
@@ -96,11 +102,13 @@ class Message
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return Message
      */
-    public function setId($id): void
+    public function setId($id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -112,11 +120,13 @@ class Message
     }
 
     /**
-     * @param mixed $text
+     * @param $text
+     * @return Message
      */
-    public function setText($text): void
+    public function setText($text): self
     {
         $this->text = $text;
+        return $this;
     }
 
 

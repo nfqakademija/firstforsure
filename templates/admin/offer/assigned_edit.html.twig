@@ -212,6 +212,17 @@
 
         </center>
 
+        <div class="form-group">
+            <label for="clientName">Kliento vardas, pavardė</label>
+            <input type="text" class="form-control" placeholder="Petras Petraitis"
+                   name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
+        </div>
+        <div class="form-group">
+            <label for="clientEmail">El.Paštas</label>
+            <input type="text" class="form-control" placeholder="petras@petras.com"
+                   name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
+        </div>
+
         <table class="table table-responsive">
 
             <tr>
