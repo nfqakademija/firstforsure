@@ -54,13 +54,13 @@ class OfferManager
     }
 
 
-    public function makeOffer(Request $request, $user)
+    public function makeOffer(Request $request, $user, $status)
     {
         $active = ActiveAttributeFilter::filter($request->get('active'));
 
         $offerId = $request->get('id');
 
-        $offer = $this->setOfferValues($request, $offerId, $user);
+        $offer = $this->setOfferValues($request, $offerId, $user, $status);
         $offerTemplates = $offer->getOfferTemplates();
 
         if (count($active) > 0) {
@@ -74,10 +74,11 @@ class OfferManager
     /**
      * @param Request $request
      * @param $offerId
-     * @param User $user
+     * @param $user
+     * @param $status
      * @return Offer|null
      */
-    public function setOfferValues(Request $request, $offerId, $user)
+    public function setOfferValues(Request $request, $offerId, $user, $status)
     {
         if ($offerId) {
             $offer = $this->offerRepo->find($offerId);
@@ -87,10 +88,14 @@ class OfferManager
         $offer
             ->setClientEmail($request->get('clientEmail'))
             ->setClientName($request->get('clientName'))
-            ->setMessage($request->get('message'))
-            ->setStatus(Offer::CREATED)
+            ->setStatus($status)
             ->setUser($user)
             ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
+
+        if($request->get('message'))
+        {
+            $offer->setMessage($request->get('message'));
+        }
 
         $this->entityManager->persist($offer);
 

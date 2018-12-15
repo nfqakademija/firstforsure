@@ -15,9 +15,11 @@ use App\Entity\Position;
 use App\Entity\Template;
 use App\Models\TemplateStatus;
 use App\Service\Admin\Offer\OfferManager;
+use App\Service\MailerService;
+use App\Service\OfferTemplate\OfferTemplateManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class OfferAdminController extends BaseAdminController
 {
@@ -77,23 +79,22 @@ class OfferAdminController extends BaseAdminController
         }
 
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
-
-        $checkedOT = $otRepo->findCheckedOfferTemplate("CHECKED", $id);
-        $activePositionItems = $checkedOT->getOfferPositionTemplates();
-        $positionItems = $posRepo->findAll();
         $positionTimeItems = $posRepo->findByTime(true);
         $positionNoTimeItems = $posRepo->findByTime(false);
 
-        foreach ($positionItems as $value)
-        {
-            foreach ($activePositionItems as $value2)
-            {
-                if($value2->getPosition()->getId() === $value->getId()){
-                    $value->setCount($value2->getCount());
-                    $value->setOfferPrice($value2->getPrice());
-                }
-                else {
-                    $value->setOfferPrice($value->getPrice());
+        $checkedOT = $otRepo->findCheckedOfferTemplate("CHECKED", $id);
+        if($checkedOT) {
+            $activePositionItems = $checkedOT->getOfferPositionTemplates();
+            $positionItems = $posRepo->findAll();
+
+            foreach ($positionItems as $value) {
+                foreach ($activePositionItems as $value2) {
+                    if ($value2->getPosition()->getId() === $value->getId()) {
+                        $value->setCount($value2->getCount());
+                        $value->setOfferPrice($value2->getPrice());
+                    } else {
+                        $value->setOfferPrice($value->getPrice());
+                    }
                 }
             }
         }
@@ -110,53 +111,16 @@ class OfferAdminController extends BaseAdminController
 
     public function sendAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
         $mailer = $this->get('mailer');
-        //$transport = new \Swift_SmtpTransport('smtp.gmail.com',,'ssl')
+        $mailerService = $this->get(MailerService::class);
+        $offer = $this
+            ->getDoctrine()
+            ->getRepository(Offer::class)
+            ->find($this->request->query->get('id'));
 
-        $id = $this->request->query->get('id');
+        $mailerService->changeStatuses($offer);
+        $mailerService->send($mailer, $offer);
 
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-
-        $offer = $repo->find($id);
-
-        foreach ($offer->getOfferTemplates() as $key => $value) {
-            $value->setStatus('Sent');
-        }
-
-        $offer->setStatus(Offer::SENT);
-        $date = new \DateTime();
-        $offer->setViewed($date->format('Y-m-d H:i:s'));
-
-        $em->persist($offer);
-        $em->flush();
-
-        $message = (new \Swift_Message('Žalgirio reklamos pasiūlymas'))
-            ->setFrom('zrvtzrvt@gmail.com')
-            ->setTo($offer->getClientEmail())
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'admin/offer/mail.html.twig',
-                    array('link' => $this->generateUrl('readoffer', ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL),
-                        'offer' => $offer)
-                //array('link' => '127.0.0.1:8000/readoffer/'.$offer->getMd5(), 'offer' => $offer)
-                ),
-                'text/html'
-            )/*
-             * If you also want to include a plaintext version of the message
-            ->addPart(
-                $this->renderView(
-                    'emails/registration.txt.twig',
-                    array('name' => $name)
-                ),
-                'text/plain'
-            )
-            */
-        ;
-
-        $mailer->send($message);
         return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
     }
 
@@ -167,7 +131,20 @@ class OfferAdminController extends BaseAdminController
      */
     public function makeOffer(Request $request, OfferManager $offerManager)
     {
-        $offerManager->makeOffer($request, $this->getUser());
+        $offerManager->makeOffer($request, $this->getUser(), Offer::CREATED);
         return $this->redirect("/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1");
+    }
+
+    /**
+     * @Route("/makeordertemplate", name="makeordertemplate")
+     */
+    public function makeOrderTemplate(Request $request, MailerService $mailerService, OfferTemplateManager $offerTemplateManager)
+    {
+        $mailer = $this->get('mailer');
+        $offer = $offerTemplateManager->editTemplate($request);
+
+        $mailerService->send($mailer, $offer);
+
+        return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
     }
 }

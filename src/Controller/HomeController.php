@@ -10,6 +10,7 @@ use App\Entity\Template;
 use App\Event\OfferEvent;
 use App\Models\TemplateStatus;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -28,10 +29,8 @@ class HomeController extends Controller
 
         $offer = $repo->findByMd5($md5);
 
-        if (!$offer) {
-            return $this->render('admin/offer/error.html.twig', [
-                'errorType' => 2
-            ]);
+        if (!$offer instanceof Offer) {
+            throw new NotFoundHttpException("Pasiulymas nerastas");
         }
 
         if ($offer->getStatus() != 'Parduota') {
@@ -95,8 +94,7 @@ class HomeController extends Controller
     /**
      * @Route("/acceptoffer", name="acceptoffer")
      */
-    public
-    function acceptOffer(Request $request)
+    public function acceptOffer(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $offerTemplRepo = $em->getRepository(OfferTemplate::class);
@@ -114,14 +112,13 @@ class HomeController extends Controller
 
         $em->persist($boughtOffer);
 
-        $message = new Message();
-        $message->setText($request->get("msg"));
-        $message->setOffer($acceptedOT->getOffer());
-        $message->setUsername($request->get("username"));
-        $message->setDate(new \DateTime());
+        $message = (new Message)
+            ->setText($request->get("msg"))
+            ->setOffer($acceptedOT->getOffer())
+            ->setUsername($request->get("username"))
+            ->setDate(new \DateTime());
 
         $em->persist($message);
-
         $em->flush();
 
         return $this->redirectToRoute('admin');
