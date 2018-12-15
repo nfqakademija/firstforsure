@@ -113,36 +113,6 @@ class OrderAdminController extends BaseAdminController
 
     /**
      *
-     * @Route("/orderaccept", name="orderaccept")
-     */
-    public function orderAccept(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->get('orderId');
-        $repo = $this->getDoctrine()->getRepository(Order::class);
-        $order = $repo->find($id);
-
-        $order->setStatus("Patvirtintas");
-        $date = new \DateTime();
-
-        $order->setViewed($date->format("Y-m-d H:i:s"));
-
-        foreach($order->getTemplate()->getPositionTemplates() as $value) {
-            $remaining = $value->getPosition()->getRemaining();
-            $use = $value->getCount();
-            $value->getPosition()->setRemaining($remaining - $use);
-            $em->persist($value);
-            $em->flush();
-        }
-
-        $em->persist($order);
-        $em->flush();
-
-        return $this->redirect("/admin/?entity=Order&action=list&menuIndex=1&submenuIndex=-1");
-    }
-
-    /**
-     *
      * @Route("/clientorderresponse", name="clientorderresponse")
      */
     public function clientResponseSend(Request $request)
@@ -172,63 +142,5 @@ class OrderAdminController extends BaseAdminController
         $em->flush();
 
         return $this->redirectToRoute("admin");
-    }
-
-    /**
-     *
-     * @Route("/orderresponse", name="orderresponse")
-     */
-    public function responseSend(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $mailer = $this->get('mailer');
-        //$transport = new \Swift_SmtpTransport('smtp.gmail.com',,'ssl')
-
-        $id = $request->get('orderId');
-
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-
-        $offer = $repo->find($id);
-
-
-        $offer->setStatus(Offer::SENT);
-        $date = new \DateTime();
-        $offer->setViewed($date->format('Y-m-d H:i:s'));
-
-        $em->persist($offer);
-        $message = new Message();
-
-        $message->setDate(new \DateTime());
-        $message->setText($request->get('msg'));
-        $message->setOffer($offer);
-        $message->setUsername("MANAGER");
-
-        $em->persist($message);
-
-        $time = new \DateTime();
-
-        $hash = md5($request->get('username') . $time->format('Y-m-d H:i:s'));
-
-        $offer->setMd5($hash);
-
-        $em->persist($offer);
-        $em->flush();
-
-        $message = (new \Swift_Message('Atsakymas į reklamos pasiūlymą'))
-            ->setFrom('zrvtzrvt@gmail.com')
-            ->setTo($offer->getOffer()->getClientEmail())
-            ->setBody(
-                $this->renderView(
-                // templates/emails/registration.html.twig
-                    'admin/offer/mail.html.twig',
-                    array('link' => $this->generateUrl('readorder', ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL), 'offer' => $order->getOffer())
-                    //array('link' => '127.0.0.1:8000/readorder/' . $order->getOffer()->getMd5(), 'offer' => $order->getOffer())
-                ),
-                'text/html'
-            )
-        ;
-
-        $mailer->send($message);
-        return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
     }
 }

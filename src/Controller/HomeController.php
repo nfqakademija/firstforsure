@@ -24,10 +24,7 @@ class HomeController extends Controller
 
     public function reademail($md5)
     {
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-        $mrepo = $this->getDoctrine()->getRepository(Message::class);
-
-        $offer = $repo->findByMd5($md5);
+        $offer = $this->getDoctrine()->getRepository(Offer::class)->findByMd5($md5);
 
         if (!$offer instanceof Offer) {
             throw new NotFoundHttpException("Pasiulymas nerastas");
@@ -37,7 +34,7 @@ class HomeController extends Controller
 
             $this->get('event_dispatcher')->dispatch(OfferEvent::class, (new OfferEvent())->setOffer($offer));
 
-            $messages = $mrepo->findByOfferId($offer->getId());
+            $messages = $this->getDoctrine()->getRepository(Message::class)->findByOfferId($offer->getId());
 
             return $this->render('admin/offer/useroffer.html.twig', [
                 'offer' => $offer,
@@ -55,13 +52,18 @@ class HomeController extends Controller
      */
     public function chooseOffer($md5, $id)
     {
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-        $mrepo = $this->getDoctrine()->getRepository(Message::class);
-        $orepo = $this->getDoctrine()->getRepository(OfferTemplate::class);
-
-        $offer = $repo->findByMd5($md5);
-        $messages = $mrepo->findByOfferId($offer->getId());
-        $offerTemplate = $orepo->find($id);
+        $offer = $this
+            ->getDoctrine()
+            ->getRepository(Offer::class)
+            ->findByMd5($md5);
+        $messages = $this
+            ->getDoctrine()
+            ->getRepository(Message::class)
+            ->findByOfferId($offer->getId());
+        $offerTemplate = $this
+            ->getDoctrine()
+            ->getRepository(OfferTemplate::class)
+            ->find($id);
 
         return $this->render('admin/offer/userofferchoose.html.twig', [
             'offerTemplate' => $offerTemplate,
@@ -84,39 +86,6 @@ class HomeController extends Controller
         $message->setOffer($offer);
         $message->setUsername($request->get("username"));
         $message->setDate(new \DateTime());
-
-        $em->persist($message);
-        $em->flush();
-
-        return $this->redirectToRoute('admin');
-    }
-
-    /**
-     * @Route("/acceptoffer", name="acceptoffer")
-     */
-    public function acceptOffer(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $offerTemplRepo = $em->getRepository(OfferTemplate::class);
-        $acceptedId = $request->get('accept');
-
-        $acceptedOT = $offerTemplRepo->find($acceptedId);
-        $acceptedOT->setStatus("CHECKED");
-        $em->persist($acceptedOT);
-
-        $boughtOffer = $acceptedOT->getOffer();
-        $boughtOffer->setStatus(Offer::ASSIGNED);
-
-        $date = new \DateTime();
-        $boughtOffer->setViewed($date->format('Y-m-d H:i:s'));
-
-        $em->persist($boughtOffer);
-
-        $message = (new Message)
-            ->setText($request->get("msg"))
-            ->setOffer($acceptedOT->getOffer())
-            ->setUsername($request->get("username"))
-            ->setDate(new \DateTime());
 
         $em->persist($message);
         $em->flush();

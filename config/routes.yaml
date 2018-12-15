@@ -2,10 +2,6 @@ index:
     path: /
     controller: App\Controller\HomeController::index
 
-basicform:
-    path: /basicform
-    controller: App\Controller\HomeController::new
-
 readoffer:
     path: /readoffer/{md5}
     controller: App\Controller\HomeController::reademail
@@ -26,3 +22,7 @@ admin_template_create:
 admin_offer_create:
     path: /create/offer
     controller: App\Controller\Admin\OfferAdminController::makeOffer
+
+user_offer_confirm:
+    path: /offer/confirm
+    controller: App\Controller\Admin\OfferAdminController::confirmOffer
