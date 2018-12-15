@@ -13,8 +13,8 @@ use App\Entity\Offer;
 use App\Entity\OfferTemplate;
 use App\Entity\Position;
 use App\Entity\Template;
-use App\Models\TemplateStatus;
 use App\Service\Admin\Offer\OfferManager;
+use App\Service\Admin\Offer\OfferService;
 use App\Service\MailerService;
 use App\Service\OfferTemplate\OfferTemplateManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
@@ -42,7 +42,7 @@ class OfferAdminController extends BaseAdminController
     public function newAction()
     {
         $repo = $this->getDoctrine()->getRepository(Template::class);
-        $templateItems = $repo->findForSale(TemplateStatus::BOUGHT);
+        $templateItems = $repo->findAll();
 
         $offer = new Offer();
         $offer->setStatus(Offer::CREATED);
@@ -58,54 +58,31 @@ class OfferAdminController extends BaseAdminController
     public function editAction()
     {
         $offerRepo = $this->getDoctrine()->getRepository(Offer::class);
-        $templRepo = $this->getDoctrine()->getRepository(Template::class);
         $msgRepo = $this->getDoctrine()->getRepository(Message::class);
-        $otRepo = $this->getDoctrine()->getRepository(OfferTemplate::class);
+        $posRepo = $this->getDoctrine()->getRepository(Position::class);
+
+        $offerService = $this->get(OfferService::class);
         $id = $this->request->query->get('id');
 
         $activeOffer = $offerRepo->find($id);
 
-        $messages = $msgRepo->findByOfferId($id);
+        $templateItems = $offerService->setActiveTemplateItems(
+            $this->getDoctrine()->getRepository(Template::class)->findAll(),
+            $activeOffer->getOfferTemplates());
 
-        $activeOfferItems = $activeOffer->getOfferTemplates();
-        $templateItems = $templRepo->findForSale('Nupirkta');
-
-        foreach ($templateItems as $templateItem) {
-            foreach ($activeOfferItems as $activeOfferItem) {
-                if ($activeOfferItem->getTemplate()->getId() === $templateItem->getId()) {
-                    $templateItem->setActive(true);
-                }
-            }
-        }
-
-        $posRepo = $this->getDoctrine()->getRepository(Position::class);
-        $positionTimeItems = $posRepo->findByTime(true);
-        $positionNoTimeItems = $posRepo->findByTime(false);
-
-        $checkedOT = $otRepo->findCheckedOfferTemplate("CHECKED", $id);
-        if($checkedOT) {
-            $activePositionItems = $checkedOT->getOfferPositionTemplates();
-            $positionItems = $posRepo->findAll();
-
-            foreach ($positionItems as $value) {
-                foreach ($activePositionItems as $value2) {
-                    if ($value2->getPosition()->getId() === $value->getId()) {
-                        $value->setCount($value2->getCount());
-                        $value->setOfferPrice($value2->getPrice());
-                    } else {
-                        $value->setOfferPrice($value->getPrice());
-                    }
-                }
-            }
-        }
+        $checkedOT = $this
+            ->getDoctrine()
+            ->getRepository(OfferTemplate::class)
+            ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
+        $offerService->setActivePositionItems($checkedOT,$posRepo->findAll());
 
         return $this->render('admin/offer/edit.html.twig', [
             'id' => $id,
             'offer' => $activeOffer,
             'templateItems' => $templateItems,
-            'messages' => $messages,
-            'positionTimeItems' => $positionTimeItems,
-            'positionNoTimeItems' => $positionNoTimeItems
+            'messages' => $msgRepo->findByOfferId($id),
+            'positionTimeItems' => $posRepo->findByTime(true),
+            'positionNoTimeItems' => $posRepo->findByTime(false)
         ]);
     }
 
@@ -136,14 +113,21 @@ class OfferAdminController extends BaseAdminController
     }
 
     /**
+     * @param Request $request
+     * @param MailerService $mailerService
+     * @param OfferTemplateManager $offerTemplateManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/makeordertemplate", name="makeordertemplate")
      */
-    public function makeOrderTemplate(Request $request, MailerService $mailerService, OfferTemplateManager $offerTemplateManager)
+    public function makeOrderTemplate(
+        Request $request,
+        MailerService $mailerService,
+        OfferTemplateManager $offerTemplateManager
+    )
     {
         $mailer = $this->get('mailer');
-        $offer = $offerTemplateManager->editTemplate($request);
 
-        $mailerService->send($mailer, $offer);
+        $mailerService->send($mailer, $offerTemplateManager->editTemplate($request));
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
     }

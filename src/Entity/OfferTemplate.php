@@ -17,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OfferTemplate
 {
+    const CHECKED = "CHECKED";
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
