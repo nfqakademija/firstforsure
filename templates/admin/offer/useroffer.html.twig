@@ -34,7 +34,6 @@
 
         body{
             font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(to left, #0b6e42, #12422c);
         }
 
         h2{float:left; width:100%; color:#fff; margin-bottom:30px; font-size: 14px;}
@@ -46,11 +45,9 @@
 
             float:left;
             width:100%;
-            background: #43cea2;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to left, #185a9d, #43cea2);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to left, #0b6e42, #12422c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            padding:30px 0;
+            background-image: url(http://zalgiris.lt/wp-content/themes/zalgiris/dist/images/footer-background.jpg);            padding:30px 0;
         }
+
 
         .card {
             -moz-box-direction: normal;
@@ -67,7 +64,7 @@
             border-radius: 0;
         }
         .card-header {
-            background-color: #f7f7f9;
+            background-color: #f6f7f7;
             margin-bottom: 0;
             padding: 20px 1.25rem;
             border:none;
@@ -101,7 +98,7 @@
             font-size:20px;
             font-family: 'Slabo 27px', serif;
             font-weight:bold;
-            color:#3fc199;
+            color:#0c5e3a;
         }
         .card-block {
             -moz-box-flex: 1;
@@ -172,6 +169,38 @@
             #no-more-tables td:before { content: attr(data-title); }
         }
 
+        .tableHead {
+            background: #006d3e;
+            font-family: "Open Sans", sans-serif;
+            font-size: .813rem;
+            border: 1px solid #D8D8D8;
+            font-weight: 400;
+            padding: .9rem .625rem;
+            color: white;
+            text-align: center;
+        }
+
+        .tdContent {
+            text-align: center;
+        }
+
+        /* Small Devices, Tablets */
+        @media only screen and (min-width : 768px) {
+            section {
+                height: 100%;
+            }
+
+        }
+
+        @media only screen and (max-width : 768px) {
+            .tdContent {
+                padding: 5px;
+            }
+
+        }
+
+
+
     </style>
 
 <body>
@@ -220,27 +249,28 @@
                                     <div class="card-block">
                                         <div id="no-more-tables">
                                             <table class="col-md-12 table-bordered table-striped table-condensed cf">
-                                                <thead class="cf">
+                                                <thead class="tableHead">
                                                 <tr>
-                                                    <th>Pozicija</th>
-                                                    <th class="numeric">Kiekis</th>
-                                                    <th class="numeric">Kaina</th>
-                                                    <th class="numeric">Perziuros</th>
+                                                    <th>POZICIJA</th>
+                                                    <th class="numeric">KIEKIS</th>
+                                                    <th class="numeric">KAINA</th>
+                                                    <th class="numeric">PERZIUROS</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
 
                                                 <tr>
-                                                    <td data-title="Pozicija">{{ offerTemplatePosition.position.name }}</td>
-                                                    <td data-title="Kiekis">{{ offerTemplatePosition.count }}</td>
-                                                    <td data-title="Kaina" class="numeric">{{ offerTemplatePosition.price }}</td>
-                                                    <td data-title="Perziuros" class="numeric">{{ offerTemplatePosition.position.reach }}</td>
+                                                    <td class="tdContent" data-title="Pozicija">{{ offerTemplatePosition.position.name }}</td>
+                                                    <td class="tdContent"  data-title="Kiekis">{{ offerTemplatePosition.count }}</td>
+                                                    <td  class="tdContent" data-title="Kaina" class="numeric">{{ offerTemplatePosition.price }}</td>
+                                                    <td  class="tdContent" data-title="Perziuros" class="numeric">{{ offerTemplatePosition.position.reach }}</td>
                                                 </tr>
                                                 {% endfor %}
 
                                                 </tbody>
                                             </table>
+                                            aaaa
                                         </div>
                                     </div>
                                 </div>
