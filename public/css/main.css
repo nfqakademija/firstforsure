@@ -20,7 +20,8 @@ section{
 
     float:left;
     width:100%;
-    background-image: url(http://zalgiris.lt/wp-content/themes/zalgiris/dist/images/footer-background.jpg);
+    background-image: linear-gradient(to left bottom, #00653b, #026a40, #047046, #07754b, #097b51, #0a8056, #0b845b, #0c8960
+    , #0c8e65, #0c926a, #0c9770, #0c9c75);
     padding:30px 0;
     padding-bottom: 120px;
 }
@@ -212,12 +213,11 @@ section{
  * Footer Styles
  */
 
-.footer {
+.footeris {
 
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1rem;
     background-color: #efefef;
     text-align: center;
 }
@@ -314,4 +314,18 @@ section{
 
 .manager-message {
     background-color: #ddd!important;
+}
+
+.btn.btn-default.btn-circle:hover {
+
+    background-color: #b3f5e4;
+
+}
+
+.btn-info {
+
+    color: WHITE;
+    border-color: #003333;
+    background-color: #0D4D4D;
+
 }
