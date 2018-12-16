@@ -268,3 +268,37 @@ section{
    color: black;
     font-size: 75px;
 }
+
+.card-body {
+    background-color: #f6f7f7;
+}
+
+.super-list li {
+    background-color: #f6f7f7;
+
+}
+
+.summary {
+    margin-bottom:50px;
+}
+
+.offer-comment {
+    padding:  20px;
+    border:1px rgb(119,119,119) solid;
+    background-color: #f6f7f7;;
+}
+
+.offer-comment label {
+    color: grey;
+}
+
+.offer-comment textarea {
+    border:none;
+    padding: 0;
+
+}
+
+.btn-more {
+    margin-bottom: 20px;
+
+}
