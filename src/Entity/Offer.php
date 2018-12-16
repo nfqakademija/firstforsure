@@ -23,7 +23,6 @@ class Offer
     public const CONFIRMED = 'CONFIRMED';
     public const VIEWED = 'VIEWED';
     public const SENT = 'SENT';
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

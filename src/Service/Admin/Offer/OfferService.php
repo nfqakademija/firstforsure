@@ -9,6 +9,8 @@
 namespace App\Service\Admin\Offer;
 
 
+use App\Entity\Message;
+use App\Entity\Offer;
 use App\Entity\OfferPositionTemplate;
 use App\Entity\OfferTemplate;
 use App\Entity\Position;
@@ -16,6 +18,7 @@ use App\Entity\Template;
 use App\Repository\OfferRepository;
 use App\Repository\OfferTemplateRepository;
 use App\Repository\TemplateRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class OfferService
 {
@@ -35,20 +38,29 @@ class OfferService
     private $offerTemplateRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
      * OfferService constructor.
      * @param OfferRepository $offerRepository
      * @param TemplateRepository $templateRepository
      * @param OfferTemplateRepository $offerTemplateRepository
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         OfferRepository $offerRepository,
         TemplateRepository $templateRepository,
-        OfferTemplateRepository $offerTemplateRepository)
+        OfferTemplateRepository $offerTemplateRepository,
+        EntityManagerInterface $entityManager)
     {
         $this->offerRepository = $offerRepository;
         $this->templateRepository = $templateRepository;
         $this->offerTemplateRepository = $offerTemplateRepository;
+        $this->entityManager = $entityManager;
     }
+
 
     /**
      * @param OfferTemplate $checkedOT
@@ -88,5 +100,42 @@ class OfferService
         }
 
         return $templateItems;
+    }
+
+    /**
+     * @param Offer $offer
+     * @param $status
+     */
+    public function changeOfferStatus($offer, $status)
+    {
+        $offer
+            ->setStatus($status)
+            ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
+    }
+
+    public function acceptOffer($acceptedOT)
+    {
+        $acceptedOT->setStatus("CHECKED");
+        $this->entityManager->persist($acceptedOT);
+
+        $boughtOffer = $acceptedOT->getOffer();
+        $boughtOffer->setStatus(Offer::ASSIGNED);
+        $boughtOffer->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
+
+        $this->entityManager->persist($boughtOffer);
+    }
+
+    /**
+     * @param OfferTemplate $offerTemplate
+     */
+    public function handleRemaining($offerTemplate)
+    {
+        foreach($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
+            $remaining = $positionTemplate->getPosition()->getRemaining();
+            $use = $positionTemplate->getCount();
+            $positionTemplate->getPosition()->setRemaining($remaining - $use);
+            $this->entityManager->persist($positionTemplate);
+            $this->entityManager->flush();
+        }
     }
 }

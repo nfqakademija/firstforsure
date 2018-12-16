@@ -304,7 +304,7 @@
 
     </form>
 
-    <form action="/orderaccept" method="post">
+    <form action="{{ path('user_offer_confirm') }}" method="post">
         <h1>Patvirtinti užsakymą</h1>
         <input type="hidden" value="{{ offer.id }}" name="orderId">
         <button class="myButton">Patvirtinti</button>
