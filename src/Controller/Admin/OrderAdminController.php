@@ -26,15 +26,17 @@ class OrderAdminController extends BaseAdminController
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $user = $this->getUser();
-        if(in_array("ROLE_ADMIN",$user->getRoles()))
-        {
-            $dqlFilter = "";
+        if (in_array("ROLE_ADMIN", $user->getRoles())) {
+            $dqlFilter = "entity.status = 'CONFIRMED'";
+        } else {
+            $dqlFilter = "entity.status = 'CONFIRMED' AND entity.user = " . $user->getId();
         }
-        else
-        {
-            $dqlFilter = "entity.user = ".$user->getId();
-        }
-        return $this->get('easyadmin.query_builder')->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+
+        return $this->get('easyadmin.query_builder')->createListQueryBuilder(
+            $this->entity,
+            $sortField,
+            $sortDirection,
+            $dqlFilter);
     }
 
     public function editAction()

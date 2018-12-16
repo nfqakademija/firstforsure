@@ -58,9 +58,15 @@ easy_admin:
       controller: App\Controller\Admin\OfferAdminController
       list:
         title: 'Pasiūlymai'
+        dql_filter: "entity.status != 'CONFIRMED'"
         form_filters:
         - enabled
-        - { property: status, type_options: { choices: { Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
+        - { property: status, type_options: { choices: {
+                                                        VIEWED: 'VIEWED',
+                                                        SENT: 'SENT',
+                                                        CONFIRMED: 'CONFIRMED',
+                                                        ANSWERED: 'ANSWERED'
+                                                        } } }
         - organization
         actions:
         - { label: 'Siųsti', name: 'send'}
@@ -85,22 +91,16 @@ easy_admin:
 #        - { label: 'Šablonai', property: 'templateList'}
 #        - { label: 'Statusas', property: 'status' }
     Order:
-      class: App\Entity\Order
+      class: App\Entity\Offer
       controller: App\Controller\Admin\OrderAdminController
       label: 'Užsakymai'
-      disabled_actions: ['new']
+      disabled_actions: ['new', 'delete', 'edit']
       list:
         sort: 'viewed'
         title: 'Užsakymai'
-        form_filters:
-        - enabled
-        - { property: status, type_options: { choices: { Atsakytas: Atsakytas, Patvirtintas: Patvirtintas, Peržiūrėtas: Peržiūrėtas, Išsiųstas: Išsiųstas } } }
-        - organization
         fields:
-        - { label: 'Klientas', property: 'offer.clientEmail' }
-        - { label: 'Užsakymas', property: 'template' }
-        - { label: 'Kaina', property: 'template.price' }
-        - { label: 'Pasiekiamumas', property: 'template.reach' }
+        - { label: 'Klientas', property: 'clientEmail' }
+        - { label: 'Kliento vardas', property: 'clientName'}
         - { label: 'Statusas', property: 'status' }
         - { label: 'Atnaujinimo laikas', property: 'viewed' }
 

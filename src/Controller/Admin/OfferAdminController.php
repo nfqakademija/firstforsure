@@ -28,9 +28,9 @@ class OfferAdminController extends BaseAdminController
     {
         $user = $this->getUser();
         if (in_array("ROLE_ADMIN", $user->getRoles())) {
-            $dqlFilter = "entity.status != 'Parduota'";
+            $dqlFilter = "entity.status != 'CONFIRMED'";
         } else {
-            $dqlFilter = "entity.status != 'Parduota' AND entity.user = " . $user->getId();
+            $dqlFilter = "entity.status != 'CONFIRMED' AND entity.user = " . $user->getId();
         }
 
         return $this->get('easyadmin.query_builder')->createListQueryBuilder(

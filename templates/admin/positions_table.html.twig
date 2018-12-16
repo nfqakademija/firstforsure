@@ -1,0 +1,25 @@
+<div class="col-sm-5">
+    <h2>{{ title|trans }}</h2>
+
+    <!--table-->
+    <table class="table table-striped">
+        <thead>
+        <tr class="info">
+            <th>Pavadinimas</th>
+            <th>Likutis</th>
+            <th>Bendras kiekis</th>
+
+        </thead>
+        <tbody>
+        {% for pos in positions %}
+            {% if pos.hasTime == type %}
+                <tr>
+                    <td>{{ pos.name }}</td>
+                    <td>{{ pos.remaining }}</td>
+                    <td>{{ pos.maxQuantity }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

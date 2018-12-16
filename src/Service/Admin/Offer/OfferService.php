@@ -113,14 +113,16 @@ class OfferService
             ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
     }
 
+    /**
+     * @param OfferTemplate $acceptedOT
+     */
     public function acceptOffer($acceptedOT)
     {
-        $acceptedOT->setStatus("CHECKED");
+        $acceptedOT->setStatus(OfferTemplate::CHECKED);
         $this->entityManager->persist($acceptedOT);
 
         $boughtOffer = $acceptedOT->getOffer();
-        $boughtOffer->setStatus(Offer::ASSIGNED);
-        $boughtOffer->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
+        $this->changeOfferStatus($boughtOffer, Offer::ANSWERED);
 
         $this->entityManager->persist($boughtOffer);
     }

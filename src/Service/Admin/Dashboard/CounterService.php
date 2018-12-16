@@ -50,29 +50,25 @@ class CounterService
      * @param int $userId
      * @return array
      */
-    public function getOrderCounts($userId): array
+    public function getOfferCounts($userId): array
     {
+        $entity = 'Offer';
         return [
-            'answered' => $this->dataCounterFactory->create(
-                'Order',
-                OrderStatus::ANSWERED,
+            Offer::ANSWERED => $this->dataCounterFactory->create(
+                $entity,
+                Offer::ANSWERED,
                 $this->offerRepository->findCountByStatus(Offer::ANSWERED, $userId),
-                'Viewed'),
-            'accepted' => $this->dataCounterFactory->create(
-                'Order',
-                OrderStatus::CONFIRMED,
-                $this->offerRepository->findCountByStatus(Offer::CONFIRMED, $userId),
-                'Confirmed'),
-            'viewed' => $this->dataCounterFactory->create(
-                'Order',
-                OrderStatus::VIEWED,
+                Offer::ANSWERED),
+            Offer::VIEWED => $this->dataCounterFactory->create(
+                $entity,
+                Offer::VIEWED,
                 $this->offerRepository->findCountByStatus(Offer::VIEWED, $userId),
-                'Viewed'),
-            'sent' => $this->dataCounterFactory->create(
-                'Order',
-                OrderStatus::SENT,
+                Offer::VIEWED),
+            Offer::SENT => $this->dataCounterFactory->create(
+                $entity,
+                Offer::SENT,
                 $this->offerRepository->findCountByStatus(Offer::SENT, $userId),
-                'Sent'),
+                Offer::SENT),
         ];
     }
 
@@ -80,19 +76,15 @@ class CounterService
      * @param int $userId
      * @return array
      */
-    public function getOfferCounts($userId): array
+    public function getOrderCounts($userId): array
     {
+        $entity = 'Order';
         return [
-            'viewed' => $this->dataCounterFactory->create(
-                'Offer',
-                Offer::VIEWED,
-                $this->offerRepository->findCountByStatus(Offer::VIEWED, $userId),
-                'Viewed'),
-            'sent' => $this->dataCounterFactory->create(
-                'Offer',
-                Offer::SENT,
-                $this->offerRepository->findCountByStatus(Offer::SENT, $userId),
-                'Sent'),
+            Offer::CONFIRMED => $this->dataCounterFactory->create(
+                $entity,
+                Offer::CONFIRMED,
+                $this->offerRepository->findCountByStatus(Offer::CONFIRMED, $userId),
+                Offer::CONFIRMED),
         ];
     }
 

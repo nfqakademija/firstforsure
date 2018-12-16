@@ -158,72 +158,29 @@
 
 
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <h1>Užsakymai</h1>
-    <div class="row">
-        {% for order in orderCounts %}
-            {% include('dashboard/counter.html.twig') with {'countItem': order} %}
-        {% endfor %}
-    </div>
     <h1>Pasiūlymai</h1>
     <div class="row">
         {% for offer in offerCounts %}
-            {% include('dashboard/counter.html.twig') with {'countItem': offer} %}
+            {% include('dashboard/counter.html.twig')
+                with {'countItem': offer} %}
+        {% endfor %}
+    </div>
+    <h1>Užsakymai</h1>
+    <div class="row">
+        {% for order in orderCounts %}
+            {% include('dashboard/counter.html.twig')
+                with {'countItem': order} %}
         {% endfor %}
     </div>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-5">
-                <h2>{{ 'admin.menu.position.notime'|trans }}</h2>
-
-                <!--table-->
-                <table class="table table-striped">
-                    <thead>
-                    <tr class="info">
-                        <th>Pavadinimas</th>
-                        <th>Likutis</th>
-                        <th>Bendras kiekis</th>
-
-                    </thead>
-                    <tbody>
-                    {% for pos in positions %}
-                        {% if pos.hasTime == false %}
-                            <tr>
-                                <td>{{ pos.name }}</td>
-                                <td>{{ pos.remaining }}</td>
-                                <td>{{ pos.maxQuantity }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include('admin/positions_table.html.twig')
+                with {'title': 'admin.menu.position.notime', 'positions': positions, 'type': false} %}
             <div class="col-sm-1">
             </div>
-            <div class="col-sm-5">
-                <h2>{{ 'admin.menu.position.hastime'|trans }}</h2>
-                <!--table-->
-                <table class="table table-striped">
-                    <thead>
-                    <tr class="info">
-                        <th>Pavadinimas</th>
-                        <th>Likutis</th>
-                        <th>Bendras kiekis</th>
-
-                    </thead>
-                    <tbody>
-                    {% for pos in positions %}
-                        {% if pos.hasTime == true %}
-                            <tr>
-                                <td>{{ pos.name }}</td>
-                                <td>{{ pos.remaining }}</td>
-                                <td>{{ pos.maxQuantity }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include('admin/positions_table.html.twig')
+                with {'title': 'admin.menu.position.hastime', 'positions': positions, 'type': true} %}
         </div>
     </div>
 

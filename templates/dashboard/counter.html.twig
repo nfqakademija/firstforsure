@@ -4,7 +4,7 @@
             <div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-3x"></i></div>
         </a>
         <div class="circle-tile-content green">
-            <div class="circle-tile-description text-faded"> {{ countItem.title }} </div>
+            <div class="circle-tile-description text-faded">{{ countItem.title|trans }} </div>
             <div class="circle-tile-number text-faded ">{{ countItem.countValue }}</div>
             <a class="circle-tile-footer"
                href="/admin/?action=list&entity={{ countItem.entity }}&form_filters[status][0]={{ countItem.status }}">Peržiūrėti<i
