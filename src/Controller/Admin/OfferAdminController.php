@@ -20,6 +20,7 @@ use App\Service\MailerService;
 use App\Service\OfferTemplate\OfferTemplateManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OfferAdminController extends BaseAdminController
@@ -97,7 +98,7 @@ class OfferAdminController extends BaseAdminController
             ->find($this->request->query->get('id'));
 
         $mailerService->changeStatuses($offer);
-        $mailerService->send($mailer, $offer);
+        $mailerService->send($mailer, $offer, 'readoffer');
 
         return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
     }
@@ -128,7 +129,7 @@ class OfferAdminController extends BaseAdminController
     {
         $mailer = $this->get('mailer');
 
-        $mailerService->send($mailer, $offerTemplateManager->editTemplate($request));
+        $mailerService->send($mailer, $offerTemplateManager->editTemplate($request), 'readorder');
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=3&submenuIndex=-1");
     }
@@ -174,5 +175,67 @@ class OfferAdminController extends BaseAdminController
         $em->flush();
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=1&submenuIndex=-1");
+    }
+
+    /**
+     *
+     * @Route("/offer/client_response", name="client_response")
+     */
+    public function clientResponseSend(Request $request, OfferService $offerService)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getRepository(Offer::class);
+        $offer = $repo->find($request->get('orderId'));
+
+        $offerService->changeOfferStatus($offer, Offer::ANSWERED);
+        $em->persist($offer);
+
+        $message = (new Message())
+            ->setDate(new \DateTime())
+            ->setText($request->get('msg'))
+            ->setOffer($offer)
+            ->setUsername($request->get('username'));
+
+        $em->persist($message);
+        $em->flush();
+
+        return $this->redirectToRoute("admin");
+    }
+
+    /**
+     * @Route("/readorder/{md5}", name="readorder")
+     */
+    public function readorder($md5, OfferService $offerService)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $offer = $this
+            ->getDoctrine()
+            ->getRepository(Offer::class)
+            ->findByMd5($md5);
+
+        if (!$offer instanceof Offer) {
+            throw new NotFoundHttpException("Pasiūlymas nerastas");
+        }
+
+        $offerService->changeOfferStatus($offer, Offer::VIEWED);
+        $em->persist($offer);
+        $offerTemplate = $this
+            ->getDoctrine()
+            ->getRepository(OfferTemplate::class)
+            ->findCheckedOfferTemplate("CHECKED", $offer->getId());
+        $em->flush();
+
+        $messages = $this
+            ->getDoctrine()
+            ->getRepository(Message::class)
+            ->findByOfferId($offer->getId());
+
+        return $this->render('admin/order/userorder.html.twig', [
+            'offer' => $offer,
+            'offerTemplate' => $offerTemplate,
+            'messages' => $messages,
+            'selected' => 3
+        ]);
     }
 }

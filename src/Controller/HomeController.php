@@ -26,7 +26,7 @@ class HomeController extends Controller
         $offer = $this->getDoctrine()->getRepository(Offer::class)->findByMd5($md5);
 
         if (!$offer instanceof Offer) {
-            throw new NotFoundHttpException("Pasiulymas nerastas");
+            throw new NotFoundHttpException("Pasiūlymas nerastas");
         }
 
         if ($offer->getStatus() != 'Parduota') {
@@ -68,26 +68,5 @@ class HomeController extends Controller
             'messages' => $messages,
             'selected' => 2
         ]);
-    }
-
-    /**
-     * @Route("/sendrespond", name="sendrespond")
-     */
-    public
-    function sendRespond(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $this->getDoctrine()->getRepository(Offer::class);
-        $offer = $repo->find($request->get("offerId"));
-        $message = new Message();
-        $message->setText($request->get("msg"));
-        $message->setOffer($offer);
-        $message->setUsername($request->get("username"));
-        $message->setDate(new \DateTime());
-
-        $em->persist($message);
-        $em->flush();
-
-        return $this->redirectToRoute('admin');
     }
 }

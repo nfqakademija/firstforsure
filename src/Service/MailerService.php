@@ -59,10 +59,11 @@ class MailerService
 
 
     /**
-     * @param \Swift_Mailer $mailer
-     * @param Offer $offer
+     * @param $mailer
+     * @param $offer
+     * @param $link
      */
-    public function send($mailer, $offer)
+    public function send($mailer, $offer, $link)
     {
         try {
         $message = (new \Swift_Message('Žalgirio reklamos pasiūlymas'))
@@ -71,7 +72,7 @@ class MailerService
             ->setBody(
                 $this->template->render(
                     'admin/offer/mail.html.twig',
-                    array('link' => $this->router->generate('readoffer', ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL),
+                    array('link' => $this->router->generate($link, ['md5' => $offer->getMd5()], UrlGeneratorInterface::ABSOLUTE_URL),
                         'offer' => $offer)
                 ),
                 'text/html'
