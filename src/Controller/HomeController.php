@@ -21,7 +21,6 @@ class HomeController extends Controller
         return $this->render('home/index.html.twig');
     }
 
-
     public function reademail($md5)
     {
         $offer = $this->getDoctrine()->getRepository(Offer::class)->findByMd5($md5);
@@ -31,9 +30,7 @@ class HomeController extends Controller
         }
 
         if ($offer->getStatus() != 'Parduota') {
-
             $this->get('event_dispatcher')->dispatch(OfferEvent::class, (new OfferEvent())->setOffer($offer));
-
             $messages = $this->getDoctrine()->getRepository(Message::class)->findByOfferId($offer->getId());
 
             return $this->render('admin/offer/useroffer.html.twig', [
@@ -68,7 +65,8 @@ class HomeController extends Controller
         return $this->render('admin/offer/userofferchoose.html.twig', [
             'offerTemplate' => $offerTemplate,
             'offer' => $offer,
-            'messages' => $messages
+            'messages' => $messages,
+            'selected' => 2
         ]);
     }
 

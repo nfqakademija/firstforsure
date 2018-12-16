@@ -302,3 +302,16 @@ section{
     margin-bottom: 20px;
 
 }
+
+.btn-accept {
+    margin-top: 20px;
+
+}
+
+.super-list .comment-time {
+    color: grey;
+}
+
+.manager-message {
+    background-color: #ddd!important;
+}

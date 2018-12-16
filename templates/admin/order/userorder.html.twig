@@ -1,67 +1,242 @@
 {% block main %}
 
-
-
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <!------ Include the above in your HEAD tag ---------->
-    <style>
-        .message-bubble
-        {
-            padding: 10px 0px 10px 0px;
-        }
 
-        .message-bubble:nth-child(even) { background-color: #F5F5F5; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 
-        .message-bubble > *
-        {
-            padding-left: 10px;
-        }
 
-        .panel-body { padding: 0px; }
 
-        .panel-heading { background-color: #3d6da7 !important; color: white !important; }
-    </style>
 
-    <div class="container">
+
+
+    <body>
+
+
+    <section>
         <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{ offer.id }}</div>
-                <div class="panel-body">
-                    <div class="container">
-                        {% for msg in messages %}
-                        <div class="row message-bubble">
-                            <p class="text-muted">{{ msg.username }}:</p>
-                            <span>{{ msg.text }}</span>
+            <h2 class="text-center"><span>Tapk Zalgirio remeju jau siandien!</span>{{ offer.message }}</a></h2>
+            <div class="container">
+                {% include "admin/offer/progressbar.html.twig" with {'selected': 3} %}
+
+                <ul class="list-group super-list">
+                    {% for msg in messages %}
+                    <li class="list-group-item {% if msg.username == "MANAGER" %} manager-message {%endif %}}">
+                        <div class="row">
+                            <div class="col-lg-10 col-sm-10">
+                                <h5 class="super-list-title"><i>I</i>{{ msg.username }}</h5>
+                            </div>
+                            <div class="col-lg-2 col-sm-2 comment-time">
+                                <h6 class="super-list-title" style=""><i>I</i>2018-08-12 13:13</h6>
+                            </div>
+                            <div class="col-lg-12" style="text-align=right; float:right; color:grey">
+      <p>
+
+{{ msg.text }}
+      </p>
+                            </div>
                         </div>
-                        {% endfor %}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <form action="/acceptoffer" method="post">
+                    <div class="form-group offer-comment">
+                        <label for="exampleFormControlTextarea1">Komentaras</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="msg" rows="3"></textarea>
+                        <button  type="submit"
+                                 id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}" class="btn btn-secondary btn-lg btn-block btn-accept">Secondary</button>
+                        <input type="hidden" value="{{ offer.id }}" name="orderId">
+                        <input type="hidden" value="{{ offer.clientName }}" name="username">
+
                     </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <form action="/clientorderresponse" method="post">
-                                <h3>Jūsų komentaras</h3>
-                                <input type="hidden" value="{{ offer.id }}" name="orderId">
-                                <input type="hidden" value="{{ offer.clientName }}" name="username">
-                                <input type="text" name="msg">
-                                <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
-                                        type="submit"
-                                        id="btn-check-offers" name="accept">
-                                    <i class="fa fa-calculator"></i>Siusti zinute
-                                </button>
-                            </form>
-                  </span>
+
+                </form>
+                <div class="summary">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h2 class="card-title"><i class="fa fa-money fa-3x"> </i></h2>
+                                        </div>
+                                        <div class="col-sm-6" style="text-align:right">
+                                            <h3 class="card-title left">{{ offerTemplate.template.price }} </h3>
+                                            <p class="card-title left" style="color:grey">Kaina</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h2 class="card-title"><i class="fa fa-street-view fa-3x"> </i>I</h2>
+                                        </div>
+                                        <div class="col-sm-6" style="text-align:right">
+                                            <h3 class="card-title left">{{ offerTemplate.template.reach }} </h3>
+                                            <p class="card-title left" style="color:grey">Perziuros</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h2 class="card-title"><i class="fa fa-eye"> </i>I</h2>
+                                        </div>
+                                        <div class="col-sm-6" style="text-align:right">
+                                            <h3 class="card-title left">{{ offerTemplate.template.divide() }} </h3>
+                                            <p class="card-title left" style="color:grey">Perziuros kaina</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <ul class="list-group super-list">
+                    {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
+
+                        <li class="list-group-item">
+
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12">
+                                    <h5 class="super-list-title">{{ offerTemplatePosition.position.name }}</h5>
+                                </div>
+                                <div class="col-lg-2 col-sm-4 col-xs-4"
+                                     style="text-align=right; float:right; color:grey">
+                                    <span><i class="fa fa-cart-plus"></i>{{ offerTemplatePosition.count }}</span>
+                                </div>
+                                <div class="col-lg-2 col-sm-4 col-xs-4"
+                                     style="text-align=right; float:right; color:grey">
+                                    <span><i class="fa fa-money"></i>{{ offerTemplatePosition.price * offerTemplatePosition.count }}</span>
+                                </div>
+                                <div class="col-lg-2 col-sm-4 col-xs-4"
+                                     style="text-align=right; float:right; color:grey">
+                                    <span><i class="fa fa-eye"></i>{{ offerTemplatePosition.position.reach *offerTemplatePosition.count }}</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+
             </div>
         </div>
+        <br/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                            class="btn btn-secondary btn-lg btn-block btn-more">Kitos siulomos pozicijos</button>
+                </div>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <ul class="list-group super-list">
+                        {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
+
+                            <li class="list-group-item">
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-12">
+                                        <h5 class="super-list-title">{{ offerTemplatePosition.position.name }}</h5>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-4 col-xs-4"
+                                         style="text-align=right; float:right; color:grey">
+                                        <span><i class="fa fa-cart-plus"></i>{{ offerTemplatePosition.count }}</span>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-4 col-xs-4"
+                                         style="text-align=right; float:right; color:grey">
+                                        <span><i class="fa fa-money"></i>{{ offerTemplatePosition.price * offerTemplatePosition.count }}</span>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-4 col-xs-4"
+                                         style="text-align=right; float:right; color:grey">
+                                        <span><i class="fa fa-eye"></i>{{ offerTemplatePosition.position.reach *offerTemplatePosition.count }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+
+    <div class="footer">
+        <p>Kauno „Žalgirio“ administracija</p>
+        <p>Karaliaus Mindaugo pr. 50, LT-44334, Kaunas</p>
+        <p>+370 37 452 459</p>
+        <p>+ 370 616 44448 („Žalgirio“ bilietai)</p>
     </div>
 
 
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% for offerTemplate in offer.offerTemplates %}
+        <div id="{{ offerTemplate.template.id }}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
                 <div class="offer-container">
                     <div class="panel panel-primary" align="center">
                         <div class="panel-heading">
+                            <h2>
+                                <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
                         </div>
                         <div class="panel-body">
                             <div class="col-md-8">
@@ -92,7 +267,7 @@
                                                 <div class="center">
                                                     <td><label>{{ offerTemplatePosition.count }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.name }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.position.price }}</label></td>
+                                                    <td><label>{{ offerTemplatePosition.price }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.reach }}</label></td>
                                                     <td><label>{{ offerTemplatePosition.position.divide() }}</label>
                                                     </td>
@@ -103,6 +278,17 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <form action="/acceptoffer" method="post">
+                                    <h3>Jūsų komentaras</h3>
+                                    <input type="hidden" value="{{ offer.id }}" name="orderId">
+                                    <input type="hidden" value="{{ offer.clientName }}" name="username">
+                                    <input type="text" name="msg">
+                                    <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
+                                            type="submit"
+                                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
+                                        <i class="fa fa-calculator"></i>Patvirtinti pasiūlymą
+                                    </button>
+                                </form>
 
                                 <div class="col-md-12" style="text-align: center;">
                                     <div class="alert alert-danger error-label"
@@ -176,9 +362,5 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
+    {% endfor %}
 {% endblock %}
