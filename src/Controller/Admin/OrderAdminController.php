@@ -16,6 +16,7 @@ use App\Entity\Order;
 use App\Entity\Position;
 use App\Entity\PositionTemplate;
 use App\Entity\Template;
+use App\Service\Admin\Offer\OfferService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,48 +38,6 @@ class OrderAdminController extends BaseAdminController
             $sortField,
             $sortDirection,
             $dqlFilter);
-    }
-
-    public function editAction()
-    {
-        $msgRepo = $this->getDoctrine()->getRepository(Message::class);
-        $orderRepo = $this->getDoctrine()->getRepository(Order::class);
-        $templRepo = $this->getDoctrine()->getRepository(Template::class);
-        $id = $this->request->query->get('id');
-
-        $order = $orderRepo->find($id);
-
-        $title = $order->getTemplate()->getTitle();
-
-        $messages = $msgRepo->findByOfferId($id);
-
-        $posRepo = $this->getDoctrine()->getRepository(Position::class);
-
-        $activeItem = $templRepo->find($order->getTemplate()->getId());
-
-        $activePositionItems = $activeItem->getPositionTemplates();
-        $positionItems = $posRepo->findAll();
-        $positionTimeItems = $posRepo->findByTime(true);
-        $positionNoTimeItems = $posRepo->findByTime(false);
-
-        foreach ($positionItems as $value)
-        {
-            foreach ($activePositionItems as $value2)
-            {
-                if($value2->getPosition()->getId() === $value->getId()){
-                    $value->setCount($value2->getCount());
-                }
-            }
-        }
-
-        return $this->render('admin/order/edit.html.twig', [
-            'messages' => $messages,
-            'order' => $order,
-            'id' => $id,
-            'title' => $title,
-            'positionTimeItems' => $positionTimeItems,
-            'positionNoTimeItems' => $positionNoTimeItems
-        ]);
     }
 
     /**
@@ -116,30 +75,22 @@ class OrderAdminController extends BaseAdminController
 
     /**
      *
-     * @Route("/clientorderresponse", name="clientorderresponse")
+     * @Route("/offer/client_response", name="client_response")
      */
-    public function clientResponseSend(Request $request)
+    public function clientResponseSend(Request $request, OfferService $offerService)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $id = $request->get('orderId');
-
         $repo = $this->getDoctrine()->getRepository(Offer::class);
+        $offer = $repo->find($request->get('orderId'));
 
-        $offer = $repo->find($id);
-
-
-        $offer->setStatus(Offer::ANSWERED);
-        $date = new \DateTime();
-        $offer->setViewed($date->format('Y-m-d H:i:s'));
-
+        $offerService->changeOfferStatus($offer, Offer::ANSWERED);
         $em->persist($offer);
-        $message = new Message();
 
-        $message->setDate(new \DateTime());
-        $message->setText($request->get('msg'));
-        $message->setOffer($offer);
-        $message->setUsername($request->get('username'));
+        $message = (new Message())
+            ->setDate(new \DateTime())
+            ->setText($request->get('msg'))
+            ->setOffer($offer)
+            ->setUsername($request->get('username'));
 
         $em->persist($message);
         $em->flush();

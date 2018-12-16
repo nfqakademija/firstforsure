@@ -6,30 +6,6 @@
     <h1 class="title">{{ _content_title }}</h1>
 {% endblock %}
 {% block main %}
-
-    <script>
-        $(document).ready(function () {
-            $('.checkbox-js').on('click', function () {
-                console.log('atejo');
-                console.log($(this).find('.check').val());
-                if ($(this).find('.check').val() > 0) {
-                    console.log('ATEJO i g');
-                    $(this).find('.check').val(0);
-                }
-                else {
-
-                    console.log('ATEJO i bloga');
-                    $(this).find('.check').val(1);
-
-
-                }
-
-            })
-        })
-        ///////////////////////////////////////
-
-
-    </script>
     <style>
         .btn span.glyphicon {
             opacity: 1;
