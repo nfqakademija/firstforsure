@@ -2,14 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Order;
 use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
-use App\Entity\Template;
 use App\Event\OfferEvent;
-use App\Models\TemplateStatus;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
