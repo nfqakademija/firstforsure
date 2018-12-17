@@ -56,7 +56,8 @@
                                             <h2 class="card-title"><i class="fa fa-money fa-3x"> </i></h2>
                                         </div>
                                         <div class="col-sm-6" style="text-align:right">
-                                            <h3 class="card-title left">{{ offerTemplate.template.price |number_format(0, '.') }}€ </h3>
+                                            <h3 class="card-title left">{{ offerTemplate.template.price |number_format(0, '.') }}
+                                                € </h3>
                                             <p class="card-title left" style="color:grey">Kaina</p>
                                         </div>
                                     </div>
@@ -86,7 +87,8 @@
                                             <h2 class="card-title"><i class="fa fa-eye"> </i>I</h2>
                                         </div>
                                         <div class="col-sm-6" style="text-align:right">
-                                            <h3 class="card-title left">{{ offerTemplate.template.divide() |round(2, 'floor') }}€ </h3>
+                                            <h3 class="card-title left">{{ offerTemplate.template.divide() |round(2, 'floor') }}
+                                                € </h3>
                                             <p class="card-title left" style="color:grey">Perziuros kaina</p>
                                         </div>
                                     </div>
@@ -109,15 +111,15 @@
                                      style="text-align=right; float:right; color:grey">
                                     <span><i class="fa fa-cart-plus"></i>{{ offerTemplatePosition.count }}</span>
                                 </div>
-                                {% set totalprice =  offerTemplatePosition.price * offerTemplatePosition.count  %}
+                                {% set totalprice =  offerTemplatePosition.price * offerTemplatePosition.count %}
                                 <div class="col-lg-2 col-sm-4 col-xs-4"
                                      style="text-align=right; float:right; color:grey">
-                                    <span><i class="fa fa-money"></i>{{ totalprice|number_format(0, '.')  }}€</span>
+                                    <span><i class="fa fa-money"></i>{{ totalprice|number_format(0, '.') }}€</span>
                                 </div>
-                                {% set totalviews =  offerTemplatePosition.position.reach *offerTemplatePosition.count   %}
+                                {% set totalviews =  offerTemplatePosition.position.reach *offerTemplatePosition.count %}
                                 <div class="col-lg-2 col-sm-4 col-xs-4"
                                      style="text-align=right; float:right; color:grey">
-                                    <span><i class="fa fa-eye"></i>{{ totalviews|number_format(0, '.')  }}</span>
+                                    <span><i class="fa fa-eye"></i>{{ totalviews|number_format(0, '.') }}</span>
                                 </div>
                             </div>
                         </li>
@@ -132,8 +134,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                            class="btn btn-secondary btn-lg btn-block btn-more">Kitos siulomos pozicijos</button>
+                    <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+                            aria-controls="collapseExample"
+                            class="btn btn-secondary btn-lg btn-block btn-more">Kitos siulomos pozicijos
+                    </button>
                 </div>
             </div>
             <div class="collapse" id="collapseExample">
@@ -169,177 +173,29 @@
             <form action="{{ path('user_offer_accept') }}" method="post">
                 <div class="form-group offer-comment">
                     <label for="exampleFormControlTextarea1">Komentaras:</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" name="msg" placeholder="Jeigu turite pastabu ar norite papildomu paslaugu palikite komentara" rows="3"></textarea>
-                    <button  type="submit"
-                             id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}" class="btn btn-secondary btn-lg btn-block btn-accept">Uzsakyti</button>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="msg"
+                              placeholder="Jeigu turite pastabu ar norite papildomu paslaugu palikite komentara"
+                              rows="3"></textarea>
+                    <button type="submit"
+                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}"
+                            class="btn btn-secondary btn-lg btn-block btn-accept">Uzsakyti
+                    </button>
                     <input type="hidden" value="{{ offer.id }}" name="orderId">
                     <input type="hidden" value="{{ offer.clientName }}" name="username">
 
                 </div>
 
             </form>
-    </div>
-
+        </div>
 
 
     </section>
 
 
-    {%include "admin/offer/footer.html.twig" %}
-
+    {% include "admin/offer/footer.html.twig" %}
 
 
     </body>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {% for offerTemplate in offer.offerTemplates %}
-        <div id="{{ offerTemplate.template.id }}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="offer-container">
-                    <div class="panel panel-primary" align="center">
-                        <div class="panel-heading">
-                            <h2>
-                                <i class="fa fa-calculator"></i>{{ offerTemplate.template.title }}</h2>
-                        </div>
-                        <div class="panel-body">
-                            <div class="col-md-8">
-                                <div class="table-responsive">
-                                    <table class="table table-striped plansTable">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                Kiekis
-                                            </th>
-                                            <th>
-                                                Produktas
-                                            </th>
-                                            <th>
-                                                Kaina
-                                            </th>
-                                            <th>
-                                                Peržiūros
-                                            </th>
-                                            <th>
-                                                P/K
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for offerTemplatePosition in offerTemplate.offerPositionTemplates %}
-                                            <tr>
-                                                <div class="center">
-                                                    <td><label>{{ offerTemplatePosition.count }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.position.name }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.price }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.position.reach }}</label></td>
-                                                    <td><label>{{ offerTemplatePosition.position.divide() }}</label>
-                                                    </td>
-                                                </div>
-                                            </tr>
-                                        {% endfor %}
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <form action="{{ path('user_offer_accept') }}" method="post">
-                                    <h3>Jūsų komentaras</h3>
-                                    <input type="hidden" value="{{ offer.id }}" name="orderId">
-                                    <input type="hidden" value="{{ offer.clientName }}" name="username">
-                                    <input type="text" name="msg">
-                                    <button class="btn btn-sm btn-success ladda-button" data-style="expand-left"
-                                            type="submit"
-                                            id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}">
-                                        <i class="fa fa-calculator"></i>Patvirtinti pasiūlymą
-                                    </button>
-                                </form>
-
-                                <div class="col-md-12" style="text-align: center;">
-                                    <div class="alert alert-danger error-label"
-                                         style="display: none; text-align: center;"
-                                         role="alert">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <table class="table" style="margin-left: -25px;">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <label class=" font16">
-                                                Rezultatai</label>
-                                        </th>
-                                        <th>
-                                        </th>
-                                        <th>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <label class=" font16">
-                                                Kaina</label>
-                                        </td>
-                                        <td>
-                                            <i class="fa fa-inr font18"></i>
-                                        </td>
-                                        <td>
-                                            <label id="Label3" class="txtTotal font18 alignright">
-                                                {{ offerTemplate.price }}
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="font16">
-                                                Perziuros</label>
-                                        </td>
-                                        <td>
-                                            <i class="fa fa-inr font18"></i>
-                                        </td>
-                                        <td>
-                                            <label id="Label4" class="txtDiscount font18 alignright">
-                                                {{ offerTemplate.reach }}
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="font16">
-                                                Peržiūros kaina</label>
-                                        </td>
-                                        <td>
-                                            <i class="fa fa-inr font18"></i>
-                                        </td>
-                                        <td>
-                                            <label id="Label5" class="txtNetPayable font18 alignright">
-                                                {{ offerTemplate.divide() }}
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
 {% endblock %}
