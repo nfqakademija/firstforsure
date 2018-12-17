@@ -92,9 +92,10 @@ class OfferAdminController extends BaseAdminController
             ->getDoctrine()
             ->getRepository(Offer::class)
             ->find($this->request->query->get('id'));
-
-        $mailerService->changeStatuses($offer);
-        $mailerService->send($mailer, $offer, 'readoffer');
+        if(count($offer->getOfferTemplates())) {
+            $mailerService->changeStatuses($offer);
+            $mailerService->send($mailer, $offer, 'readoffer');
+        }
 
         return $this->redirect('/admin/?entity=Offer&action=list');
     }

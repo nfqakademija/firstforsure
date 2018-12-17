@@ -43,7 +43,7 @@ class OfferController extends Controller
         $acceptedOT = $em->getRepository(OfferTemplate::class)->find($acceptedId);
         $offerService->acceptOffer($acceptedOT);
 
-        $message = (new Message)
+        $message = (new Message())
             ->setText($request->get("msg"))
             ->setOffer($acceptedOT->getOffer())
             ->setUsername($request->get("username"))
@@ -67,12 +67,13 @@ class OfferController extends Controller
         $offer = $this->getDoctrine()->getRepository(Offer::class)->find($request->get('orderId'));
         $acceptedOT = $offerTemplateRepository->findCheckedOfferTemplate(OfferTemplate::CHECKED, $offer->getId());
 
-        $offerService->changeOfferStatus($offer,Offer::CONFIRMED);
-        $offerService->handleRemaining($acceptedOT);
+        if($offerService->canConfirm($acceptedOT)) {
+            $offerService->changeOfferStatus($offer, Offer::CONFIRMED);
+            $offerService->handleRemaining($acceptedOT);
+            $em->flush();
+        }
 
-        $em->flush();
-
-        return $this->redirect("/admin/?entity=Order&action=list&menuIndex=1&submenuIndex=-1");
+        return $this->redirect("/admin/?entity=Order&action=list");
     }
 
     /**

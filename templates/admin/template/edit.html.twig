@@ -234,7 +234,7 @@
     <form action="{{ path('admin_template_create') }}" method="post">
         <input name="id" hidden {% if id is defined %}value="{{ id }}" {% endif %}/>
         <center>
-            <input name="title" class=" inputName" {% if title is defined %}value="{{ title }}" {% endif %}/>
+            <input name="title" class=" inputName" {% if title is defined %}value="{{ title }}" {% endif %} required/>
             <button class="myButton">Saugoti</button>
 
         </center>

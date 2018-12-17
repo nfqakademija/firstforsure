@@ -160,4 +160,23 @@ class OfferService
             }
         }
     }
+
+    /**
+     * @param OfferTemplate $offerTemplate
+     * @return bool
+     */
+    public function canConfirm($offerTemplate): bool
+    {
+        $isConfirm = true;
+        foreach($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
+            $remaining = $positionTemplate->getPosition()->getRemaining();
+            $use = $positionTemplate->getCount();
+            if($remaining < $use)
+            {
+                $isConfirm = false;
+                break;
+            }
+        }
+        return $isConfirm;
+    }
 }

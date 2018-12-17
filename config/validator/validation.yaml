@@ -1,0 +1,4 @@
+App\Entity\Template:
+    properties:
+        title:
+            - NotBlank: ~

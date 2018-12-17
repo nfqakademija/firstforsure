@@ -6,17 +6,17 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label for="clientName">Kliento vardas, pavardė</label>
-                        <input type="text" class="form-control" placeholder="Petras Petraitis"
+                        <input required type="text" class="form-control" placeholder="Petras Petraitis"
                                name="clientName" {% if offer.clientName is not null %} value="{{ offer.clientName }}" {% endif %}>
                     </div>
                     <div class="form-group">
                         <label for="clientEmail">El.Paštas</label>
-                        <input type="text" class="form-control" placeholder="petras@petras.com"
+                        <input required type="email" class="form-control" placeholder="petras@petras.com"
                                name="clientEmail" {% if offer.clientEmail is not null %} value="{{ offer.clientEmail }}" {% endif %}>
                     </div>
                     <div class="form-group ">
                         <label for="clientMessage">Žinutė klientui</label>
-                        <textarea type="text" class="form-control" placeholder="Description"
+                        <textarea required type="text" class="form-control" placeholder="Description"
                                   name="message" {% if offer.message is not null %} value="{{ offer.message }}" {% endif %}></textarea>
                     </div>
 

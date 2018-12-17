@@ -118,37 +118,39 @@ class TemplateManager
     private function updatePositionTemplates(Request $request, $active, $template, $posTemplates): void
     {
         foreach ($active as $key => $value) {
-            $exists = false;
-            $position = $this->positionRepo->find($key);
-            $templatePosition = new PositionTemplate();
-            $templatePosition->setTemplate($template)
-                ->setPosition($position)
-                ->setCount((int)$request->get('count')[$key]);
-            $position->setCount((int)$request->get('count')[$key]);
+            if ((int)$request->get('count')[$key] > 0) {
+                $exists = false;
+                $position = $this->positionRepo->find($key);
+                $templatePosition = new PositionTemplate();
+                $templatePosition->setTemplate($template)
+                    ->setPosition($position)
+                    ->setCount((int)$request->get('count')[$key]);
+                $position->setCount((int)$request->get('count')[$key]);
 
-            foreach ($posTemplates as $posTemplate) {
-                if ($posTemplate->getPosition() === $position) {
-                    $posTemplate->setPosition($position);
-                    $posTemplate->setCount((int)$request->get('count')[$key]);
-                    $template
-                        ->minusPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
-                        ->addPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
-                        ->minusReach($posTemplate->getCount() * $posTemplate->getPosition()->getReach())
-                        ->addReach($posTemplate->getCount() * $posTemplate->getPosition()->getReach());
-                    $exists = true;
-                    break;
+                foreach ($posTemplates as $posTemplate) {
+                    if ($posTemplate->getPosition() === $position) {
+                        $posTemplate->setPosition($position);
+                        $posTemplate->setCount((int)$request->get('count')[$key]);
+                        $template
+                            ->minusPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
+                            ->addPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
+                            ->minusReach($posTemplate->getCount() * $posTemplate->getPosition()->getReach())
+                            ->addReach($posTemplate->getCount() * $posTemplate->getPosition()->getReach());
+                        $exists = true;
+                        break;
+                    }
                 }
-            }
-            if (!$exists) {
-                $template->addPositionTemplate($templatePosition);
+                if (!$exists) {
+                    $template->addPositionTemplate($templatePosition);
 
-                $template
-                    ->addPrice((float)$request->get('sum')[$key])
-                    ->addReach((float)$request->get('sum2')[$key]);
+                    $template
+                        ->addPrice((float)$request->get('sum')[$key])
+                        ->addReach((float)$request->get('sum2')[$key]);
 
 
-                $this->entityManager->persist($templatePosition);
-                $this->entityManager->persist($template);
+                    $this->entityManager->persist($templatePosition);
+                    $this->entityManager->persist($template);
+                }
             }
         }
     }
