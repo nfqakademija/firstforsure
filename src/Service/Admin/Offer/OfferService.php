@@ -143,4 +143,21 @@ class OfferService
             $this->entityManager->flush();
         }
     }
+
+    /**
+     * @param Position[] $positionsHasTime
+     * @param Position[] $positionsHasNoTime
+     * @param OfferTemplate $offerTemplate
+     */
+    public function getUnusedPositions($positionsHasTime, $positionsHasNoTime, $offerTemplate): void
+    {
+        foreach ($offerTemplate->getOfferPositionTemplates() as $ot) {
+            if (($key = array_search($ot->getPosition(), $positionsHasTime)) !== false) {
+                unset($positionsHasTime[$key]);
+            }
+            elseif(($key = array_search($ot->getPosition(), $positionsHasNoTime)) !== false){
+                unset($positionsHasNoTime[$key]);
+            }
+        }
+    }
 }

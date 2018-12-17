@@ -72,7 +72,7 @@ class OfferAdminController extends BaseAdminController
             ->getDoctrine()
             ->getRepository(OfferTemplate::class)
             ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
-        $offerService->setActivePositionItems($checkedOT,$posRepo->findAll());
+        $offerService->setActivePositionItems($checkedOT, $posRepo->findAll());
 
         return $this->render('admin/offer/edit.html.twig', [
             'id' => $id,
@@ -150,6 +150,18 @@ class OfferAdminController extends BaseAdminController
             ->findCheckedOfferTemplate("CHECKED", $offer->getId());
         $em->flush();
 
+        $positionsHasTime = $this
+            ->getDoctrine()
+            ->getRepository(Position::class)
+            ->findByTime(true);
+
+        $positionsHasNoTime = $this
+            ->getDoctrine()
+            ->getRepository(Position::class)
+            ->findByTime(false);
+
+        $offerService->getUnusedPositions($positionsHasTime, $positionsHasNoTime, $offerTemplate);
+
         $messages = $this
             ->getDoctrine()
             ->getRepository(Message::class)
@@ -159,6 +171,8 @@ class OfferAdminController extends BaseAdminController
             'offer' => $offer,
             'offerTemplate' => $offerTemplate,
             'messages' => $messages,
+            'otherPositionsNoTime' => $positionsHasNoTime,
+            'otherPositionsTime' => $positionsHasTime,
             'selected' => 3
         ]);
     }
