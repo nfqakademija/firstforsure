@@ -9,8 +9,11 @@ readoffer:
 logout:
     path: /logout
 
+admin_offer:
+    path: /admin/?entity=Offer&action=list
+
 admin_template:
-    path: /admin/?entity=Template&action=list&menuIndex=3&submenuIndex=-1
+    path: /admin/?entity=Template&action=list
 
 admin_dashboard:
     path: /admin/dashboard
@@ -23,6 +26,25 @@ admin_offer_create:
     path: /create/offer
     controller: App\Controller\OfferController::makeOffer
 
+admin_offer_template_edit:
+    path: /offer_template/edit
+    controller: App\Controller\OfferTemplateController::makeOfferTemplate
+
 user_offer_confirm:
     path: /offer/confirm
     controller: App\Controller\OfferController::confirmOffer
+
+user_offer_accept:
+    path: /offer/accept
+    controller: App\Controller\OfferController::acceptOffer
+
+user_offer_client_response:
+    path: /offer/client_response
+    controller: App\Controller\Admin\OfferAdminController::clientResponseSend
+
+user_read_assigned_offer:
+    path: read_assigned/{md5}
+    controller: App\Controller\Admin\OfferAdminController::readAssignedOffer
+
+
+

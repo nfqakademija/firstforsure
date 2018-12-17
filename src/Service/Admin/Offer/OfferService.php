@@ -111,6 +111,9 @@ class OfferService
         $offer
             ->setStatus($status)
             ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
+
+        $this->entityManager->persist($offer);
+        $this->entityManager->flush();
     }
 
     /**

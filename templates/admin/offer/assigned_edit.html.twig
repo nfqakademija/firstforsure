@@ -142,7 +142,7 @@
 
 
 
-    <form action="/makeordertemplate" method="post">
+    <form action="{{ path('admin_offer_template_edit') }}" method="post">
         <input type="hidden" value="{{ offer.id }}" name="orderId">
         <center>
             <button class="myButton">Saugoti</button>

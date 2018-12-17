@@ -15,11 +15,9 @@ use App\Entity\Position;
 use App\Entity\Template;
 use App\Service\Admin\Offer\OfferService;
 use App\Service\MailerService;
-use App\Service\OfferTemplate\OfferTemplateManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
 
 class OfferAdminController extends BaseAdminController
 {
@@ -98,12 +96,13 @@ class OfferAdminController extends BaseAdminController
         $mailerService->changeStatuses($offer);
         $mailerService->send($mailer, $offer, 'readoffer');
 
-        return $this->redirect('/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1');
+        return $this->redirect('/admin/?entity=Offer&action=list');
     }
 
     /**
-     *
-     * @Route("/offer/client_response", name="client_response")
+     * @param Request $request
+     * @param OfferService $offerService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function clientResponseSend(Request $request, OfferService $offerService)
     {
@@ -112,7 +111,6 @@ class OfferAdminController extends BaseAdminController
         $offer = $repo->find($request->get('orderId'));
 
         $offerService->changeOfferStatus($offer, Offer::ANSWERED);
-        $em->persist($offer);
 
         $message = (new Message())
             ->setDate(new \DateTime())
@@ -127,9 +125,11 @@ class OfferAdminController extends BaseAdminController
     }
 
     /**
-     * @Route("/readorder/{md5}", name="readorder")
+     * @param $md5
+     * @param OfferService $offerService
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readorder($md5, OfferService $offerService)
+    public function readAssignedOffer($md5, OfferService $offerService)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -143,7 +143,7 @@ class OfferAdminController extends BaseAdminController
         }
 
         $offerService->changeOfferStatus($offer, Offer::VIEWED);
-        $em->persist($offer);
+
         $offerTemplate = $this
             ->getDoctrine()
             ->getRepository(OfferTemplate::class)

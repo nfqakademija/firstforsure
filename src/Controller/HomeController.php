@@ -39,30 +39,4 @@ class HomeController extends Controller
             ]);
         }
     }
-
-    /**
-     * @Route("/readoffer/{md5}/choose/{id}", name="chooseoffer")
-     */
-    public function chooseOffer($md5, $id)
-    {
-        $offer = $this
-            ->getDoctrine()
-            ->getRepository(Offer::class)
-            ->findByMd5($md5);
-        $messages = $this
-            ->getDoctrine()
-            ->getRepository(Message::class)
-            ->findByOfferId($offer->getId());
-        $offerTemplate = $this
-            ->getDoctrine()
-            ->getRepository(OfferTemplate::class)
-            ->find($id);
-
-        return $this->render('admin/offer/userofferchoose.html.twig', [
-            'offerTemplate' => $offerTemplate,
-            'offer' => $offer,
-            'messages' => $messages,
-            'selected' => 2
-        ]);
-    }
 }

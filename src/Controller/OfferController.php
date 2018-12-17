@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
 use App\Service\Admin\Offer\OfferManager;
@@ -27,11 +28,13 @@ class OfferController extends Controller
     public function makeOffer(Request $request, OfferManager $offerManager)
     {
         $offerManager->makeOffer($request, $this->getUser(), Offer::CREATED);
-        return $this->redirect("/admin/?entity=Offer&action=list&menuIndex=4&submenuIndex=-1");
+        return $this->redirect("/admin/?entity=Offer&action=list");
     }
 
     /**
-     * @Route("/acceptoffer", name="acceptoffer")
+     * @param Request $request
+     * @param OfferService $offerService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function acceptOffer(Request $request, OfferService $offerService)
     {
@@ -67,9 +70,34 @@ class OfferController extends Controller
         $offerService->changeOfferStatus($offer,Offer::CONFIRMED);
         $offerService->handleRemaining($acceptedOT);
 
-        $em->persist($offer);
         $em->flush();
 
         return $this->redirect("/admin/?entity=Order&action=list&menuIndex=1&submenuIndex=-1");
+    }
+
+    /**
+     * @Route("/readoffer/{md5}/choose/{id}", name="chooseoffer")
+     */
+    public function chooseOffer($md5, $id)
+    {
+        $offer = $this
+            ->getDoctrine()
+            ->getRepository(Offer::class)
+            ->findByMd5($md5);
+        $messages = $this
+            ->getDoctrine()
+            ->getRepository(Message::class)
+            ->findByOfferId($offer->getId());
+        $offerTemplate = $this
+            ->getDoctrine()
+            ->getRepository(OfferTemplate::class)
+            ->find($id);
+
+        return $this->render('admin/offer/userofferchoose.html.twig', [
+            'offerTemplate' => $offerTemplate,
+            'offer' => $offer,
+            'messages' => $messages,
+            'selected' => 2
+        ]);
     }
 }

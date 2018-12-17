@@ -59,8 +59,8 @@ class MailerService
 
 
     /**
-     * @param $mailer
-     * @param $offer
+     * @param \Swift_Mailer $mailer
+     * @param Offer $offer
      * @param $link
      */
     public function send($mailer, $offer, $link)
@@ -80,6 +80,7 @@ class MailerService
             $mailer->send($message);
         }
         catch (\Exception $e){
+            dump($e); exit;
         }
     }
 

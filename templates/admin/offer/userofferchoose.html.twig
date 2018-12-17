@@ -164,7 +164,7 @@
                     </ul>
                 </div>
             </div>
-            <form action="/acceptoffer" method="post">
+            <form action="{{ path('user_offer_accept') }}" method="post">
                 <div class="form-group offer-comment">
                     <label for="exampleFormControlTextarea1">Komentaras</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" name="msg" rows="3"></textarea>
@@ -259,7 +259,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <form action="/acceptoffer" method="post">
+                                <form action="{{ path('user_offer_accept') }}" method="post">
                                     <h3>Jūsų komentaras</h3>
                                     <input type="hidden" value="{{ offer.id }}" name="orderId">
                                     <input type="hidden" value="{{ offer.clientName }}" name="username">
