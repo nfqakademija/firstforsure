@@ -78,8 +78,10 @@
                                                 <tr>
                                                     <td class="tdContent" data-title="Pozicija">{{ offerTemplatePosition.position.name }}</td>
                                                     <td class="tdContent"  data-title="Kiekis">{{ offerTemplatePosition.count }}</td>
-                                                    <td  class="tdContent" data-title="Kaina" class="numeric">{{ offerTemplatePosition.price }}</td>
-                                                    <td  class="tdContent" data-title="Perziuros" class="numeric">{{ offerTemplatePosition.position.reach }}</td>
+                                                    {% set totalprice =  offerTemplatePosition.count * offerTemplatePosition.price  %}
+                                                    {% set totalreach =  offerTemplatePosition.count * offerTemplatePosition.position.reach  %}
+                                                    <td  class="tdContent" data-title="Kaina" class="numeric">{{  totalprice |number_format(0, '.') }}€</td>
+                                                    <td  class="tdContent" data-title="Perziuros" class="numeric">{{ totalreach |number_format(0, '.')  }}</td>
                                                 </tr>
                                                 {% endfor %}
 

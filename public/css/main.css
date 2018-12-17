@@ -207,6 +207,17 @@ section{
     .tdContent {
         padding: 5px;
     }
+    .card-title .fa {
+
+        color: black;
+        font-size: 50px!important;
+
+    }
+    .li {
+        padding-bottom: 50px!important;
+    }
+
+
 
 }
 
@@ -343,4 +354,10 @@ section{
 
 .details {
     font-size: 22px;
+}
+
+.titlas {
+    color: white;
+    text-align: center;
+    font-size: 50px;
 }
