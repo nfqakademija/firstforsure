@@ -171,13 +171,14 @@ section{
     -o-transition: all .3s ease;
     transition: all .3s ease;
     display: block;
-    max-width: 300px;
+    max-width: 100px;
     position: relative;
     font-weight: 400;
     margin: 0 auto;
     text-decoration: none;
     font-size: .875rem;
     text-transform: uppercase;
+    text-align: center;
     letter-spacing: .3em;
     padding: .5em;
     font-family: "Open Sans", sans-serif;
@@ -328,4 +329,18 @@ section{
     border-color: #003333;
     background-color: #0D4D4D;
 
+}
+
+.card-header a i {
+
+    float: left;
+    font-size: 25px;
+    padding: 5px 0;
+    margin: 0 25px 0 0px;
+    color: #0c5e3a;
+
+}
+
+.details {
+    font-size: 22px;
 }
