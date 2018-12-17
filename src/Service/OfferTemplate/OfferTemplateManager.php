@@ -62,7 +62,8 @@ class OfferTemplateManager
     }
 
 
-    public function editTemplate(Request $request){
+    public function editTemplate(Request $request)
+    {
 
         $active = ActiveAttributeFilter::filter($request->get('active'));
 
@@ -88,8 +89,7 @@ class OfferTemplateManager
             ->setDate(new \DateTime())
             ->setText($request->get('msg'))
             ->setOffer($offer)
-            ->setUsername("MANAGER")
-        ;
+            ->setUsername("MANAGER");
 
         $this->entityManager->persist($message);
 

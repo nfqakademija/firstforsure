@@ -91,6 +91,7 @@ class TemplateManager
     /**
      * @param Template $template
      * @param $active
+     * @return mixed
      */
     private function checkActivePosTemplates($template, $active)
     {
@@ -118,19 +119,16 @@ class TemplateManager
     private function updatePositionTemplates(Request $request, $active, $template, $posTemplates): void
     {
         foreach ($active as $key => $value) {
-            if ((int)$request->get('count')[$key] > 0) {
+            $count = (int)$request->get('count')[$key];
+            if ($count > 0) {
                 $exists = false;
                 $position = $this->positionRepo->find($key);
-                $templatePosition = new PositionTemplate();
-                $templatePosition->setTemplate($template)
-                    ->setPosition($position)
-                    ->setCount((int)$request->get('count')[$key]);
-                $position->setCount((int)$request->get('count')[$key]);
+                $position->setCount($count);
 
                 foreach ($posTemplates as $posTemplate) {
                     if ($posTemplate->getPosition() === $position) {
                         $posTemplate->setPosition($position);
-                        $posTemplate->setCount((int)$request->get('count')[$key]);
+                        $posTemplate->setCount($count);
                         $template
                             ->minusPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
                             ->addPrice($posTemplate->getCount() * $posTemplate->getPosition()->getPrice())
@@ -141,12 +139,15 @@ class TemplateManager
                     }
                 }
                 if (!$exists) {
-                    $template->addPositionTemplate($templatePosition);
+                    $templatePosition = (new PositionTemplate())
+                        ->setTemplate($template)
+                        ->setPosition($position)
+                        ->setCount($count);
 
                     $template
+                        ->addPositionTemplate($templatePosition)
                         ->addPrice((float)$request->get('sum')[$key])
                         ->addReach((float)$request->get('sum2')[$key]);
-
 
                     $this->entityManager->persist($templatePosition);
                     $this->entityManager->persist($template);

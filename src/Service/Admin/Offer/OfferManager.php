@@ -12,8 +12,6 @@ namespace App\Service\Admin\Offer;
 use App\Entity\Offer;
 use App\Entity\OfferPositionTemplate;
 use App\Entity\OfferTemplate;
-use App\Entity\Template;
-use App\Entity\User;
 use App\Helpers\ActiveAttributeFilter;
 use App\Repository\OfferRepository;
 use App\Repository\TemplateRepository;
@@ -92,18 +90,12 @@ class OfferManager
             ->setUser($user)
             ->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
 
-        if($request->get('message'))
-        {
+        if ($request->get('message')) {
             $offer->setMessage($request->get('message'));
         }
 
+        $offer->setMd5(md5($request->get('clientEmail') . (new \DateTime())->format('Y-m-d H:i:s')));
         $this->entityManager->persist($offer);
-
-        $time = new \DateTime();
-
-        $hash = md5($request->get('clientEmail') . $time->format('Y-m-d H:i:s'));
-
-        $offer->setMd5($hash);
         $this->entityManager->flush();
         return $offer;
     }
@@ -115,10 +107,10 @@ class OfferManager
      */
     public function removeInactive($offerTemplates, $active)
     {
-        foreach ($offerTemplates as $value) {
-            $index = $value->getTemplate()->getId();
+        foreach ($offerTemplates as $offerTemplate) {
+            $index = $offerTemplate->getTemplate()->getId();
             if (!in_array($index, $active)) {
-                $this->entityManager->remove($value);
+                $this->entityManager->remove($offerTemplate);
                 $this->entityManager->flush();
             }
         }
@@ -143,26 +135,27 @@ class OfferManager
             }
             if (!$exists) {
                 $template = $this->templateRepo->find($key);
-                $templateOffer = new OfferTemplate();
-                $templateOffer->setOffer($offer)
-                    ->setTemplate($template);
-                $templateOffer->setStatus("AddedToOffer");
-                $templateOffer->setPrice($template->getPrice());
-                $templateOffer->setReach($template->getReach());
+                $templateOffer = (new OfferTemplate())
+                    ->setOffer($offer)
+                    ->setTemplate($template)
+                    ->setStatus("AddedToOffer")
+                    ->setPrice($template->getPrice())
+                    ->setReach($template->getReach());
                 $this->entityManager->persist($templateOffer);
                 $this->entityManager->flush();
-                foreach($template->getPositionTemplates() as $positionTemplate)
-                {
-                    $offerPositionTemplate = new OfferPositionTemplate();
-                    $offerPositionTemplate->setOffer($offer);
-                    $offerPositionTemplate->setOfferTemplate($templateOffer);
-                    $offerPositionTemplate->setPosition($positionTemplate->getPosition());
+                foreach ($template->getPositionTemplates() as $positionTemplate) {
+                    $offerPositionTemplate = (new OfferPositionTemplate())
+                        ->setOffer($offer)
+                        ->setOfferTemplate($templateOffer)
+                        ->setPosition($positionTemplate->getPosition())
+                        ->setPrice($positionTemplate->getPosition()->getPrice())
+                        ->setCount($positionTemplate->getCount());
 
-                    $offerPositionTemplate->setPrice($positionTemplate->getPosition()->getPrice());
-                    $offerPositionTemplate->setCount($positionTemplate->getCount());
                     $this->entityManager->persist($offerPositionTemplate);
                     $this->entityManager->flush();
+
                     $templateOffer->addOfferPositionTemplate($offerPositionTemplate);
+
                     $this->entityManager->persist($templateOffer);
 
                 }

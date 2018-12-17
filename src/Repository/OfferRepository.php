@@ -39,6 +39,17 @@ class OfferRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findCountOfStatuses($id)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.status, COUNT(p.status)')
+            ->andWhere('p.user = :id')
+            ->setParameter('id', $id)
+            ->groupBy('p.status')
+            ->getQuery()
+            ->getScalarResult();
+    }
+
     public function findCountByStatus($status, $id)
     {
         return $this->createQueryBuilder('p')

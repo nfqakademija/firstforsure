@@ -68,7 +68,7 @@ class OfferService
      */
     public function setActivePositionItems($checkedOT, $positionItems): void
     {
-        if($checkedOT) {
+        if ($checkedOT) {
             $activePositionItems = $checkedOT->getOfferPositionTemplates();
 
             foreach ($positionItems as $positionItem) {
@@ -135,7 +135,7 @@ class OfferService
      */
     public function handleRemaining($offerTemplate)
     {
-        foreach($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
+        foreach ($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
             $remaining = $positionTemplate->getPosition()->getRemaining();
             $use = $positionTemplate->getCount();
             $positionTemplate->getPosition()->setRemaining($remaining - $use);
@@ -154,8 +154,7 @@ class OfferService
         foreach ($offerTemplate->getOfferPositionTemplates() as $ot) {
             if (($key = array_search($ot->getPosition(), $positionsHasTime)) !== false) {
                 unset($positionsHasTime[$key]);
-            }
-            elseif(($key = array_search($ot->getPosition(), $positionsHasNoTime)) !== false){
+            } elseif (($key = array_search($ot->getPosition(), $positionsHasNoTime)) !== false) {
                 unset($positionsHasNoTime[$key]);
             }
         }
@@ -168,11 +167,10 @@ class OfferService
     public function canConfirm($offerTemplate): bool
     {
         $isConfirm = true;
-        foreach($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
+        foreach ($offerTemplate->getOfferPositionTemplates() as $positionTemplate) {
             $remaining = $positionTemplate->getPosition()->getRemaining();
             $use = $positionTemplate->getCount();
-            if($remaining < $use)
-            {
+            if ($remaining < $use) {
                 $isConfirm = false;
                 break;
             }

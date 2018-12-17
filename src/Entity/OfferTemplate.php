@@ -84,11 +84,13 @@ class OfferTemplate
     }
 
     /**
-     * @param mixed $reach
+     * @param $reach
+     * @return OfferTemplate
      */
-    public function setReach($reach): void
+    public function setReach($reach): self
     {
         $this->reach = $reach;
+        return $this;
     }
 
     /**
@@ -100,11 +102,13 @@ class OfferTemplate
     }
 
     /**
-     * @param mixed $price
+     * @param $price
+     * @return OfferTemplate
      */
-    public function setPrice($price): void
+    public function setPrice($price): self
     {
         $this->price = $price;
+        return $this;
     }
 
 
@@ -117,11 +121,13 @@ class OfferTemplate
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return OfferTemplate
      */
-    public function setId($id): void
+    public function setId($id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -133,11 +139,13 @@ class OfferTemplate
     }
 
     /**
-     * @param mixed $status
+     * @param $status
+     * @return OfferTemplate
      */
-    public function setStatus($status): void
+    public function setStatus($status): self
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
@@ -150,10 +158,12 @@ class OfferTemplate
 
     /**
      * @param Template $template
+     * @return OfferTemplate
      */
-    public function setTemplate(Template $template): void
+    public function setTemplate(Template $template): self
     {
         $this->template = $template;
+        return $this;
     }
 
     /**

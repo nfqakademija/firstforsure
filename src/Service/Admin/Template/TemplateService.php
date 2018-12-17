@@ -18,12 +18,11 @@ class TemplateService
      * @param Position[] $positionItems
      * @param PositionTemplate[] $activePositionItems
      */
-    public function setPositionCounts($positionItems, $activePositionItems){
-        foreach ($positionItems as $value)
-        {
-            foreach ($activePositionItems as $value2)
-            {
-                if($value2->getPosition()->getId() === $value->getId()){
+    public function setPositionCounts($positionItems, $activePositionItems)
+    {
+        foreach ($positionItems as $value) {
+            foreach ($activePositionItems as $value2) {
+                if ($value2->getPosition()->getId() === $value->getId()) {
                     $value->setCount($value2->getCount());
                 }
             }

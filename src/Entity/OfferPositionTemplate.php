@@ -62,11 +62,13 @@ class OfferPositionTemplate
     }
 
     /**
-     * @param mixed $price
+     * @param $price
+     * @return OfferPositionTemplate
      */
-    public function setPrice($price): void
+    public function setPrice($price): self
     {
         $this->price = $price;
+        return $this;
     }
 
     public function getCount(): ?int
@@ -91,10 +93,12 @@ class OfferPositionTemplate
 
     /**
      * @param Offer $offer
+     * @return OfferPositionTemplate
      */
-    public function setOffer(Offer $offer): void
+    public function setOffer(Offer $offer): self
     {
         $this->offer = $offer;
+        return $this;
     }
 
     /**
