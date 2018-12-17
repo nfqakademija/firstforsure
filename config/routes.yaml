@@ -21,8 +21,8 @@ admin_template_create:
 
 admin_offer_create:
     path: /create/offer
-    controller: App\Controller\Admin\OfferAdminController::makeOffer
+    controller: App\Controller\OfferController::makeOffer
 
 user_offer_confirm:
     path: /offer/confirm
-    controller: App\Controller\Admin\OfferAdminController::confirmOffer
+    controller: App\Controller\OfferController::confirmOffer

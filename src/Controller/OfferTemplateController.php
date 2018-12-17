@@ -9,7 +9,11 @@
 namespace App\Controller;
 
 
+use App\Service\MailerService;
+use App\Service\OfferTemplate\OfferTemplateManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class OfferTemplateController extends Controller
 {
