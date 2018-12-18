@@ -12,7 +12,8 @@ body{
 }
 
 h2{float:left; width:100%; color:#fff; margin-bottom:30px; font-size: 14px;}
-h2 span{font-family: 'Libre Baskerville', serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
+h2 span{font-family: 'Libre Baskerville', serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px;
+    font-weight:700; }
 h2 a{color:#fff; font-weight:bold;}
 
 
@@ -213,6 +214,21 @@ section{
         font-size: 50px!important;
 
     }
+    .steps {
+        font-size: 14px;
+    }
+    .btn-default {
+        max-width: 54px;
+
+    }
+
+    .btn-circle {
+        max-width: 54px;
+    }
+
+    .fa {
+        font-size: 20px;
+    }
     .li {
         padding-bottom: 50px!important;
     }
@@ -360,4 +376,9 @@ section{
     color: white;
     text-align: center;
     font-size: 50px;
+}
+
+.txt {
+   color: white;
+    text-align: center;
 }
