@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Offer;
 use App\Entity\OfferTemplate;
+use App\Entity\Position;
 use App\Service\Admin\Offer\OfferManager;
 use App\Service\Admin\Offer\OfferService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,8 +79,9 @@ class OfferController extends Controller
 
     /**
      * @Route("/readoffer/{md5}/choose/{id}", name="chooseoffer")
+     * @param OfferService $offerService
      */
-    public function chooseOffer($md5, $id)
+    public function chooseOffer($md5, $id, OfferService $offerService)
     {
         $offer = $this
             ->getDoctrine()
@@ -94,10 +96,28 @@ class OfferController extends Controller
             ->getRepository(OfferTemplate::class)
             ->find($id);
 
+        $positionsHasTime = $this
+            ->getDoctrine()
+            ->getRepository(Position::class)
+            ->findByTime(true);
+
+        $positionsHasNoTime = $this
+            ->getDoctrine()
+            ->getRepository(Position::class)
+            ->findByTime(false);
+
+        $offerService->getUnusedPositions($positionsHasTime, $positionsHasNoTime, $offerTemplate);
+
+
+
+
+
         return $this->render('admin/offer/userofferchoose.html.twig', [
             'offerTemplate' => $offerTemplate,
             'offer' => $offer,
             'messages' => $messages,
+            'otherPositionsNoTime' => $positionsHasNoTime,
+            'otherPositionsTime' => $positionsHasTime,
             'selected' => 2
         ]);
     }

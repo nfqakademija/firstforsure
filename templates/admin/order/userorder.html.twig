@@ -87,27 +87,11 @@
             </div>
         </div>
         <br/>
-
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-                            aria-controls="collapseExample"
-                            class="btn btn-secondary btn-lg btn-block btn-more">Kitos siulomos pozicijos
-                    </button>
-                </div>
-            </div>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    <ul class="list-group super-list">
-                        {% include('admin/order/positions_table.html.twig') with {'otherPositions': otherPositionsTime} %}
-                        {% include('admin/order/positions_table.html.twig') with {'otherPositions': otherPositionsNoTime} %}
-                    </ul>
-                </div>
-            </div>
+
+        {%include "admin/offer/morepositions.html.twig" %}
 
         </div>
-
 
     </section>
 
