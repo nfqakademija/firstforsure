@@ -217,17 +217,17 @@ class TemplateFixtures extends Fixture
             array_push($offers, $offer);
         }
 
-        for($i = 0; $i < 10; $i++)
-        {
-            $offer = $this->answeredOffers($users,$templates,$positions, $manager, $names[$i]);
-            array_push($offers, $offer);
-        }
-
-        for($i = 0; $i < 10; $i++)
-        {
-            $offer = $this->viewedOffers($users,$templates,$positions, $manager, $names[$i]);
-            array_push($offers, $offer);
-        }
+//        for($i = 0; $i < 10; $i++)
+//        {
+//            $offer = $this->answeredOffers($users,$templates,$positions, $manager, $names[$i]);
+//            array_push($offers, $offer);
+//        }
+//
+//        for($i = 0; $i < 10; $i++)
+//        {
+//            $offer = $this->viewedOffers($users,$templates,$positions, $manager, $names[$i]);
+//            array_push($offers, $offer);
+//        }
 
         return $offers;
     }
