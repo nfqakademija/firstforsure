@@ -205,10 +205,37 @@ class TemplateFixtures extends Fixture
     private function makeOffers(ObjectManager $manager, $users, $templates, $positions)
     {
         $offers = [];
+        $names = [];
 
+        array_push($names,
+            "Osvaldas Gudauskas","Tautvydas Sabanskis", "Haroldas Mackevičius", "Tadas Rimgaila", "Gabrielius Landsbergis",
+            "Petras Dimša", "Gary Albreit", "Yu Lee", "LaVar Ball", "Kevinas Makalisteris", "Rūta Nelutytė");
+
+        for($i = 0; $i < 10; $i++)
+        {
+            $offer = $this->sentOffers($users,$templates,$positions, $manager, $names[$i]);
+            array_push($offers, $offer);
+        }
+
+        for($i = 0; $i < 10; $i++)
+        {
+            $offer = $this->answeredOffers($users,$templates,$positions, $manager, $names[$i]);
+            array_push($offers, $offer);
+        }
+
+        for($i = 0; $i < 10; $i++)
+        {
+            $offer = $this->viewedOffers($users,$templates,$positions, $manager, $names[$i]);
+            array_push($offers, $offer);
+        }
+
+        return $offers;
+    }
+
+    private function sentOffers($users,$templates, $positions, $manager, $name){
         $offer1 = $this->createOffer(
             "gudauskas.osvaldas@gmail.com",
-            "Osvaldas Gudauskas,",
+            $name,
             "Ar norite tapti Žalgirio remėju?",
             Offer::SENT,
             "2018-10-24 15:00:24",
@@ -232,9 +259,70 @@ class TemplateFixtures extends Fixture
             ->addOfferPositionTemplate($opt3)
             ->addOfferPositionTemplate($opt4);
         $offer1->addOfferTemplate($ot1);
-        array_push($offers, $offer1);
 
-        return $offers;
+        return $offer1;
+    }
+
+    private function viewedOffers($users,$templates, $positions, $manager, $name){
+        $offer1 = $this->createOffer(
+            "gudauskas.osvaldas@gmail.com",
+            $name,
+            "Ar norite tapti Žalgirio remėju?",
+            Offer::VIEWED,
+            "2018-10-24 15:00:24",
+            $users[1]);
+
+        $manager->persist($offer1);
+
+        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $manager->persist($ot1);
+        $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
+        $manager->persist($opt1);
+        $opt2 = $this->createOfferPositionTemplate(100, 10, $positions[7], $offer1, $ot1);
+        $manager->persist($opt2);
+        $opt3 = $this->createOfferPositionTemplate(1, 2500, $positions[3], $offer1, $ot1);
+        $manager->persist($opt3);
+        $opt4 = $this->createOfferPositionTemplate(1, 8000, $positions[6], $offer1, $ot1);
+        $manager->persist($opt4);
+        $ot1
+            ->addOfferPositionTemplate($opt1)
+            ->addOfferPositionTemplate($opt2)
+            ->addOfferPositionTemplate($opt3)
+            ->addOfferPositionTemplate($opt4);
+        $offer1->addOfferTemplate($ot1);
+
+        return $offer1;
+    }
+
+    private function answeredOffers($users,$templates, $positions, $manager, $name){
+        $offer1 = $this->createOffer(
+            "gudauskas.osvaldas@gmail.com",
+            $name,
+            "Ar norite tapti Žalgirio remėju?",
+            Offer::ANSWERED,
+            "2018-10-24 15:00:24",
+            $users[1]);
+
+        $manager->persist($offer1);
+
+        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $manager->persist($ot1);
+        $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
+        $manager->persist($opt1);
+        $opt2 = $this->createOfferPositionTemplate(100, 10, $positions[7], $offer1, $ot1);
+        $manager->persist($opt2);
+        $opt3 = $this->createOfferPositionTemplate(1, 2500, $positions[3], $offer1, $ot1);
+        $manager->persist($opt3);
+        $opt4 = $this->createOfferPositionTemplate(1, 8000, $positions[6], $offer1, $ot1);
+        $manager->persist($opt4);
+        $ot1
+            ->addOfferPositionTemplate($opt1)
+            ->addOfferPositionTemplate($opt2)
+            ->addOfferPositionTemplate($opt3)
+            ->addOfferPositionTemplate($opt4);
+        $offer1->addOfferTemplate($ot1);
+
+        return $offer1;
     }
 
     private function makeUsers(ObjectManager $manager)

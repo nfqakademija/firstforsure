@@ -86,13 +86,25 @@ class OfferAdminController extends BaseAdminController
 
     public function sendAction()
     {
+        $id = $this->request->query->get('id');
         $mailer = $this->get('mailer');
         $mailerService = $this->get(MailerService::class);
+
+        $checkedOT = $this
+            ->getDoctrine()
+            ->getRepository(OfferTemplate::class)
+            ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
+
         $offer = $this
             ->getDoctrine()
             ->getRepository(Offer::class)
             ->find($this->request->query->get('id'));
-        if(count($offer->getOfferTemplates())) {
+        if($checkedOT) {
+            $mailerService->changeStatuses($offer);
+            $mailerService->send($mailer, $offer, 'user_read_assigned_offer');
+        }
+        else
+        {
             $mailerService->changeStatuses($offer);
             $mailerService->send($mailer, $offer, 'readoffer');
         }
