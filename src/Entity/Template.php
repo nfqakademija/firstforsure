@@ -76,11 +76,13 @@ class Template
     }
 
     /**
-     * @param mixed $status
+     * @param $status
+     * @return Template
      */
-    public function setStatus($status): void
+    public function setStatus($status): self
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
@@ -92,11 +94,13 @@ class Template
     }
 
     /**
-     * @param mixed $active
+     * @param $active
+     * @return Template
      */
-    public function setActive($active): void
+    public function setActive($active): self
     {
         $this->active = $active;
+        return $this;
     }
 
 
@@ -118,11 +122,13 @@ class Template
     }
 
     /**
-     * @param mixed $price
+     * @param $price
+     * @return Template
      */
-    public function setPrice($price): void
+    public function setPrice($price): self
     {
         $this->price = $price;
+        return $this;
     }
 
     public function addPrice($price): self
@@ -165,11 +171,13 @@ class Template
     }
 
     /**
-     * @param mixed $reach
+     * @param $reach
+     * @return Template
      */
-    public function setReach($reach): void
+    public function setReach($reach): self
     {
         $this->reach = $reach;
+        return $this;
     }
 
     public function getTitle(): ?string
