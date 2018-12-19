@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return $this->render('home/index.html.twig');
+        return $this->redirect("/admin");
     }
 
     public function reademail($md5)
