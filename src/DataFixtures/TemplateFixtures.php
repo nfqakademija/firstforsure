@@ -243,7 +243,7 @@ class TemplateFixtures extends Fixture
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $ot1 = $this->createOfferTemplate(16500, 56000,"CHECKED",$templates[0], $offer1);
         $manager->persist($ot1);
         $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
         $manager->persist($opt1);
@@ -274,7 +274,7 @@ class TemplateFixtures extends Fixture
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[1], $offer1);
+        $ot1 = $this->createOfferTemplate(16000, 16000,"CHECKED",$templates[1], $offer1);
         $manager->persist($ot1);
         $opt1 = $this->createOfferPositionTemplate(650, 20, $positions[1], $offer1, $ot1);
         $manager->persist($opt1);
@@ -300,7 +300,7 @@ class TemplateFixtures extends Fixture
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $ot1 = $this->createOfferTemplate(3200, 31000,"CHECKED",$templates[2], $offer1);
         $manager->persist($ot1);
         $opt1 = $this->createOfferPositionTemplate(1, 200, $positions[10], $offer1, $ot1);
         $manager->persist($opt1);
