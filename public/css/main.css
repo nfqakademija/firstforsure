@@ -219,11 +219,15 @@ section{
     }
     .btn-default {
         max-width: 54px;
+        max-height: 54px;
+
 
     }
 
     .btn-circle {
         max-width: 54px;
+        max-height: 54px;
+
     }
 
     .fa {
