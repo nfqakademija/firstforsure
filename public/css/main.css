@@ -386,3 +386,15 @@ section{
    color: white;
     text-align: center;
 }
+
+.fullscreenDiv {
+    background-color: #e8e8e8;
+    width: 100%;
+    height: auto;
+    bottom: 0px;
+    top: 0px;
+    left: 0;
+    position: absolute;
+    background-image: linear-gradient(to left bottom, #00653b, #026a40, #047046, #07754b, #097b51, #0a8056, #0b845b, #0c8960
+    , #0c8e65, #0c926a, #0c9770, #0c9c75);
+}
