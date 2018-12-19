@@ -67,12 +67,12 @@ class OfferAdminController extends BaseAdminController
         $templateItems = $offerService->setActiveTemplateItems(
             $this->getDoctrine()->getRepository(Template::class)->findAll(),
             $activeOffer->getOfferTemplates());
-
+        $posItems = $posRepo->findAll();
         $checkedOT = $this
             ->getDoctrine()
             ->getRepository(OfferTemplate::class)
             ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
-        $offerService->setActivePositionItems($checkedOT, $posRepo->findAll());
+        $offerService->setActivePositionItems($checkedOT, $posItems);
 
         return $this->render('admin/offer/edit.html.twig', [
             'id' => $id,

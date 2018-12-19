@@ -71,14 +71,11 @@ class OfferService
         if ($checkedOT) {
             $activePositionItems = $checkedOT->getOfferPositionTemplates();
 
-            foreach ($positionItems as $positionItem) {
-                foreach ($activePositionItems as $activePositionItem) {
-                    if ($activePositionItem->getPosition()->getId() === $positionItem->getId()) {
-                        $positionItem->setCount($activePositionItem->getCount());
-                        $positionItem->setOfferPrice($activePositionItem->getPrice());
-                    } else {
-                        $positionItem->setOfferPrice($positionItem->getPrice());
-                    }
+            foreach ($activePositionItems as $activePositionItem) {
+                if (in_array($activePositionItem->getPosition(), $positionItems)) {
+                    $key = array_search($activePositionItem->getPosition(), $positionItems);
+                    $positionItems[$key]->setCount($activePositionItem->getCount());
+                    $positionItems[$key]->setOfferPrice($activePositionItem->getPrice());
                 }
             }
         }

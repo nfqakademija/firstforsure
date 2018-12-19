@@ -108,10 +108,6 @@ class OfferController extends Controller
 
         $offerService->getUnusedPositions($positionsHasTime, $positionsHasNoTime, $offerTemplate);
 
-
-
-
-
         return $this->render('admin/offer/userofferchoose.html.twig', [
             'offerTemplate' => $offerTemplate,
             'offer' => $offer,

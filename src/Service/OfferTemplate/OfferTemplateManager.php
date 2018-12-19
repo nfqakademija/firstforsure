@@ -64,7 +64,6 @@ class OfferTemplateManager
 
     public function editTemplate(Request $request)
     {
-
         $active = ActiveAttributeFilter::filter($request->get('active'));
 
         $offerId = $request->get('orderId');
@@ -93,11 +92,7 @@ class OfferTemplateManager
 
         $this->entityManager->persist($message);
 
-        $time = new \DateTime();
-
-        $hash = md5($request->get('username') . $time->format('Y-m-d H:i:s'));
-
-        $offer->setMd5($hash);
+        $offer->setMd5(md5($request->get('username') . (new \DateTime())->format('Y-m-d H:i:s')));
 
         $this->entityManager->persist($offer);
         $this->entityManager->flush();
