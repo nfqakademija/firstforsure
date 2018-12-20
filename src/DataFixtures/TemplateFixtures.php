@@ -81,7 +81,7 @@ class TemplateFixtures extends Fixture
     public function createOffer($clientEmail, $clientName, $message, $status, $viewed, $user)
     {
         return (new Offer())
-            ->setMd5(md5($clientName . (new \DateTime())->format('Y-m-d H:i:s')))
+            ->setMd5(md5($clientName . (new \DateTime())->format('Y-m-d H:i:s').$status))
             ->setClientEmail($clientEmail)
             ->setClientName($clientName)
             ->setMessage($message)
@@ -243,7 +243,7 @@ class TemplateFixtures extends Fixture
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $ot1 = $this->createOfferTemplate(16500, 56000,"CHECKED",$templates[0], $offer1);
         $manager->persist($ot1);
         $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
         $manager->persist($opt1);
@@ -267,28 +267,23 @@ class TemplateFixtures extends Fixture
         $offer1 = $this->createOffer(
             "gudauskas.osvaldas@gmail.com",
             $name,
-            "Ar norite tapti Žalgirio remėju?",
+            "Siūlome jums LED paketą",
             Offer::VIEWED,
             "2018-10-24 15:00:24",
             $users[1]);
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $ot1 = $this->createOfferTemplate(16000, 16000,"CHECKED",$templates[1], $offer1);
         $manager->persist($ot1);
-        $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
+        $opt1 = $this->createOfferPositionTemplate(650, 20, $positions[1], $offer1, $ot1);
         $manager->persist($opt1);
-        $opt2 = $this->createOfferPositionTemplate(100, 10, $positions[7], $offer1, $ot1);
+        $opt2 = $this->createOfferPositionTemplate(300, 10, $positions[2], $offer1, $ot1);
         $manager->persist($opt2);
-        $opt3 = $this->createOfferPositionTemplate(1, 2500, $positions[3], $offer1, $ot1);
-        $manager->persist($opt3);
-        $opt4 = $this->createOfferPositionTemplate(1, 8000, $positions[6], $offer1, $ot1);
-        $manager->persist($opt4);
         $ot1
             ->addOfferPositionTemplate($opt1)
-            ->addOfferPositionTemplate($opt2)
-            ->addOfferPositionTemplate($opt3)
-            ->addOfferPositionTemplate($opt4);
+            ->addOfferPositionTemplate($opt2);
+
         $offer1->addOfferTemplate($ot1);
 
         return $offer1;
@@ -298,28 +293,22 @@ class TemplateFixtures extends Fixture
         $offer1 = $this->createOffer(
             "gudauskas.osvaldas@gmail.com",
             $name,
-            "Ar norite tapti Žalgirio remėju?",
+            "Būkite remėju ir gaukite internetines privilegijas.",
             Offer::ANSWERED,
-            "2018-10-24 15:00:24",
+            "2018-10-26 15:14:24",
             $users[1]);
 
         $manager->persist($offer1);
 
-        $ot1 = $this->createOfferTemplate($templates[0]->getPrice(), $templates[0]->getReach(),"CHECKED",$templates[0], $offer1);
+        $ot1 = $this->createOfferTemplate(3200, 31000,"CHECKED",$templates[2], $offer1);
         $manager->persist($ot1);
-        $opt1 = $this->createOfferPositionTemplate(100, 50, $positions[0], $offer1, $ot1);
+        $opt1 = $this->createOfferPositionTemplate(1, 200, $positions[10], $offer1, $ot1);
         $manager->persist($opt1);
-        $opt2 = $this->createOfferPositionTemplate(100, 10, $positions[7], $offer1, $ot1);
+        $opt2 = $this->createOfferPositionTemplate(100, 30, $positions[5], $offer1, $ot1);
         $manager->persist($opt2);
-        $opt3 = $this->createOfferPositionTemplate(1, 2500, $positions[3], $offer1, $ot1);
-        $manager->persist($opt3);
-        $opt4 = $this->createOfferPositionTemplate(1, 8000, $positions[6], $offer1, $ot1);
-        $manager->persist($opt4);
         $ot1
             ->addOfferPositionTemplate($opt1)
-            ->addOfferPositionTemplate($opt2)
-            ->addOfferPositionTemplate($opt3)
-            ->addOfferPositionTemplate($opt4);
+            ->addOfferPositionTemplate($opt2);
         $offer1->addOfferTemplate($ot1);
 
         return $offer1;

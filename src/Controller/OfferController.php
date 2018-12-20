@@ -35,7 +35,7 @@ class OfferController extends Controller
     /**
      * @param Request $request
      * @param OfferService $offerService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function acceptOffer(Request $request, OfferService $offerService)
     {
@@ -53,7 +53,7 @@ class OfferController extends Controller
         $em->persist($message);
         $em->flush();
 
-        return $this->redirectToRoute('admin');
+        return $this->render('admin/offer/success.html.twig', []);
     }
 
     /**

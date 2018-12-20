@@ -89,10 +89,6 @@ class MailerService
      */
     public function changeStatuses($offer): void
     {
-        foreach ($offer->getOfferTemplates() as $offerTemplate) {
-            $offerTemplate->setStatus('Sent');
-        }
-
         $offer->setStatus(Offer::SENT);
         $offer->setViewed((new \DateTime())->format('Y-m-d H:i:s'));
 
