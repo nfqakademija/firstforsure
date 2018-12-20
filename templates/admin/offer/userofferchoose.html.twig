@@ -39,7 +39,7 @@
 
     <section>
         <div class="row">
-            <h2 class="text-center"><span>Tapk Zalgirio remeju jau siandien!</span>{{ offer.message }}</a></h2>
+            <h2 class="text-center"><span>Tapk ŽALGIRIO remėju jau šiandien!</span></a></h2>
             <div class="container">
                 {% include "admin/offer/progressbar.html.twig" with {'selected': selected} %}
 
@@ -64,7 +64,7 @@
                 <div class="form-group offer-comment">
                     <label for="exampleFormControlTextarea1">Komentaras:</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" name="msg"
-                              placeholder="Jeigu turite pastabu ar norite papildomu paslaugu palikite komentara"
+                              placeholder="Jeigu turite pastabų ar norite papildomų paslaugų palikite komentarą."
                               rows="3"></textarea>
                     <button type="submit"
                             id="btn-check-offers" name="accept" value="{{ offerTemplate.id }}"
