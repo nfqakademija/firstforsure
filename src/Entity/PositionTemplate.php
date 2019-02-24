@@ -35,12 +35,37 @@ class PositionTemplate
      */
     private $position;
 
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
     /**
      * @var Template
      * @ORM\ManyToOne(targetEntity="App\Entity\Template", inversedBy="positionTemplates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $template;
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     * @return PositionTemplate
+     */
+    public function setPrice($price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

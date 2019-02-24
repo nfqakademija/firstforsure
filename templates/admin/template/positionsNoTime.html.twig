@@ -25,16 +25,13 @@
             </td>
             <td><p align="center">{{ position.name }}</p></td>
             <td><p align="center"><input class="sum" name="sum[{{ position.id }}]" type="text"
-                                         data-price={% if position.offerPrice is not null%}{{ position.offerPrice }}{% endif %}
-{% if position.offerPrice is null%}{{ position.price }}{% endif %} value={% if position.offerPrice is not null%}{{ position.offerPrice }}{% endif %}
-                            {% if position.offerPrice is null%}{{ position.price }}{% endif %}></td>
+                                         data-price={{ position.price }} value={{ position.price }}></td>
             </p>
             <td><p align="center"><input class="sum2" name="sum2[{{ position.id }}]" type="text"
                                          data-reach={{ position.reach }} value={{ position.reach }}></td>
             </p>
             <input hidden class="positionViews" type="text" disabled value="{{ position.reach }}"/>
-            <input hidden class="positionPrice" type="text" disabled value="{% if position.offerPrice is not null%}{{ position.offerPrice }}{% endif %}
-{% if position.offerPrice is null%}{{ position.price }}{% endif %}"/>
+            <input hidden class="positionPrice" type="text" disabled value="{{ position.price }}"/>
             <input hidden class="positionCount" name='count[{{ position.id }}]' type="text" value="1"/>
         </tr>
 

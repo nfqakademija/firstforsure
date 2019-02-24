@@ -40,7 +40,7 @@ class OfferAdminController extends BaseAdminController
     public function newAction()
     {
         $repo = $this->getDoctrine()->getRepository(Template::class);
-        $templateItems = $repo->findAll();
+        $templateItems = $repo->findByStatus('BASE');
 
         $offer = new Offer();
         $offer->setStatus(Offer::CREATED);
@@ -59,20 +59,26 @@ class OfferAdminController extends BaseAdminController
         $msgRepo = $this->getDoctrine()->getRepository(Message::class);
         $posRepo = $this->getDoctrine()->getRepository(Position::class);
 
+        $templateItems = null;
+
         $offerService = $this->get(OfferService::class);
         $id = $this->request->query->get('id');
 
         $activeOffer = $offerRepo->find($id);
 
-        $templateItems = $offerService->setActiveTemplateItems(
-            $this->getDoctrine()->getRepository(Template::class)->findAll(),
-            $activeOffer->getOfferTemplates());
-        $posItems = $posRepo->findAll();
-        $checkedOT = $this
-            ->getDoctrine()
-            ->getRepository(OfferTemplate::class)
-            ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
-        $offerService->setActivePositionItems($checkedOT, $posItems);
+        if($activeOffer->getStatus() === 'CREATED') {
+
+            $templateItems = $offerService->setActiveTemplateItems(
+                $this->getDoctrine()->getRepository(Template::class)->findByStatus('BASE'),
+                $activeOffer->getOfferTemplates());
+        } else {
+            $posItems = $posRepo->findAll();
+            $checkedOT = $this
+                ->getDoctrine()
+                ->getRepository(OfferTemplate::class)
+                ->findCheckedOfferTemplate(OfferTemplate::CHECKED, $id);
+            $offerService->setActivePositionItems($checkedOT, $posItems);
+        }
 
         return $this->render('admin/offer/edit.html.twig', [
             'id' => $id,

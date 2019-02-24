@@ -69,13 +69,12 @@ class OfferService
     public function setActivePositionItems($checkedOT, $positionItems): void
     {
         if ($checkedOT) {
-            $activePositionItems = $checkedOT->getOfferPositionTemplates();
+            $activePositionItems = $checkedOT->getTemplate()->getPositionTemplates();
 
             foreach ($activePositionItems as $activePositionItem) {
                 if (in_array($activePositionItem->getPosition(), $positionItems)) {
                     $key = array_search($activePositionItem->getPosition(), $positionItems);
                     $positionItems[$key]->setCount($activePositionItem->getCount());
-                    $positionItems[$key]->setOfferPrice($activePositionItem->getPrice());
                 }
             }
         }
@@ -90,7 +89,7 @@ class OfferService
     {
         foreach ($templateItems as $templateItem) {
             foreach ($activeOfferItems as $activeOfferItem) {
-                if ($activeOfferItem->getTemplate()->getId() === $templateItem->getId()) {
+                if ($activeOfferItem->getBaseTemplateId() === $templateItem->getId()) {
                     $templateItem->setActive(true);
                 }
             }

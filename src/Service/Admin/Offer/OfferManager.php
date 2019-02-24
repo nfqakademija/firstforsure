@@ -135,30 +135,25 @@ class OfferManager
             }
             if (!$exists) {
                 $template = $this->templateRepo->find($key);
+                $newTemplate = clone $template;
+                $newTemplate->setStatus('OFFER');
+
+                foreach($template->getPositionTemplates() as $posTemplate)
+                {
+                    $newPosTemplate = clone $posTemplate;
+                    $this->entityManager->persist($newPosTemplate);
+                    $newTemplate->addPositionTemplate($newPosTemplate);
+                }
+
+                $this->entityManager->persist($newTemplate);
+
                 $templateOffer = (new OfferTemplate())
                     ->setOffer($offer)
-                    ->setTemplate($template)
+                    ->setTemplate($newTemplate)
                     ->setStatus("AddedToOffer")
-                    ->setPrice($template->getPrice())
-                    ->setReach($template->getReach());
+                    ->setBaseTemplateId($template->getId());
                 $this->entityManager->persist($templateOffer);
                 $this->entityManager->flush();
-                foreach ($template->getPositionTemplates() as $positionTemplate) {
-                    $offerPositionTemplate = (new OfferPositionTemplate())
-                        ->setOffer($offer)
-                        ->setOfferTemplate($templateOffer)
-                        ->setPosition($positionTemplate->getPosition())
-                        ->setPrice($positionTemplate->getPosition()->getPrice())
-                        ->setCount($positionTemplate->getCount());
-
-                    $this->entityManager->persist($offerPositionTemplate);
-                    $this->entityManager->flush();
-
-                    $templateOffer->addOfferPositionTemplate($offerPositionTemplate);
-
-                    $this->entityManager->persist($templateOffer);
-
-                }
                 $offer->addOfferTemplate($templateOffer);
 
                 $this->entityManager->persist($templateOffer);

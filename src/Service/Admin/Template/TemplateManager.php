@@ -123,7 +123,6 @@ class TemplateManager
             if ($count > 0) {
                 $exists = false;
                 $position = $this->positionRepo->find($key);
-                $position->setCount($count);
 
                 foreach ($posTemplates as $posTemplate) {
                     if ($posTemplate->getPosition() === $position) {
@@ -142,7 +141,8 @@ class TemplateManager
                     $templatePosition = (new PositionTemplate())
                         ->setTemplate($template)
                         ->setPosition($position)
-                        ->setCount($count);
+                        ->setCount($count)
+                        ->setPrice((float)$request->get('sum')[$key]);
 
                     $template
                         ->addPositionTemplate($templatePosition)

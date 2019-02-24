@@ -39,7 +39,7 @@ class TemplateFixtures extends Fixture
         $products = $this->makePositions($manager);
         $templates = $this->makeTemplates($manager, $products);
         $users = $this->makeUsers($manager);
-        $offers = $this->makeOffers($manager,$users, $templates, $products);
+        //$offers = $this->makeOffers($manager,$users, $templates, $products);
 
         $manager->flush();
     }
@@ -51,12 +51,13 @@ class TemplateFixtures extends Fixture
             ->setReach($reach)
             ->setTitle($title);
     }
-    public function createPositionTemplate($count, $position, $template)
+    public function createPositionTemplate($count, $position, $template, $price)
     {
         return (new PositionTemplate())
             ->setCount($count)
             ->setPosition($position)
-            ->setTemplate($template);
+            ->setTemplate($template)
+            ->setPrice($price);
     }
 
     public function createOfferTemplate($price, $reach, $status, $template, $offer)
@@ -151,13 +152,13 @@ class TemplateFixtures extends Fixture
         $template1 = $this->createTemplate("Generalinis remėjas", 14000, 56000, Template::BASE);
         $manager->persist($template1);
 
-        $pt1 = $this->createPositionTemplate(100,$products[0], $template1);
+        $pt1 = $this->createPositionTemplate(100,$products[0], $template1, $products[0]->getPrice());
         $manager->persist($pt1);
-        $pt2 = $this->createPositionTemplate(100,$products[7], $template1);
+        $pt2 = $this->createPositionTemplate(100,$products[7], $template1, $products[7]->getPrice());
         $manager->persist($pt2);
-        $pt3 = $this->createPositionTemplate(1,$products[3], $template1);
+        $pt3 = $this->createPositionTemplate(1,$products[3], $template1, $products[3]->getPrice());
         $manager->persist($pt3);
-        $pt4 = $this->createPositionTemplate(1,$products[6], $template1);
+        $pt4 = $this->createPositionTemplate(1,$products[6], $template1, $products[6]->getPrice());
         $manager->persist($pt4);
 
         $template1
@@ -169,9 +170,9 @@ class TemplateFixtures extends Fixture
         $template2 = $this->createTemplate("LED paketas", 12000, 15000, Template::BASE);
         $manager->persist($template2);
 
-        $pt5 = $this->createPositionTemplate(600, $products[1], $template2);
+        $pt5 = $this->createPositionTemplate(600, $products[1], $template2, $products[1]->getPrice());
         $manager->persist($pt5);
-        $pt6 = $this->createPositionTemplate(300, $products[2], $template2);
+        $pt6 = $this->createPositionTemplate(300, $products[2], $template2, $products[2]->getPrice());
         $manager->persist($pt6);
 
         $template2
@@ -181,9 +182,9 @@ class TemplateFixtures extends Fixture
         $template3 = $this->createTemplate("Interneto paslaugos", 1200, 31000, Template::BASE);
         $manager->persist($template3);
 
-        $pt7 = $this->createPositionTemplate(1, $products[10], $template3);
+        $pt7 = $this->createPositionTemplate(1, $products[10], $template3, $products[10]->getPrice());
         $manager->persist($pt7);
-        $pt8 = $this->createPositionTemplate(100, $products[5], $template3);
+        $pt8 = $this->createPositionTemplate(100, $products[5], $template3, $products[5]->getPrice());
         $manager->persist($pt8);
 
         $template3

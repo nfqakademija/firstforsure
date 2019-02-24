@@ -18,4 +18,15 @@ class TemplateRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Template::class);
     }
+
+    public function findByStatus($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.status = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

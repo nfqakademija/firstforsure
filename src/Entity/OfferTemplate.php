@@ -27,16 +27,6 @@ class OfferTemplate
     private $id;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $price;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $reach;
-
-    /**
      * @ORM\Column(type="string", length=32)
      */
     private $status;
@@ -62,10 +52,35 @@ class OfferTemplate
      */
     private $offerPositionTemplates;
 
+    /**
+     * @ORM\Column(type="integer", length=32)
+     */
+    private $baseTemplateId;
+
     public function __construct()
     {
         $this->offerPositionTemplates = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBaseTemplateId()
+    {
+        return $this->baseTemplateId;
+    }
+
+    /**
+     * @param mixed $baseTemplateId
+     * @return OfferTemplate
+     */
+    public function setBaseTemplateId($baseTemplateId): self
+    {
+        $this->baseTemplateId = $baseTemplateId;
+        return $this;
+    }
+
+
 
     /**
      * @return Collection|OfferPositionTemplate[]
@@ -73,42 +88,6 @@ class OfferTemplate
     public function getOfferPositionTemplates(): Collection
     {
         return $this->offerPositionTemplates;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getReach()
-    {
-        return $this->reach;
-    }
-
-    /**
-     * @param $reach
-     * @return OfferTemplate
-     */
-    public function setReach($reach): self
-    {
-        $this->reach = $reach;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param $price
-     * @return OfferTemplate
-     */
-    public function setPrice($price): self
-    {
-        $this->price = $price;
-        return $this;
     }
 
 
@@ -221,35 +200,9 @@ class OfferTemplate
     }
 
     public function divide () {
-        if ($this->getReach()==0){
+        if ($this->getTemplate()->getReach()==0){
             return 0;
         }
-        return number_format($this->getPrice()/$this->getReach(),4);
+        return number_format($this->getTemplate()->getPrice()/$this->getTemplate()->getReach(),4);
     }
-
-    public function addPrice($price): self
-    {
-        $this->price += $price;
-        return $this;
-    }
-
-    public function minusPrice($price): self
-    {
-        $this->price -= $price;
-        return $this;
-    }
-
-
-    public function addReach($reach): self
-    {
-        $this->reach += $reach;
-        return $this;
-    }
-
-    public function minusReach($reach): self
-    {
-        $this->reach -= $reach;
-        return $this;
-    }
-
 }

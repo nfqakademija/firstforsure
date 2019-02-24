@@ -8,7 +8,7 @@
                             <h2 class="card-title"><i class="fa fa-money fa-3x"> </i></h2>
                         </div>
                         <div class="col-sm-6" style="text-align:right">
-                            <h3 class="card-title left">{{ offerTemplate.price |number_format(0, '.') }}€ </h3>
+                            <h3 class="card-title left">{{ offerTemplate.template.price |number_format(0, '.') }}€ </h3>
                             <p class="card-title left" style="color:grey">Kaina</p>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             <h2 class="card-title"><i class="fa fa-street-view fa-3x"> </i>I</h2>
                         </div>
                         <div class="col-sm-6" style="text-align:right">
-                            <h3 class="card-title left">{{ offerTemplate.reach |number_format(0, '.') }} </h3>
+                            <h3 class="card-title left">{{ offerTemplate.template.reach |number_format(0, '.') }} </h3>
                             <p class="card-title left" style="color:grey">Perziuros</p>
                         </div>
                     </div>
